@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation I — Dolor Davis · The Davis Family Chronicle</title><style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+:root {
+  --parchment: #f2e8d5;
+  --parchment-dark: #e0ceaf;
+  --parchment-deep: #c9ad86;
+  --ink: #1e1208;
+  --ink-faded: #3d2b10;
+  --ink-light: #6b4c22;
+  --sepia: #8b6340;
+  --rust: #7a3b1e;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --line: #c4a46b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #2a1f0f;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 20px 80px;
+}
+
+/* ── Navigation ── */
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto 0;
+  padding: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nav-home {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--parchment-dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-home:hover { opacity: 1; }
+
+.nav-gens {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-gen {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(196,164,107,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
+.nav-gen.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* ── Page Frame ── */
+.page-frame {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: var(--parchment);
+  position: relative;
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+}
+
+.page-inner {
+  padding: 60px 70px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Corner ornaments */
+.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 14px; left: 14px; }
+.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.header::after {
+  content: '✦ ✦ ✦';
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-top: 18px;
+}
+.series-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gen-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  background: var(--ink-faded);
+  padding: 5px 16px;
+  margin-bottom: 20px;
+}
+.main-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 42px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+/* ── Intro ── */
+.intro {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--ink-faded);
+  font-style: italic;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+}
+
+/* ── Person Header ── */
+.person-section { margin-bottom: 60px; }
+
+.person-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.person-monogram {
+  width: 72px; height: 72px; min-width: 72px;
+  border: 1.5px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--sepia);
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-monogram::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 0.5px solid var(--parchment-deep);
+}
+.person-info { flex: 1; }
+.person-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 28px; color: var(--ink); margin-bottom: 4px;
+}
+.person-dates {
+  font-size: 14px; letter-spacing: 2px;
+  color: var(--sepia); font-style: italic;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.timeline-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.timeline-entry::before {
+  content: ''; position: absolute;
+  left: -4px; top: 9px;
+  width: 9px; height: 9px;
+  background: var(--parchment);
+  border: 1.5px solid var(--sepia);
+  transform: rotate(45deg);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; color: var(--sepia);
+  letter-spacing: 1px; padding-top: 4px;
+  text-align: right; line-height: 1.3;
+}
+.timeline-year .circa {
+  display: block; font-size: 9px; letter-spacing: 2px;
+  color: var(--ink-light); text-transform: uppercase;
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.timeline-content {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed var(--parchment-deep);
+}
+.timeline-entry:last-child .timeline-content { border-bottom: none; }
+
+/* ── Content Elements ── */
+.event-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 18px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.event-body {
+  font-size: 15.5px; line-height: 1.8;
+  color: var(--ink-faded); font-weight: 300;
+}
+.event-body em { color: var(--sepia); font-style: italic; }
+.source-note {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+}
+
+/* ── Visual Card ── */
+.visual-card {
+  margin: 16px 0 8px;
+  border: 1px solid var(--parchment-deep);
+  overflow: hidden;
+}
+.visual-card img {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  filter: sepia(40%) contrast(0.9) brightness(0.95);
+}
+.visual-caption {
+  background: var(--parchment-dark);
+  padding: 8px 14px;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+  text-align: center;
+  border-top: 1px solid var(--parchment-deep);
+}
+
+/* ── Spouse / Info Block ── */
+.spouse-block {
+  background: var(--parchment-dark);
+  border-left: 2px solid var(--sepia);
+  padding: 20px 24px; margin: 28px 0;
+}
+.spouse-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.spouse-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px; color: var(--ink); margin-bottom: 6px;
+}
+.spouse-detail {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--ink-faded); font-style: italic; font-weight: 300;
+}
+
+/* ── Children Grid ── */
+.children-block { margin: 28px 0; }
+.children-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.child-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 12px 14px; background: var(--parchment-dark);
+}
+.child-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 15px; color: var(--ink); margin-bottom: 3px;
+}
+.child-detail {
+  font-size: 12px; color: var(--ink-light);
+  font-style: italic; line-height: 1.5;
+}
+
+/* ── Quote Block ── */
+.character-quote {
+  margin: 40px 0 0; padding: 28px 36px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+  text-align: center; position: relative;
+}
+.character-quote::before {
+  content: '"';
+  font-family: 'IM Fell English', serif;
+  font-size: 80px; color: var(--parchment-deep);
+  position: absolute; top: -20px; left: 24px; line-height: 1;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style: italic;
+  line-height: 1.9; color: var(--ink-faded);
+  font-weight: 300; position: relative; z-index: 1;
+}
+.quote-attribution {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
+}
+
+/* ── Section Sub-header ── */
+.section-subheader {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--sepia); text-transform: uppercase;
+  text-align: center; margin: 48px 0 32px;
+  position: relative;
+}
+.section-subheader::before, .section-subheader::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: 28%; height: 1px; background: var(--line);
+}
+.section-subheader::before { left: 0; }
+.section-subheader::after { right: 0; }
+
+/* ── Divider ── */
+.section-divider {
+  text-align: center; margin: 48px 0;
+  color: var(--gold); letter-spacing: 12px; font-size: 10px;
+}
+
+/* ── Footer ── */
+.doc-footer {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.footer-left {
+  font-size: 11px; color: var(--ink-light);
+  font-style: italic; line-height: 1.6;
+}
+.footer-right {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 2px; color: var(--sepia); text-align: right;
+}
+
+/* ── Next Gen Teaser ── */
+.next-gen {
+  margin-top: 28px; padding: 18px 24px;
+  border: 1px dashed var(--sepia);
+  text-align: center;
+  font-size: 14px; font-style: italic; color: var(--ink-light);
+}
+.next-gen a {
+  color: var(--sepia); text-decoration: none;
+  border-bottom: 1px dotted var(--sepia);
+}
+.next-gen a:hover { color: var(--ink-faded); }
+
+@media print {
+  body { background: white; padding: 0; }
+  .page-frame { box-shadow: none; }
+  .site-nav { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen active">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
+  </div>
+</nav>
+
+<div class="page-frame">
+
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+
+  <div class="page-inner">
+
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle</div>
+      <div class="gen-badge">Generation I</div>
+      <h1 class="main-title">Dolor Davis</h1>
+      <div class="subtitle">Of Kent, England &amp; New England — <em>c.</em> 1600–1673</div>
+    </div>
+
+    <p class="intro">
+      He was not a man of great station, but of great endurance — a house carpenter and farmer who crossed an ocean, carved a home from wilderness, and planted a family that would flourish for generations across the New World.
+    </p>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">DD</div>
+        <div class="person-info">
+          <div class="person-name">Dolor Davis</div>
+          <div class="person-dates">born c. 1600, Kent, England &nbsp;·&nbsp; died June 1673, Barnstable, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-entry">
+          <div class="timeline-year"><span class="circa">circa</span>1600</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Kent, England</div>
+            <div class="event-body">
+              Dolor Davis was born near the turn of the seventeenth century, most likely in the county of <em>Kent, England</em> — probably in or near the Weald, a heavily wooded district where the name Davis was especially common. His precise birthplace has never been established; extensive searches of Canterbury and Rochester church records yielded no trace of his name.
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/The_Weald_from_Toys_Hill_-_geograph.org.uk_-_1379576.jpg/1280px-The_Weald_from_Toys_Hill_-_geograph.org.uk_-_1379576.jpg" alt="The Weald, Kent">
+                <div class="visual-caption">The Weald, Kent — the wooded district of England where the Davis name was most common, and likely home to Dolor's origins.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis, "Dolor Davis: A Sketch of His Life" (1881), pp. 4–5.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year"><span class="circa">note on</span>Name</div>
+          <div class="timeline-content">
+            <div class="event-title">A Singular Name</div>
+            <div class="event-body">
+              The name <em>Dolor</em> appears in New England records under at least a dozen spellings — Dolar, Dolard, Dolord, Dolore, Dollard, Dolerd, Dollar, Doller — yet its origin remains unknown. The family's chosen form was <em>Dolor</em>, and it was pronounced <em>"Doller,"</em> as preserved in the oral tradition of Barnstable for several generations.
+              <span class="source-note">Source: Horace Davis (1881), p. 5.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year"><span class="circa">circa</span>1624</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Margery Willard</div>
+            <div class="event-body">
+              Dolor married <em>Margery Willard</em>, daughter of Richard Willard of Horsemonden, Kent — a yeoman landowner who left a considerable estate upon his death in 1617. Margery had been christened on <em>November 7, 1602</em>, her record still visible today in the parish register of Horsemonden. She was approximately twenty-two years of age at marriage.
+            </div>
+            <div class="spouse-block">
+              <div class="spouse-label">First Wife</div>
+              <div class="spouse-name">Margery Willard Davis</div>
+              <div class="spouse-detail">
+                b. November 7, 1602, Horsemonden, Kent, England<br>
+                d. between 1658 and 1667, Concord, Massachusetts<br><br>
+                Daughter of Richard Willard (yeoman). Her brothers Simon and George Willard also emigrated to New England. The only mention of Margery by name in original New World documents is the deed of 1658 in Concord, wherein she and Dolor jointly acknowledged a land conveyance before Simon Willard.
+              </div>
+            </div>
+            <div class="event-body"><span class="source-note">Source: Horace Davis (1881), pp. 5–7. The Willard Memoir by Joseph Willard provides additional family detail.</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1626<br>–1633</div>
+          <div class="timeline-content">
+            <div class="event-title">Three Children Born in England</div>
+            <div class="event-body">Before crossing the Atlantic, three children were born to Dolor and Margery. No parish records confirming their births have been located, but their ages upon arrival are known from ship records.</div>
+            <div class="children-block">
+              <div class="children-label">Born in England</div>
+              <div class="children-grid">
+                <div class="child-card"><div class="child-name">John Davis</div><div class="child-detail">b. c. 1626<br>Aged 9 at departure</div></div>
+                <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. c. 1631<br>Aged 4 at departure</div></div>
+                <div class="child-card"><div class="child-name">Elizabeth Davis</div><div class="child-detail">b. c. 1633<br>Aged 1; no further record</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1634</div>
+          <div class="timeline-content">
+            <div class="event-title">Dolor Arrives in Cambridge, Massachusetts</div>
+            <div class="event-body">
+              Dolor sailed to New England in 1634 — likely alongside his brother-in-law <em>Simon Willard</em>, who landed at Boston in May of that year. He came ahead of his family. On <em>August 4, 1634</em>, the town records of Cambridge record the first evidence of his presence: <em>"Granted Dollard Davis there 25 acres"</em> — a parcel on the west side of the Charles River.
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Mayflower_in_Plymouth_Harbor%2C_by_William_Halsall.jpg/1280px-Mayflower_in_Plymouth_Harbor%2C_by_William_Halsall.jpg" alt="17th century vessel">
+                <div class="visual-caption">A 17th-century vessel of the type that carried Puritan settlers across the Atlantic — Dolor likely sailed in 1634 alongside Simon Willard.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), pp. 7–8. Cambridge Town Records, August 4, 1634.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Apr. 17,<br>1635</div>
+          <div class="timeline-content">
+            <div class="event-title">Margery &amp; the Children Cross the Atlantic</div>
+            <div class="event-body">
+              Having secured his land grant, Dolor sent for his family. Margery and the three children sailed from London aboard the <em>Elizabeth</em>, Captain William Stagg — one of seventy-six passengers, a striking proportion traced to Kent. The ship's manifest records: <em>Margaret Davies, aged 32; John Davies, 9; Marie Davies, 4; and Elizabeth Davies, 1.</em>
+              <span class="source-note">Source: Horace Davis (1881), pp. 7–8.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">June 4,<br>1635</div>
+          <div class="timeline-content">
+            <div class="event-title">House-Lot Established in Cambridge</div>
+            <div class="event-body">
+              With his family arrived, Dolor recorded his grants in the Proprietors' Records: a house-lot of half a rood on Water Street (now Dunster Street), lying between Harvard College and the Charles River. He likely built a dwelling-house on the lot.
+              <span class="source-note">Source: Horace Davis (1881), p. 8. Cambridge Proprietors' Records, June 4, 1635.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Aug. 25,<br>1635</div>
+          <div class="timeline-content">
+            <div class="event-title">Departs Cambridge — Sells His Land</div>
+            <div class="event-body">
+              Cambridge in 1635–36 was fractured by religious dissension; over half its settlers left, many following Rev. Hooker to Hartford. Dolor sold his 25-acre lot to <em>Richard Girling, mariner</em>, for ten pounds, disposed of his house-lot to Willard, and turned south toward Plymouth Colony.
+              <span class="source-note">Source: Horace Davis (1881), pp. 9–10.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1636<br>–1640</div>
+          <div class="timeline-content">
+            <div class="event-title">Duxbury, Plymouth Colony</div>
+            <div class="event-body">
+              Dolor moved his family to <em>Duxbury</em> in Plymouth Colony between 1636 and 1638, taking the required oath of fidelity. He was propounded for freeman on <em>March 5, 1639</em>, joined the Duxbury church, and was granted land twice by the Court of Assistants in 1640 — including <em>fifty acres</em> on the Namassacusset River.
+              <span class="source-note">Source: Horace Davis (1881), pp. 10–11. Plymouth Colony Records, vols. i and viii.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1639<br>–1655</div>
+          <div class="timeline-content">
+            <div class="event-title">Settlement at Barnstable, Cape Cod</div>
+            <div class="event-body">
+              Rev. John Lothrop's congregation from Scituate founded <em>Barnstable</em> in 1639, drawing settlers largely from <em>Kent, England</em> — which almost certainly drew Dolor to their company. He was listed among the inhabitants in 1640, permanent by 1642 or 1643. He served as <em>surveyor of highways</em> (1652) and <em>constable</em> (1654), and became a <em>freeman</em> of Plymouth Colony on June 2, 1646. He acquired over 120 acres in and around Barnstable, with his house standing close to the ancient water-mill.
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Barnstable_MA_Great_Marsh.JPG/1280px-Barnstable_MA_Great_Marsh.JPG" alt="Barnstable Great Marsh">
+                <div class="visual-caption">Barnstable's Great Marsh, Cape Cod — the landscape Dolor looked out upon from his house near the mill, very much unchanged from his time.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), pp. 12–16.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">c. 1636<br>–1645</div>
+          <div class="timeline-content">
+            <div class="event-title">Three More Children Born in America</div>
+            <div class="event-body">Three children were born to Dolor and Margery in the New World. The youngest, Ruth, is the only child whose baptism was formally recorded — entered by Rev. John Lothrop into the Barnstable Church records on <em>March 24, 1645.</em></div>
+            <div class="children-block">
+              <div class="children-label">Born in America</div>
+              <div class="children-grid">
+                <div class="child-card"><div class="child-name">Simon Davis I</div><div class="child-detail">b. c. 1636<br>m. Mary Blood · Concord</div></div>
+                <div class="child-card"><div class="child-name">Samuel Davis</div><div class="child-detail">b. unknown<br>m. Mary Meddowes · Bedford</div></div>
+                <div class="child-card"><div class="child-name">Ruth Davis</div><div class="child-detail">bapt. March 24, 1645<br>m. Stephen Hall · Concord</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1655<br>–1666</div>
+          <div class="timeline-content">
+            <div class="event-title">Move to Concord, Massachusetts</div>
+            <div class="event-body">
+              In 1655, Dolor sold his Barnstable properties and moved his family to <em>Concord, Massachusetts</em>. He purchased the <em>Roger Draper farm</em> — 152 acres including house and outbuildings — and retained it until his death. His three younger children married and settled here. The farm remained in Davis family possession for <em>225 years</em> when Horace Davis visited in 1881.
+              <span class="source-note">Source: Horace Davis (1881), pp. 17–21.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1666<br>–1673</div>
+          <div class="timeline-content">
+            <div class="event-title">Final Return to Barnstable &amp; Second Marriage</div>
+            <div class="event-body">
+              After Margery's death and the marriages of his younger children, Dolor returned to Barnstable, readmitted as an inhabitant in 1666. He married a second time — <em>Mrs. Joanna (Hull) Bursley</em>, widow of Captain John Bursley — likely around 1671. There were no children by this marriage.
+            </div>
+            <div class="spouse-block">
+              <div class="spouse-label">Second Wife</div>
+              <div class="spouse-name">Joanna Hull Bursley Davis</div>
+              <div class="spouse-detail">b. 1620, England &nbsp;·&nbsp; d. after 1683, Barnstable<br>Daughter of Rev. Joseph Hull; widow of Capt. John Bursley. She outlived Dolor and was still living on the Bursley homestead in 1683.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Sept. 13,<br>1672</div>
+          <div class="timeline-content">
+            <div class="event-title">His Last Will and Testament</div>
+            <div class="event-body">
+              Dolor dictated his will at Barnstable, describing himself as <em>"weak and crazy in body but of perfect mind and memory."</em> All Concord real estate went to his eldest son John. Sons Simon I and Samuel had already received their portions. Daughter Mary Lewis received household goods; daughter Ruth Hall received a cow and fifty shillings. His <em>carpenter's tools</em> — the instruments of his life's trade — were bequeathed to John.
+              <span class="source-note">Source: Horace Davis (1881), pp. 22–27. Plymouth Probate Records, July 2, 1673.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">June<br>1673</div>
+          <div class="timeline-content">
+            <div class="event-title">Death at Barnstable</div>
+            <div class="event-body">
+              Dolor Davis died in Barnstable in June 1673, at approximately <em>73 years of age</em>. His will was proved at Plymouth on July 2, 1673. He was likely interred in the old burying-ground west of the town, but no stone marks his resting place. He left five living children and <em>thirty-four grandchildren.</em>
+              <span class="source-note">Source: Horace Davis (1881), pp. 26–27.</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- timeline -->
+
+      <div class="character-quote">
+        <p class="quote-text">"As a man he was honest, industrious, and prudent; as a Christian tolerant and exact in the performance of his religious duties; as a neighbor kind, obliging, and ever ready to help those who needed his assistance; and as a father and the head of his family he was constantly solicitous for the welfare of all its members."</p>
+        <div class="quote-attribution">— Amos Otis, Barnstable Patriot, 1863</div>
+      </div>
+
+    </div><!-- person-section -->
+
+    <div class="section-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <div class="children-block">
+      <div class="children-label">All Six Children of Dolor &amp; Margery</div>
+      <div class="children-grid">
+        <div class="child-card"><div class="child-name">John Davis</div><div class="child-detail">b. c. 1626, England<br>m. Hannah Lynnell · 12 children</div></div>
+        <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. c. 1631, England<br>m. Thomas Lewis · 4 children</div></div>
+        <div class="child-card"><div class="child-name">Elizabeth Davis</div><div class="child-detail">b. c. 1633, England<br>d. young — no further record</div></div>
+        <div class="child-card"><div class="child-name">Simon Davis</div><div class="child-detail">b. c. 1636, America<br>m. Mary Blood · 7 children</div></div>
+        <div class="child-card"><div class="child-name">Samuel Davis</div><div class="child-detail">b. unknown, America<br>m. Mary Meddowes · 7 children</div></div>
+        <div class="child-card"><div class="child-name">Ruth Davis</div><div class="child-detail">bapt. March 24, 1645<br>m. Stephen Hall · 6 children</div></div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge</div>
+      <div class="footer-right">The Davis Family Chronicle<br>Generation I of VII<br><span style="color: var(--gold);">✦</span></div>
+    </div>
+
+    <div class="next-gen">Continued in <a href="gen2.html">Generation II — The Children of Dolor Davis</a>:<br>John · Mary · Simon · Samuel · Ruth</div>
+
+  </div>
+</div>
+
+</body>
+</html>

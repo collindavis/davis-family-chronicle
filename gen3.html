@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation III — Simon Davis II · The Davis Family Chronicle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+:root {
+  --parchment: #f2e8d5;
+  --parchment-dark: #e0ceaf;
+  --parchment-deep: #c9ad86;
+  --ink: #1e1208;
+  --ink-faded: #3d2b10;
+  --ink-light: #6b4c22;
+  --sepia: #8b6340;
+  --rust: #7a3b1e;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --line: #c4a46b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #2a1f0f;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 20px 80px;
+}
+
+/* ── Navigation ── */
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.nav-home {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--parchment-dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-home:hover { opacity: 1; }
+.nav-gens {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.nav-gen {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(196,164,107,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
+.nav-gen.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* ── Page Frame ── */
+.page-frame {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: var(--parchment);
+  position: relative;
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+}
+.page-inner {
+  padding: 60px 70px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Corner ornaments */
+.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 14px; left: 14px; }
+.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.header::after {
+  content: '✦ ✦ ✦';
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-top: 18px;
+}
+.series-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gen-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  background: var(--ink-faded);
+  padding: 5px 16px;
+  margin-bottom: 20px;
+}
+.main-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 42px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+/* ── Lineage Bar ── */
+.lineage-bar {
+  margin: 0 0 48px;
+  padding: 14px 20px;
+  background: var(--parchment-dark);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-light);
+  text-align: center;
+  line-height: 2;
+}
+.lineage-bar span { display: inline-block; margin: 0 4px; color: var(--sepia); }
+.lineage-bar span.arrow { color: var(--parchment-deep); margin: 0 3px; }
+.lineage-bar span.active-name {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 600;
+  border-bottom: 1px solid var(--sepia);
+  padding-bottom: 1px;
+}
+
+/* ── Intro ── */
+.intro {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--ink-faded);
+  font-style: italic;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+}
+
+/* ── Person Header ── */
+.person-section { margin-bottom: 60px; }
+.person-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.person-monogram {
+  width: 72px; height: 72px; min-width: 72px;
+  border: 1.5px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--sepia);
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-monogram::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 0.5px solid var(--parchment-deep);
+}
+.person-info { flex: 1; }
+.person-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 28px; color: var(--ink); margin-bottom: 4px;
+}
+.person-dates {
+  font-size: 14px; letter-spacing: 2px;
+  color: var(--sepia); font-style: italic;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.timeline-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.timeline-entry::before {
+  content: ''; position: absolute;
+  left: -4px; top: 9px;
+  width: 9px; height: 9px;
+  background: var(--parchment);
+  border: 1.5px solid var(--sepia);
+  transform: rotate(45deg);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; color: var(--sepia);
+  letter-spacing: 1px; padding-top: 4px;
+  text-align: right; line-height: 1.3;
+}
+.timeline-year .circa {
+  display: block; font-size: 9px; letter-spacing: 2px;
+  color: var(--ink-light); text-transform: uppercase;
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.timeline-content {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed var(--parchment-deep);
+}
+.timeline-entry:last-child .timeline-content { border-bottom: none; }
+
+/* ── Content Elements ── */
+.event-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 18px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.event-body {
+  font-size: 15.5px; line-height: 1.8;
+  color: var(--ink-faded); font-weight: 300;
+}
+.event-body em { color: var(--sepia); font-style: italic; }
+.source-note {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+}
+
+/* ── Visual Card ── */
+.visual-card {
+  margin: 16px 0 8px;
+  border: 1px solid var(--parchment-deep);
+  overflow: hidden;
+}
+.visual-card img {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  filter: sepia(40%) contrast(0.9) brightness(0.95);
+}
+.visual-caption {
+  background: var(--parchment-dark);
+  padding: 8px 14px;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+  text-align: center;
+  border-top: 1px solid var(--parchment-deep);
+}
+
+/* ── Two-column visual ── */
+.visual-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0 8px;
+}
+.visual-pair .visual-card { margin: 0; }
+
+/* ── Spouse Block ── */
+.spouse-block {
+  background: var(--parchment-dark);
+  border-left: 2px solid var(--sepia);
+  padding: 20px 24px; margin: 28px 0;
+}
+.spouse-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.spouse-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px; color: var(--ink); margin-bottom: 6px;
+}
+.spouse-detail {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--ink-faded); font-style: italic; font-weight: 300;
+}
+
+/* ── Children Grid ── */
+.children-block { margin: 28px 0; }
+.children-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.child-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 12px 14px; background: var(--parchment-dark);
+}
+.child-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 15px; color: var(--ink); margin-bottom: 3px;
+}
+.child-detail {
+  font-size: 12px; color: var(--ink-light);
+  font-style: italic; line-height: 1.5;
+}
+
+/* ── Highlight Line ── */
+.highlight-line {
+  background: linear-gradient(90deg, rgba(184,134,11,0.12) 0%, transparent 100%);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-faded);
+}
+.highlight-line strong {
+  font-style: normal;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── Context Box ── */
+.context-box {
+  border: 1px solid var(--parchment-deep);
+  padding: 20px 24px;
+  margin: 20px 0;
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+  position: relative;
+}
+.context-box-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.context-box-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-faded);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* ── Section Divider ── */
+.section-divider {
+  text-align: center; margin: 48px 0;
+  color: var(--gold); letter-spacing: 12px; font-size: 10px;
+}
+.section-subheader {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--sepia); text-transform: uppercase;
+  text-align: center; margin: 48px 0 32px;
+  position: relative;
+}
+.section-subheader::before, .section-subheader::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: 28%; height: 1px; background: var(--line);
+}
+.section-subheader::before { left: 0; }
+.section-subheader::after { right: 0; }
+
+/* ── Quote Block ── */
+.character-quote {
+  margin: 40px 0 0; padding: 28px 36px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+  text-align: center; position: relative;
+}
+.character-quote::before {
+  content: '"';
+  font-family: 'IM Fell English', serif;
+  font-size: 80px; color: var(--parchment-deep);
+  position: absolute; top: -20px; left: 24px; line-height: 1;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style: italic;
+  line-height: 1.9; color: var(--ink-faded);
+  font-weight: 300; position: relative; z-index: 1;
+}
+.quote-attribution {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
+}
+
+/* ── Footer ── */
+.doc-footer {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.footer-left {
+  font-size: 11px; color: var(--ink-light);
+  font-style: italic; line-height: 1.6;
+}
+.footer-right {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 2px; color: var(--sepia); text-align: right;
+}
+
+/* ── Next Gen ── */
+.next-gen {
+  margin-top: 28px; padding: 18px 24px;
+  border: 1px dashed var(--sepia);
+  text-align: center;
+  font-size: 14px; font-style: italic; color: var(--ink-light);
+}
+.next-gen a {
+  color: var(--sepia); text-decoration: none;
+  border-bottom: 1px dotted var(--sepia);
+}
+.next-gen a:hover { color: var(--ink-faded); }
+
+@media print {
+  body { background: white; padding: 0; }
+  .page-frame { box-shadow: none; }
+  .site-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen active">Gen III · Simon Davis II</a>
+  </div>
+</nav>
+
+<div class="page-frame">
+
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+
+  <div class="page-inner">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle</div>
+      <div class="gen-badge">Generation III</div>
+      <h1 class="main-title">Simon Davis II</h1>
+      <div class="subtitle">Of Bedford &amp; Rutland, Massachusetts &nbsp;·&nbsp; 1683–1763</div>
+    </div>
+
+    <!-- Lineage bar -->
+    <div class="lineage-bar">
+      <span>Dolor Davis</span><span class="arrow">→</span>
+      <span>Samuel Davis</span><span class="arrow">→</span>
+      <span class="active-name">Simon Davis II (b. 1683)</span><span class="arrow">→</span>
+      <span>Simon Davis III (b. 1714)</span><span class="arrow">→</span>
+      <span>Isaac Davis</span><span class="arrow">→</span>
+      <span>John Davis</span><span class="arrow">→</span>
+      <span>Horace Davis</span>
+    </div>
+
+    <p class="intro">
+      Third in the Horace line, Simon Davis II was born into a Massachusetts still raw from the devastation of King Philip's War. He grew up in Bedford, inherited land from his father Samuel, and in his middle years made the move inland to the frontier town of Rutland — carrying the Davis name deeper into the Massachusetts interior.
+    </p>
+
+    <!-- Person Section -->
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">SD</div>
+        <div class="person-info">
+          <div class="person-name">Simon Davis II, Lieutenant</div>
+          <div class="person-dates">born August 9, 1683, Bedford, Massachusetts &nbsp;·&nbsp; died February 16, 1763, Rutland, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="highlight-line">
+        <strong>Horace Line · Generation III</strong>
+        Simon II is the sixth child of Samuel Davis and Mary Meddowes, and the great-grandson of Dolor Davis. He carries the line from Bedford to Rutland, where his son Simon III will continue it into the mid-18th century.
+      </div>
+
+      <div class="timeline">
+
+        <!-- Birth -->
+        <div class="timeline-entry">
+          <div class="timeline-year">Aug. 9,<br>1683</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Bedford, Massachusetts</div>
+            <div class="event-body">
+              Simon Davis II was born on August 9, 1683, on the meadow-edge farm in what was then western <em>Concord</em>, Massachusetts — land his father Samuel had received from Dolor Davis and which would eventually become the separate township of <em>Bedford</em>. He was the sixth of Samuel and Mary Meddowes Davis's seven children, born into a household shaped by the privations of frontier colonial life.
+
+              <div class="context-box">
+                <div class="context-box-label">Historical Context · 1683</div>
+                <div class="context-box-text">
+                  Simon II was born just eight years after King Philip's War (1675–76) — the bloodiest per-capita conflict in American history — had laid waste to much of New England. His uncle, <em>Simon Davis I (Lieut.)</em>, had commanded troops in that war after Capt. Wheeler was wounded at Brookfield. The towns of the Massachusetts interior, including Concord and its surrounds, had lived under constant threat of attack throughout Simon II's earliest years. The landscape he grew up in was one of slow rebuilding.
+                </div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), p. 41. Concord Town Records.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marriage -->
+        <div class="timeline-entry">
+          <div class="timeline-year">1713</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Dorothy ——</div>
+            <div class="event-body">
+              In 1713, Simon II married <em>Dorothy</em>, whose maiden name has not been recovered in the records available to Horace Davis. She was born around 1692 based on her age at death, and she outlived Simon II by thirteen years.
+            </div>
+            <div class="spouse-block">
+              <div class="spouse-label">Wife</div>
+              <div class="spouse-name">Dorothy —— Davis</div>
+              <div class="spouse-detail">
+                b. c. 1692 &nbsp;·&nbsp; d. July 21, 1776, in the 84th year of her age<br>
+                Buried in Holden graveyard alongside Simon II.<br><br>
+                Dorothy's maiden name was not recorded by Horace Davis, who noted the gap in the record with candor. She bore Simon II eight children over more than two decades, and outlived him by thirteen years — dying in 1776, the year the colonies declared independence, in her 84th year.
+              </div>
+            </div>
+            <span class="source-note">Source: Horace Davis (1881), p. 41.</span>
+          </div>
+        </div>
+
+        <!-- Move to Rutland -->
+        <div class="timeline-entry">
+          <div class="timeline-year"><span class="circa">circa</span>1720</div>
+          <div class="timeline-content">
+            <div class="event-title">Removal to Rutland, Massachusetts</div>
+            <div class="event-body">
+              Around 1720, Simon II and Dorothy moved from Bedford to <em>Rutland, Massachusetts</em> — a frontier township in Worcester County, incorporated in 1714 and still sparsely settled when the Davis family arrived. The move was typical of the Davis pattern established by Dolor himself: following opportunity and open land into newer settlements.
+              <br><br>
+              Rutland sat at the geographic heart of Massachusetts, roughly forty miles west of Boston, surrounded by rolling hills and dense forest. In the early 18th century it was still considered the interior frontier, with Worcester the nearest significant town to the south.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Rutland_MA_town_center.jpg/1280px-Rutland_MA_town_center.jpg"
+                     alt="Rutland, Massachusetts town center"
+                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Hartwell_Tavern.jpg/1280px-Hartwell_Tavern.jpg'">
+                <div class="visual-caption">Rutland, Massachusetts — the frontier township to which Simon Davis II moved around 1720. Incorporated in 1714, it was one of the newer settlements of the Massachusetts interior when the Davis family arrived.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), p. 41.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Land from father -->
+        <div class="timeline-entry">
+          <div class="timeline-year">by<br>1714</div>
+          <div class="timeline-content">
+            <div class="event-title">Land Settled by His Father Samuel</div>
+            <div class="event-body">
+              As was the practice established by Dolor Davis and continued by Samuel, Simon received his portion of the family's Concord/Bedford lands from his father Samuel <em>during Samuel's own lifetime</em> — before 1714, when Samuel was last recorded living. Ancient deeds preserved by the Davis family confirm this transfer. Simon, like his father and grandfather before him, styled himself a <em>husbandman</em> — a working farmer and landowner.
+              <span class="source-note">Source: Horace Davis (1881), p. 40.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Military / civic -->
+        <div class="timeline-entry">
+          <div class="timeline-year">early<br>1700s</div>
+          <div class="timeline-content">
+            <div class="event-title">Military Rank — Lieutenant</div>
+            <div class="event-body">
+              Simon II held the rank of <em>Lieutenant</em> in the colonial militia — likely earned through service in the ongoing frontier conflicts of the early 18th century, including Queen Anne's War (1702–1713), which brought renewed raids on Massachusetts interior towns not far from Rutland. The title Lieutenant distinguished him in community records and was used consistently in the family's genealogical accounts, reflecting the civic standing that military rank conferred in colonial New England.
+
+              <div class="visual-pair">
+                <div class="visual-card">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Colonial_Militia.jpg/640px-Colonial_Militia.jpg"
+                       alt="Colonial Massachusetts militia"
+                       onerror="this.style.display='none'">
+                  <div class="visual-caption">Colonial Massachusetts militia — the type of company in which Simon would have served and earned his lieutenant's rank.</div>
+                </div>
+                <div class="visual-card">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Worcester_County_Massachusetts_map.png/640px-Worcester_County_Massachusetts_map.png"
+                       alt="Worcester County Massachusetts"
+                       onerror="this.style.display='none'">
+                  <div class="visual-caption">Worcester County, Massachusetts — home to both Rutland and the later Davis family branches, spanning the interior of colonial Massachusetts.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Children -->
+        <div class="timeline-entry">
+          <div class="timeline-year">1714<br>–1752</div>
+          <div class="timeline-content">
+            <div class="event-title">Eight Children in Rutland</div>
+            <div class="event-body">
+              Simon II and Dorothy had eight children who spread across the Worcester County towns of Holden, Paxton, Leicester, and Princeton. His eldest son <em>Simon III</em> (b. May 17, 1714) remained in Rutland, married <em>Hannah Gates of Stow</em>, and had eleven children of his own — and it is through Simon III that the Horace Davis line continues. Horace Davis wrote of Simon III and Hannah: <em>"They are my ancestors."</em>
+              <br><br>
+              His son <em>Joseph</em> (b. July 16, 1720) entered Harvard College in 1740 and served as minister at Holden from 1742 to 1773 — the first clergyman in the Davis line.
+            </div>
+          </div>
+        </div>
+
+        <!-- Death -->
+        <div class="timeline-entry">
+          <div class="timeline-year">Feb. 16,<br>1763</div>
+          <div class="timeline-content">
+            <div class="event-title">Death at Rutland</div>
+            <div class="event-body">
+              Simon Davis II died on February 16, 1763, in Rutland, at approximately 79 years of age. His wife Dorothy survived him by thirteen years, dying on July 21, 1776, in the 84th year of her age. <em>Both are buried in the Holden graveyard</em> — one of the few concrete physical markers remaining for this generation of the family.
+              <br><br>
+              At his death, Simon II had seen Massachusetts transformed from a beleaguered frontier colony into a prosperous province on the verge of revolution. His grandchildren would live through the war his generation had made possible.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Old_Burying_Ground_Concord_Massachusetts.jpg/1280px-Old_Burying_Ground_Concord_Massachusetts.jpg"
+                     alt="Old colonial burying ground Massachusetts"
+                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Old_Burying_Ground_Cambridge.jpg/1280px-Old_Burying_Ground_Cambridge.jpg'">
+                <div class="visual-caption">A colonial-era burying ground of the type where Simon and Dorothy Davis lie in Holden, Massachusetts — their gravestones among the earliest physical Davis family monuments in Worcester County.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), p. 41.</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+
+      <!-- Children block -->
+      <div class="children-block">
+        <div class="children-label">Children of Simon (b. 1683) &amp; Dorothy Davis — Rutland, Massachusetts</div>
+        <div class="children-grid">
+          <div class="child-card" style="border-color: var(--gold); background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+            <div class="child-name" style="color: var(--rust);">Simon Davis III</div>
+            <div class="child-detail">b. May 17, 1714 · Rutland<br>m. Hannah Gates of Stow<br><em style="color:var(--gold);">→ Horace Line continues</em></div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Israel Davis</div>
+            <div class="child-detail">b. August 31, 1717<br>m. Mary Hubbard · Holden<br>d. September 2, 1791</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Joseph Davis</div>
+            <div class="child-detail">b. July 16, 1720<br>Harvard 1740 · Minister<br>Holden, 1742–1773</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Elizur Davis</div>
+            <div class="child-detail">5 sons, 4 daughters<br>Worcester County</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Oliver Davis</div>
+            <div class="child-detail">m. Mary, dau. Thomas Read<br>Princeton, Mass.</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Dolly Davis</div>
+            <div class="child-detail">m. —— Brown<br>rem. Maine</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Martha Davis</div>
+            <div class="child-detail">m. —— Smith<br>Holden, Mass.</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Azubah Davis</div>
+            <div class="child-detail">No further record</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /person-section -->
+
+    <div class="section-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <!-- Northborough branch note -->
+    <div class="section-subheader">The Northborough Branch</div>
+
+    <div class="event-body" style="margin-bottom: 28px; font-size: 15px; line-height: 1.85;">
+      The Horace Davis book devotes particular attention to the <em>Northborough Branch</em> — the line that descends from Simon II (b. 1683) through his eldest son <em>Simon Davis III</em> (b. 1714, m. Hannah Gates), and then through Simon III's son <em>Isaac Davis</em> (b. 1749), who removed to Westborough and then to <em>Northborough, Massachusetts</em>. Isaac became a deacon and a seven-term member of the Massachusetts Legislature, and his son <em>John Davis</em> rose to become Governor of Massachusetts and a U.S. Senator — the most prominent member of the Davis family in American public life. Horace Davis was John's son, and it is through this line that the chronicle was written.
+    </div>
+
+    <div class="children-block">
+      <div class="children-label">The Northborough Descent — Six Generations from Dolor to Horace</div>
+      <div class="children-grid">
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Dolor Davis</div>
+          <div class="child-detail"><em>Generation I</em><br>b. c. 1600 · d. 1673<br>Kent, England → Barnstable</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Samuel Davis</div>
+          <div class="child-detail"><em>Generation II</em><br>b. unknown · d. after 1714<br>Bedford, Mass.</div>
+        </div>
+        <div class="child-card" style="border-color: var(--gold); background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+          <div class="child-name" style="color:var(--rust);">Simon Davis II, Lieut.</div>
+          <div class="child-detail"><em>Generation III · This page</em><br>b. 1683 · d. 1763<br>Rutland, Mass.</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Simon Davis III</div>
+          <div class="child-detail"><em>Generation IV</em><br>b. 1714 · d. 1754<br>m. Hannah Gates · Rutland</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Isaac Davis</div>
+          <div class="child-detail"><em>Generation V</em><br>b. 1749 · d. 1826<br>Deacon · Northborough</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">John Davis</div>
+          <div class="child-detail"><em>Generation VI</em><br>b. 1787 · d. 1854<br>Governor of Massachusetts</div>
+        </div>
+        <div class="child-card" style="border-color: var(--gold); grid-column: span 3; text-align: center; background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+          <div class="child-name" style="color: var(--rust);">Horace Davis</div>
+          <div class="child-detail"><em>Generation VII · Author of this Chronicle</em><br>San Francisco, California · 1881</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="character-quote">
+      <p class="quote-text">
+        The Davis family, now in its third American generation, had moved from the immigrant's grant in Cambridge to the Cape, from the Cape to Concord, and now from Concord's meadows inland to the hills of Worcester County. Each generation pressed a little further into the Massachusetts interior — not from restlessness, but from the same quiet ambition that had brought Dolor across the Atlantic a century before.
+      </p>
+      <div class="quote-attribution">— Editorial note, Davis Family Chronicle</div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge</div>
+      <div class="footer-right">The Davis Family Chronicle<br>Generation III of VII<br><span style="color: var(--gold);">✦</span></div>
+    </div>
+
+    <div class="next-gen">
+      Continued in <a href="gen4.html">Generation IV — Simon Davis III (b. 1714)</a>:<br>
+      Rutland, Massachusetts &nbsp;·&nbsp; m. Hannah Gates of Stow &nbsp;·&nbsp; eleven children
+    </div>
+
+  </div><!-- /page-inner -->
+</div><!-- /page-frame -->
+
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation II — The Children of Dolor Davis · The Davis Family Chronicle</title><style>
+  /* Gen 2 additions */
+  .highlight-line {
+    background: linear-gradient(90deg, rgba(184,134,11,0.12) 0%, transparent 100%);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ink-faded);
+  }
+  .highlight-line strong {
+    font-style: normal;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .person-section + .person-section {
+    border-top: 1px solid var(--parchment-deep);
+    padding-top: 48px;
+  }
+
+  /* Smaller monogram for secondary children */
+  .person-monogram.secondary {
+    font-size: 20px;
+    width: 58px; height: 58px; min-width: 58px;
+    opacity: 0.75;
+  }
+
+  /* Isaac Davis notable descendant callout */
+  .isaac-callout {
+    margin: 32px 0 0;
+    border: 1px solid var(--rust);
+    background: linear-gradient(135deg, #f5e8e0 0%, var(--parchment) 60%);
+    position: relative;
+    overflow: hidden;
+  }
+  .isaac-callout::before {
+    content: '★';
+    position: absolute;
+    top: -10px; right: 20px;
+    font-size: 72px;
+    color: rgba(122,59,30,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .isaac-callout-header {
+    background: var(--rust);
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .isaac-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #f5e0d5;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .isaac-rule {
+    flex: 1;
+    height: 1px;
+    background: rgba(245,224,213,0.3);
+  }
+  .isaac-body {
+    padding: 22px 24px 24px;
+  }
+  .isaac-name {
+    font-family: 'IM Fell English', serif;
+    font-size: 24px;
+    color: var(--rust);
+    margin-bottom: 4px;
+  }
+  .isaac-dates {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: var(--ink-light);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .isaac-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-faded);
+    font-weight: 300;
+    margin-bottom: 18px;
+  }
+  .isaac-text em { color: var(--rust); font-style: italic; }
+  .isaac-text strong { font-weight: 600; color: var(--rust); font-style: normal; }
+  .isaac-lineage {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    color: var(--rust);
+    opacity: 0.8;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(122,59,30,0.25);
+    line-height: 1.6;
+  }
+  .isaac-images {
+    margin: 16px 0;
+  }
+  .isaac-images .visual-card img {
+    height: 220px;
+  }
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+:root {
+  --parchment: #f2e8d5;
+  --parchment-dark: #e0ceaf;
+  --parchment-deep: #c9ad86;
+  --ink: #1e1208;
+  --ink-faded: #3d2b10;
+  --ink-light: #6b4c22;
+  --sepia: #8b6340;
+  --rust: #7a3b1e;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --line: #c4a46b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #2a1f0f;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 20px 80px;
+}
+
+/* ── Navigation ── */
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto 0;
+  padding: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nav-home {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--parchment-dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-home:hover { opacity: 1; }
+
+.nav-gens {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-gen {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(196,164,107,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
+.nav-gen.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* ── Page Frame ── */
+.page-frame {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: var(--parchment);
+  position: relative;
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+}
+
+.page-inner {
+  padding: 60px 70px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Corner ornaments */
+.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 14px; left: 14px; }
+.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.header::after {
+  content: '✦ ✦ ✦';
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-top: 18px;
+}
+.series-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gen-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  background: var(--ink-faded);
+  padding: 5px 16px;
+  margin-bottom: 20px;
+}
+.main-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 42px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+/* ── Intro ── */
+.intro {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--ink-faded);
+  font-style: italic;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+}
+
+/* ── Person Header ── */
+.person-section { margin-bottom: 60px; }
+
+.person-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.person-monogram {
+  width: 72px; height: 72px; min-width: 72px;
+  border: 1.5px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--sepia);
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-monogram::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 0.5px solid var(--parchment-deep);
+}
+.person-info { flex: 1; }
+.person-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 28px; color: var(--ink); margin-bottom: 4px;
+}
+.person-dates {
+  font-size: 14px; letter-spacing: 2px;
+  color: var(--sepia); font-style: italic;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.timeline-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.timeline-entry::before {
+  content: ''; position: absolute;
+  left: -4px; top: 9px;
+  width: 9px; height: 9px;
+  background: var(--parchment);
+  border: 1.5px solid var(--sepia);
+  transform: rotate(45deg);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; color: var(--sepia);
+  letter-spacing: 1px; padding-top: 4px;
+  text-align: right; line-height: 1.3;
+}
+.timeline-year .circa {
+  display: block; font-size: 9px; letter-spacing: 2px;
+  color: var(--ink-light); text-transform: uppercase;
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.timeline-content {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed var(--parchment-deep);
+}
+.timeline-entry:last-child .timeline-content { border-bottom: none; }
+
+/* ── Content Elements ── */
+.event-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 18px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.event-body {
+  font-size: 15.5px; line-height: 1.8;
+  color: var(--ink-faded); font-weight: 300;
+}
+.event-body em { color: var(--sepia); font-style: italic; }
+.source-note {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+}
+
+/* ── Visual Card ── */
+.visual-card {
+  margin: 16px 0 8px;
+  border: 1px solid var(--parchment-deep);
+  overflow: hidden;
+}
+.visual-card img {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  filter: sepia(40%) contrast(0.9) brightness(0.95);
+}
+.visual-caption {
+  background: var(--parchment-dark);
+  padding: 8px 14px;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+  text-align: center;
+  border-top: 1px solid var(--parchment-deep);
+}
+
+/* ── Spouse / Info Block ── */
+.spouse-block {
+  background: var(--parchment-dark);
+  border-left: 2px solid var(--sepia);
+  padding: 20px 24px; margin: 28px 0;
+}
+.spouse-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.spouse-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px; color: var(--ink); margin-bottom: 6px;
+}
+.spouse-detail {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--ink-faded); font-style: italic; font-weight: 300;
+}
+
+/* ── Children Grid ── */
+.children-block { margin: 28px 0; }
+.children-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.child-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 12px 14px; background: var(--parchment-dark);
+}
+.child-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 15px; color: var(--ink); margin-bottom: 3px;
+}
+.child-detail {
+  font-size: 12px; color: var(--ink-light);
+  font-style: italic; line-height: 1.5;
+}
+
+/* ── Quote Block ── */
+.character-quote {
+  margin: 40px 0 0; padding: 28px 36px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+  text-align: center; position: relative;
+}
+.character-quote::before {
+  content: '"';
+  font-family: 'IM Fell English', serif;
+  font-size: 80px; color: var(--parchment-deep);
+  position: absolute; top: -20px; left: 24px; line-height: 1;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style: italic;
+  line-height: 1.9; color: var(--ink-faded);
+  font-weight: 300; position: relative; z-index: 1;
+}
+.quote-attribution {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
+}
+
+/* ── Section Sub-header ── */
+.section-subheader {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--sepia); text-transform: uppercase;
+  text-align: center; margin: 48px 0 32px;
+  position: relative;
+}
+.section-subheader::before, .section-subheader::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: 28%; height: 1px; background: var(--line);
+}
+.section-subheader::before { left: 0; }
+.section-subheader::after { right: 0; }
+
+/* ── Divider ── */
+.section-divider {
+  text-align: center; margin: 48px 0;
+  color: var(--gold); letter-spacing: 12px; font-size: 10px;
+}
+
+/* ── Footer ── */
+.doc-footer {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.footer-left {
+  font-size: 11px; color: var(--ink-light);
+  font-style: italic; line-height: 1.6;
+}
+.footer-right {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 2px; color: var(--sepia); text-align: right;
+}
+
+/* ── Next Gen Teaser ── */
+.next-gen {
+  margin-top: 28px; padding: 18px 24px;
+  border: 1px dashed var(--sepia);
+  text-align: center;
+  font-size: 14px; font-style: italic; color: var(--ink-light);
+}
+.next-gen a {
+  color: var(--sepia); text-decoration: none;
+  border-bottom: 1px dotted var(--sepia);
+}
+.next-gen a:hover { color: var(--ink-faded); }
+
+@media print {
+  body { background: white; padding: 0; }
+  .page-frame { box-shadow: none; }
+  .site-nav { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen active">Gen II · The Children</a>
+  </div>
+</nav>
+
+<div class="page-frame">
+
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+
+  <div class="page-inner">
+
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle</div>
+      <div class="gen-badge">Generation II</div>
+      <h1 class="main-title">The Children of Dolor Davis</h1>
+      <div class="subtitle">New England, 1626–1713 &nbsp;·&nbsp; Five families, one enduring name</div>
+    </div>
+
+    <p class="intro">
+      Dolor and Margery raised five children who survived to adulthood, each founding a family of their own across the Cape, the South Shore, and the Massachusetts interior. This generation is the last born in the Old World and the first to grow up entirely as New Englanders.
+    </p>
+
+    <!-- ═══════════════════════════════════════════
+         SAMUEL DAVIS — THE HORACE LINE
+    ════════════════════════════════════════════ -->
+
+    <div class="section-subheader">The Horace Davis Line · Through Samuel</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">SD</div>
+        <div class="person-info">
+          <div class="person-name">Samuel Davis</div>
+          <div class="person-dates">birth unknown, America &nbsp;·&nbsp; died after 1714, Bedford, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="highlight-line">
+        <strong>Horace Line</strong>
+        Samuel Davis is the direct ancestor of Horace Davis, the author of the 1881 chronicle. The line descends: Samuel → Simon I (Lieut.) → Simon II → Simon III → Isaac → John → Horace Davis.
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-entry">
+          <div class="timeline-year"><span class="circa">unknown</span>Birth</div>
+          <div class="timeline-content">
+            <div class="event-title">Born in America</div>
+            <div class="event-body">
+              Samuel's exact birth date is unrecorded. He was born in America — likely in <em>Duxbury or Barnstable</em> during his father's years in Plymouth Colony, and was perhaps still an infant when the family moved to Barnstable around 1640. He and his siblings Simon I and Ruth were the New World children of Dolor and Margery, growing up entirely in colonial Massachusetts.
+              <span class="source-note">Source: Horace Davis (1881), p. 40.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Jan. 11,<br>1666</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Mary Meddowes</div>
+            <div class="event-body">
+              Samuel married <em>Mary Meddowes</em> at Lynn, Massachusetts on January 11, 1666 — while his father was still living in Concord. The marriage record appears both on the Concord records and independently on the records of Lynn.
+            </div>
+            <div class="spouse-block">
+              <div class="spouse-label">First Wife</div>
+              <div class="spouse-name">Mary Meddowes Davis</div>
+              <div class="spouse-detail">
+                d. at Concord, October 3, 1710<br><br>
+                Mary bore Samuel seven children, all recorded. She died in Concord, outliving the couple's early years in what would become the town of Bedford — the land Dolor had settled upon them.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Oct. 18,<br>1711</div>
+          <div class="timeline-content">
+            <div class="event-title">Second Marriage to Ruth Taylor</div>
+            <div class="event-body">
+              After Mary's death in 1710, Samuel married a second time — <em>Ruth Taylor</em> — on October 18, 1711. Ruth died on August 6, 1720. There were no children by this second marriage.
+              <span class="source-note">Source: Horace Davis (1881), p. 40.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Mar. 21,<br>1690</div>
+          <div class="timeline-content">
+            <div class="event-title">Admitted Freeman of Massachusetts Colony</div>
+            <div class="event-body">
+              Samuel was admitted as a freeman of Massachusetts Colony on March 21, 1690 — reflecting his established standing in the community, though Horace Davis notes he took little part in public affairs compared to his more prominent brother Simon. In his deeds he styled himself <em>husbandman</em> and <em>yeoman</em>.
+              <span class="source-note">Source: Horace Davis (1881), p. 40.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">c. 1655<br>onward</div>
+          <div class="timeline-content">
+            <div class="event-title">Settlement in Bedford (from Concord)</div>
+            <div class="event-body">
+              Samuel settled on the portion of Concord land that his father Dolor granted him — land that would eventually become the separate town of <em>Bedford, Massachusetts</em>. His homestead lay on the back road from Concord to Bedford, about three miles from the Concord village center, on the edge of the river meadow.
+              <br><br>
+              Horace Davis visited this farm in person and found it still owned by <em>Mr. Benjamin J. Davis</em>, a direct descendant, in unbroken family possession. A well on the property is said to have been dug by Samuel himself.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Bedford_MA_center.jpg/1280px-Bedford_MA_center.jpg" alt="Bedford, Massachusetts" onerror="this.style.display='none'">
+                <div class="visual-caption">Bedford, Massachusetts — carved from the western reaches of Concord, this was Samuel Davis's home and the land he farmed on the meadow's edge.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), pp. 40–41.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">by<br>1714</div>
+          <div class="timeline-content">
+            <div class="event-title">Final Years &amp; Death</div>
+            <div class="event-body">
+              Ancient deeds in the possession of Mr. Benjamin J. Davis showed Samuel still living as of <em>March 15, 1714</em>. By that time he had already conveyed most of his land to his sons during his own lifetime — a practice he inherited from his father Dolor, who had done the same. The exact date and place of his burial are unknown.
+              <span class="source-note">Source: Horace Davis (1881), p. 40.</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- timeline -->
+
+      <div class="children-block">
+        <div class="children-label">Children of Samuel &amp; Mary (Meddowes) Davis</div>
+        <div class="children-grid">
+          <div class="child-card"><div class="child-name">Mercy Davis</div><div class="child-detail">b. Oct. 27, 1666<br>d. Dec. 18, 1667</div></div>
+          <div class="child-card"><div class="child-name">Samuel Davis</div><div class="child-detail">b. June 21, 1669<br>m. Abigail Read · Bedford</div></div>
+          <div class="child-card"><div class="child-name">Daniel Davis</div><div class="child-detail">b. March 16, 1673<br>m. Mary Hubbard · Bedford</div></div>
+          <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. Aug. 12, 1677<br>m. John Stearns</div></div>
+          <div class="child-card"><div class="child-name">Eleazer Davis</div><div class="child-detail">b. July 26, 1680<br>m. Eunice Potter · Bedford</div></div>
+          <div class="child-card" style="border-color: var(--gold); background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+            <div class="child-name" style="color: var(--rust);">Simon Davis (Lieut.)</div>
+            <div class="child-detail">b. Aug. 9, 1683<br>m. Dorothy — · Rutland<br><em style="color:var(--gold);">→ Horace Line continues</em></div>
+          </div>
+          <div class="child-card" style="grid-column: span 3; text-align: center;"><div class="child-name">Stephen Davis</div><div class="child-detail">b. March 30, 1686 · m. Elizabeth Fletcher · Bedford</div></div>
+        </div>
+      </div>
+
+    </div><!-- /samuel section -->
+
+    <!-- ═══════════════════════════════════════════
+         THE OTHER CHILDREN — BRIEF ACCOUNTS
+    ════════════════════════════════════════════ -->
+
+    <div class="section-subheader">The Other Children of Dolor Davis</div>
+
+    <!-- JOHN -->
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram secondary">JD</div>
+        <div class="person-info">
+          <div class="person-name">John Davis</div>
+          <div class="person-dates">b. c. 1626, England &nbsp;·&nbsp; d. 1703, Barnstable, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Mar. 15,<br>1649</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage &amp; Life in Barnstable</div>
+            <div class="event-body">
+              The eldest son of Dolor, John came to New England as a boy of nine aboard the <em>Elizabeth</em> in 1635. He married <em>Hannah Lynnell</em>, daughter of Robert Lynnell of Barnstable, on March 15, 1649. He remained in Barnstable all his life as a farmer and house-carpenter — the same trade as his father. His name appears frequently in the Barnstable town records in connection with land transfers, negotiations with local Indians, and civic service. He served as <em>surveyor of highways</em> for many years and was <em>sole executor</em> of his father's will in 1673.
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Plimoth_Plantation_2007.jpg/1280px-Plimoth_Plantation_2007.jpg" alt="Plymouth Colony homestead reconstruction">
+                <div class="visual-caption">A reconstructed Plymouth Colony homestead — the type of dwelling John Davis would have built and occupied as a house-carpenter in Barnstable.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), pp. 33–34.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">May 10,<br>1701</div>
+          <div class="timeline-content">
+            <div class="event-title">Will &amp; Death in 1703</div>
+            <div class="event-body">
+              John's will, dated May 10, 1701, names his wife as living, and lists six sons — <em>John, Benjamin, Samuel, Dollar, Timothy,</em> and <em>Jabez</em> — and daughters Mercy, Ruth Lynnell, and Mary Hincley. He died in 1703; the inventory of his estate totalled <em>£268 12s. 4d.</em>
+              <span class="source-note">Source: Horace Davis (1881), p. 33.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="children-block">
+        <div class="children-label">Children of John &amp; Hannah (Lynnell) Davis — 12 total</div>
+        <div class="children-grid">
+          <div class="child-card"><div class="child-name">John Davis</div><div class="child-detail">b. Jan. 15, 1650 · rem. Falmouth</div></div>
+          <div class="child-card"><div class="child-name">Samuel Davis</div><div class="child-detail">b. Dec. 15, 1651 · d. 1711, unmarried</div></div>
+          <div class="child-card"><div class="child-name">Hannah Davis</div><div class="child-detail">b. Jan. 3, 1654 · m. Jedediah Jones</div></div>
+          <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. Jan. 3, 1654 · m. Goodspeed, then Hincley</div></div>
+          <div class="child-card"><div class="child-name">Joseph Davis</div><div class="child-detail">b. June, 1656 · m. Mary Claghorn</div></div>
+          <div class="child-card"><div class="child-name">Doller Davis</div><div class="child-detail">b. Oct. 1, 1660 · m. Hannah Lynnell</div></div>
+          <div class="child-card"><div class="child-name">Jabez Davis</div><div class="child-detail">m. Experience Lynnell · 10 children</div></div>
+          <div class="child-card"><div class="child-name">Timothy Davis</div><div class="child-detail">m. Sarah Perry · Rochester</div></div>
+          <div class="child-card"><div class="child-name">Ruth Davis</div><div class="child-detail">b. 1674 · m. John Lynnell · Hyannis</div></div>
+        </div>
+      </div>
+
+    </div><!-- /john -->
+
+    <!-- MARY -->
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram secondary">MD</div>
+        <div class="person-info">
+          <div class="person-name">Mary Davis Lewis</div>
+          <div class="person-dates">b. c. 1631, England &nbsp;·&nbsp; living 1672, Barnstable / Falmouth</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">June 15,<br>1653</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Thomas Lewis</div>
+            <div class="event-body">
+              Mary Davis, the second child of Dolor and Margery, was married at Barnstable by Thomas Hincley to <em>Thomas Lewis</em>, son of George Lewis, on June 15, 1653. Thomas was born in England, was a freeman of Plymouth Colony from 1658, and later removed to <em>Falmouth</em>, where he served as proprietors' clerk and was a prominent citizen. Mary was noted still living in 1672. The couple had four children.
+              <span class="source-note">Source: Horace Davis (1881), p. 37.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="children-block">
+        <div class="children-label">Children of Thomas &amp; Mary (Davis) Lewis</div>
+        <div class="children-grid">
+          <div class="child-card"><div class="child-name">James Lewis</div><div class="child-detail">b. Mar. 31, 1654 · Falmouth · 10 children</div></div>
+          <div class="child-card"><div class="child-name">Thomas Lewis</div><div class="child-detail">b. July 15, 1656 · rem. Eastham · 9 children</div></div>
+          <div class="child-card"><div class="child-name">Mary Lewis</div><div class="child-detail">b. Nov. 2, 1659</div></div>
+          <div class="child-card"><div class="child-name">Samuel Lewis</div><div class="child-detail">b. May 14, 1662</div></div>
+        </div>
+      </div>
+
+    </div><!-- /mary -->
+
+    <!-- SIMON -->
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram secondary">SD</div>
+        <div class="person-info">
+          <div class="person-name">Simon Davis I, Lieut.</div>
+          <div class="person-dates">b. c. 1636, America &nbsp;·&nbsp; d. June 14, 1713, Concord, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Dec. 12,<br>1660</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage &amp; Settlement in Concord</div>
+            <div class="event-body">
+              Simon, the first child born to Dolor and Margery in America, married <em>Mary Blood</em>, daughter of James Blood of Concord, on December 12, 1660 — while still living in his father's household. He settled in Concord on land Dolor granted him, and remained there all his life.
+            </div>
+            <div class="spouse-block">
+              <div class="spouse-label">Wife</div>
+              <div class="spouse-name">Mary Blood Davis</div>
+              <div class="spouse-detail">b. July 12, 1640 · d. after 1713, Concord<br>Daughter of James Blood of Concord. Mary was still living when Simon made his will in 1710, and is mentioned therein along with all seven surviving children.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1675</div>
+          <div class="timeline-content">
+            <div class="event-title">King Philip's War — Military Command</div>
+            <div class="event-body">
+              Simon Davis earned his rank as <em>Lieutenant</em> through military service in King Philip's War (1675–76), the devastating conflict between English colonists and the Wampanoag Confederacy. After the wounding of Captain Wheeler at Brookfield in August 1675, Simon <em>assumed command of the troops</em> — a moment of genuine colonial historical significance. He was elected Deputy to the Massachusetts General Court in 1689, 1690, 1692, and 1705, and held other positions of civic responsibility.
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/The_Puritan%2C_by_Augustus_Saint-Gaudens.jpg/800px-The_Puritan%2C_by_Augustus_Saint-Gaudens.jpg" alt="The Puritan by Saint-Gaudens">
+                <div class="visual-caption">"The Puritan" by Augustus Saint-Gaudens — the archetype of the determined New England colonist of Simon's era, a man of faith, land, and civic duty.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), p. 38.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">June 14,<br>1713</div>
+          <div class="timeline-content">
+            <div class="event-title">Death at Concord, aged 77</div>
+            <div class="event-body">
+              Simon Davis I died on June 14, 1713, at approximately 77 years of age. His gravestone still stands in the Concord burying-ground. His original will, made June 24, 1710, survives at East Cambridge in his own autograph — a finer specimen of his hand may also be seen on the Concord records of 1689, attesting the election of town clerk. Like his father and brother Samuel, he had already divided most of his real estate among his sons before his death.
+              <span class="source-note">Source: Horace Davis (1881), p. 38.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="children-block">
+        <div class="children-label">Children of Simon &amp; Mary (Blood) Davis — 7 total</div>
+        <div class="children-grid">
+          <div class="child-card" style="border-color: var(--rust); background: linear-gradient(135deg, #f0ddd0 0%, var(--parchment-dark) 100%);"><div class="child-name" style="color:var(--rust);">Simon Davis (Dr.)</div><div class="child-detail">b. Oct. 12, 1661 · physician · Concord<br><em style="color:var(--rust);">→ Isaac Davis line</em></div></div>
+          <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. Oct. 3, 1663 · m. Deliverance Wheeler</div></div>
+          <div class="child-card"><div class="child-name">Sarah Davis</div><div class="child-detail">b. Mar. 11, 1665 · m. Thomas Wheeler</div></div>
+          <div class="child-card"><div class="child-name">James Davis</div><div class="child-detail">b. June 19, 1668 · m. Ann Smedley · 8 children</div></div>
+          <div class="child-card"><div class="child-name">Elener Davis</div><div class="child-detail">b. Oct. 22, 1672 · m. Samuel Hunt</div></div>
+          <div class="child-card"><div class="child-name">Ebenezer Davis</div><div class="child-detail">b. June 1, 1676 · m. Dinah — · 7 children</div></div>
+          <div class="child-card" style="grid-column: span 3; text-align: center;"><div class="child-name">Hannah Davis</div><div class="child-detail">b. April 1, 1679 · m. Samuel Blood · Concord</div></div>
+        </div>
+      </div>
+
+      <div class="isaac-callout">
+        <div class="isaac-callout-header">
+          <span class="isaac-label">Notable Descendant · Simon Line</span>
+          <span class="isaac-rule"></span>
+        </div>
+        <div class="isaac-body">
+          <div class="isaac-name">Captain Isaac Davis</div>
+          <div class="isaac-dates">February 23, 1745 – April 19, 1775 &nbsp;·&nbsp; Acton, Massachusetts</div>
+          <div class="isaac-text">
+            Simon I's eldest son, <em>Dr. Simon Davis</em>, had a son named <em>Dr. John Davis</em> (b. 1689, Concord), who had a son named <em>Ezekiel Davis</em> (b. 1717, Concord), who settled in Acton and became the father of <em>Captain Isaac Davis</em> — making Isaac Dolor Davis's great-great-great-grandson, and a distant cousin of Horace Davis.
+            <br><br>
+            Isaac Davis was a gunsmith and captain of the Acton Minutemen. On the morning of April 19, 1775, he led his men to Concord's Old North Bridge — his company was chosen to advance first because they alone were fully equipped with bayonets. He was shot through the heart in the opening volley, becoming <strong>the first American officer killed in the Revolutionary War</strong>. His last words to his wife before marching were: <em>"Take good care of the children."</em>
+            <br><br>
+            Isaac Davis was the inspiration for <em>The Minute Man</em> (1875), the bronze sculpture by Daniel Chester French at the Old North Bridge — now one of the most iconic images in American history. The sculptor modeled the figure using photographs of Davis's own descendants.
+          </div>
+          <div class="isaac-images">
+            <div class="visual-card" style="margin: 0;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Minute_Man_Statue_Concord.jpg/800px-Minute_Man_Statue_Concord.jpg"
+                   alt="The Minute Man statue by Daniel Chester French, Old North Bridge, Concord"
+                   onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Concord_Minuteman.jpg/400px-Concord_Minuteman.jpg'">
+              <div class="visual-caption"><em>The Minute Man</em> (1875) by Daniel Chester French, Old North Bridge, Concord, Massachusetts — modeled after Isaac Davis and his descendants. Cast from Civil War cannons; unveiled April 19, 1875, before President Grant, Longfellow, and Emerson.</div>
+            </div>
+          </div>
+          <div class="isaac-lineage">
+            Dolor Davis &nbsp;→&nbsp; Simon Davis I (Lieut.) &nbsp;→&nbsp; Dr. Simon Davis &nbsp;→&nbsp; Dr. John Davis &nbsp;→&nbsp; Ezekiel Davis &nbsp;→&nbsp; <strong>Capt. Isaac Davis</strong>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /simon -->
+
+    <!-- RUTH -->
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram secondary">RD</div>
+        <div class="person-info">
+          <div class="person-name">Ruth Davis Hall</div>
+          <div class="person-dates">bapt. March 24, 1645, Barnstable &nbsp;·&nbsp; date of death unknown</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">Dec. 3,<br>1663</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Stephen Hall &amp; Migrations</div>
+            <div class="event-body">
+              Ruth, the youngest child of Dolor and Margery, was baptized at Barnstable on March 24, 1645 — the only child whose New World baptism was formally entered by Rev. John Lothrop. She married <em>Stephen Hall</em> of Concord on December 3, 1663, while the family was still in Concord. Stephen Hall later removed to <em>Stow</em> (1685), served as representative there in 1689, then moved to <em>Medford</em>, and finally in 1699 to <em>Connecticut</em>. Ruth and Stephen had six children.
+              <span class="source-note">Source: Horace Davis (1881), p. 43.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="children-block">
+        <div class="children-label">Children of Stephen &amp; Ruth (Davis) Hall</div>
+        <div class="children-grid">
+          <div class="child-card"><div class="child-name">Samuel Hall</div><div class="child-detail">b. Dec. 8, 1665 · Concord · lived in Stow</div></div>
+          <div class="child-card"><div class="child-name">Stephen Hall</div><div class="child-detail">b. 1667 · Medford/Charlestown · d. 1749</div></div>
+          <div class="child-card"><div class="child-name">Ruth Hall</div><div class="child-detail">b. Jan. 12, 1670 · Concord</div></div>
+          <div class="child-card"><div class="child-name">Mary Hall</div><div class="child-detail">b. June 1, 1677 · Concord</div></div>
+          <div class="child-card"><div class="child-name">Elizabeth Hall</div><div class="child-detail">b. April 7, 1685 · Stow</div></div>
+          <div class="child-card"><div class="child-name">Sarah Hall</div><div class="child-detail">b. June 19, 1688 · Stow</div></div>
+        </div>
+      </div>
+
+    </div><!-- /ruth -->
+
+    <div class="section-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <!-- Generation summary -->
+    <div class="character-quote">
+      <p class="quote-text">
+        Five children of Dolor Davis survived to adulthood, married, and founded families across New England — from Cape Cod to Concord to Connecticut. Together they produced at least <em>thirty-six children</em> of their own, spreading the Davis name through Plymouth Colony and Massachusetts Bay. It was Samuel's line, settled on the Bedford meadows, that would carry the name forward through the generations toward Horace Davis and beyond.
+      </p>
+      <div class="quote-attribution">— Compiled from Horace Davis (1881)</div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge</div>
+      <div class="footer-right">The Davis Family Chronicle<br>Generation II of VII<br><span style="color: var(--gold);">✦</span></div>
+    </div>
+
+    <div class="next-gen">
+      Continued in <em>Generation III — The Grandchildren (Horace Line)</em>:<br>
+      Simon Davis II, son of Samuel · Rutland &amp; Bedford
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

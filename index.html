@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Davis Family Chronicle</title><style>
+  .index-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0;
+  }
+  .gen-card {
+    border: 1px solid var(--parchment-deep);
+    padding: 28px 24px;
+    background: var(--parchment-dark);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .gen-card:hover {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);
+  }
+  .gen-card.unavailable {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .gen-card-num {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--sepia);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .gen-card-name {
+    font-family: 'IM Fell English', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .gen-card-dates {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .gen-card-desc {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink-faded);
+    font-weight: 300;
+  }
+  .gen-card-arrow {
+    position: absolute;
+    bottom: 16px;
+    right: 18px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .gen-card.unavailable .gen-card-arrow { display: none; }
+  .coming-soon {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--sepia);
+    opacity: 0.6;
+    position: absolute;
+    bottom: 16px;
+    right: 18px;
+  }
+  .lineage-bar {
+    margin: 0 0 40px;
+    padding: 18px 24px;
+    background: var(--parchment-dark);
+    border: 1px solid var(--line);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-light);
+    text-align: center;
+    line-height: 2;
+  }
+  .lineage-bar span {
+    display: inline-block;
+    margin: 0 6px;
+    color: var(--sepia);
+  }
+  .lineage-bar span.arrow { color: var(--parchment-deep); margin: 0 4px; }
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+:root {
+  --parchment: #f2e8d5;
+  --parchment-dark: #e0ceaf;
+  --parchment-deep: #c9ad86;
+  --ink: #1e1208;
+  --ink-faded: #3d2b10;
+  --ink-light: #6b4c22;
+  --sepia: #8b6340;
+  --rust: #7a3b1e;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --line: #c4a46b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #2a1f0f;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 20px 80px;
+}
+
+/* ── Navigation ── */
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto 0;
+  padding: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nav-home {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--parchment-dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-home:hover { opacity: 1; }
+
+.nav-gens {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-gen {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(196,164,107,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
+.nav-gen.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* ── Page Frame ── */
+.page-frame {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: var(--parchment);
+  position: relative;
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+}
+
+.page-inner {
+  padding: 60px 70px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Corner ornaments */
+.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 14px; left: 14px; }
+.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.header::after {
+  content: '✦ ✦ ✦';
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-top: 18px;
+}
+.series-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gen-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  background: var(--ink-faded);
+  padding: 5px 16px;
+  margin-bottom: 20px;
+}
+.main-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 42px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+/* ── Intro ── */
+.intro {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--ink-faded);
+  font-style: italic;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+}
+
+/* ── Person Header ── */
+.person-section { margin-bottom: 60px; }
+
+.person-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.person-monogram {
+  width: 72px; height: 72px; min-width: 72px;
+  border: 1.5px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--sepia);
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-monogram::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 0.5px solid var(--parchment-deep);
+}
+.person-info { flex: 1; }
+.person-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 28px; color: var(--ink); margin-bottom: 4px;
+}
+.person-dates {
+  font-size: 14px; letter-spacing: 2px;
+  color: var(--sepia); font-style: italic;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.timeline-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.timeline-entry::before {
+  content: ''; position: absolute;
+  left: -4px; top: 9px;
+  width: 9px; height: 9px;
+  background: var(--parchment);
+  border: 1.5px solid var(--sepia);
+  transform: rotate(45deg);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; color: var(--sepia);
+  letter-spacing: 1px; padding-top: 4px;
+  text-align: right; line-height: 1.3;
+}
+.timeline-year .circa {
+  display: block; font-size: 9px; letter-spacing: 2px;
+  color: var(--ink-light); text-transform: uppercase;
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.timeline-content {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed var(--parchment-deep);
+}
+.timeline-entry:last-child .timeline-content { border-bottom: none; }
+
+/* ── Content Elements ── */
+.event-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 18px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.event-body {
+  font-size: 15.5px; line-height: 1.8;
+  color: var(--ink-faded); font-weight: 300;
+}
+.event-body em { color: var(--sepia); font-style: italic; }
+.source-note {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+}
+
+/* ── Visual Card ── */
+.visual-card {
+  margin: 16px 0 8px;
+  border: 1px solid var(--parchment-deep);
+  overflow: hidden;
+}
+.visual-card img {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  filter: sepia(40%) contrast(0.9) brightness(0.95);
+}
+.visual-caption {
+  background: var(--parchment-dark);
+  padding: 8px 14px;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+  text-align: center;
+  border-top: 1px solid var(--parchment-deep);
+}
+
+/* ── Spouse / Info Block ── */
+.spouse-block {
+  background: var(--parchment-dark);
+  border-left: 2px solid var(--sepia);
+  padding: 20px 24px; margin: 28px 0;
+}
+.spouse-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.spouse-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px; color: var(--ink); margin-bottom: 6px;
+}
+.spouse-detail {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--ink-faded); font-style: italic; font-weight: 300;
+}
+
+/* ── Children Grid ── */
+.children-block { margin: 28px 0; }
+.children-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.child-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 12px 14px; background: var(--parchment-dark);
+}
+.child-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 15px; color: var(--ink); margin-bottom: 3px;
+}
+.child-detail {
+  font-size: 12px; color: var(--ink-light);
+  font-style: italic; line-height: 1.5;
+}
+
+/* ── Quote Block ── */
+.character-quote {
+  margin: 40px 0 0; padding: 28px 36px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+  text-align: center; position: relative;
+}
+.character-quote::before {
+  content: '"';
+  font-family: 'IM Fell English', serif;
+  font-size: 80px; color: var(--parchment-deep);
+  position: absolute; top: -20px; left: 24px; line-height: 1;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style: italic;
+  line-height: 1.9; color: var(--ink-faded);
+  font-weight: 300; position: relative; z-index: 1;
+}
+.quote-attribution {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
+}
+
+/* ── Section Sub-header ── */
+.section-subheader {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--sepia); text-transform: uppercase;
+  text-align: center; margin: 48px 0 32px;
+  position: relative;
+}
+.section-subheader::before, .section-subheader::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: 28%; height: 1px; background: var(--line);
+}
+.section-subheader::before { left: 0; }
+.section-subheader::after { right: 0; }
+
+/* ── Divider ── */
+.section-divider {
+  text-align: center; margin: 48px 0;
+  color: var(--gold); letter-spacing: 12px; font-size: 10px;
+}
+
+/* ── Footer ── */
+.doc-footer {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.footer-left {
+  font-size: 11px; color: var(--ink-light);
+  font-style: italic; line-height: 1.6;
+}
+.footer-right {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 2px; color: var(--sepia); text-align: right;
+}
+
+/* ── Next Gen Teaser ── */
+.next-gen {
+  margin-top: 28px; padding: 18px 24px;
+  border: 1px dashed var(--sepia);
+  text-align: center;
+  font-size: 14px; font-style: italic; color: var(--ink-light);
+}
+.next-gen a {
+  color: var(--sepia); text-decoration: none;
+  border-bottom: 1px dotted var(--sepia);
+}
+.next-gen a:hover { color: var(--ink-faded); }
+
+@media print {
+  body { background: white; padding: 0; }
+  .page-frame { box-shadow: none; }
+  .site-nav { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
+    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
+  </div>
+</nav>
+
+<div class="page-frame">
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+
+  <div class="page-inner">
+
+    <div class="header">
+      <div class="series-label">A Family History</div>
+      <h1 class="main-title">The Davis Family Chronicle</h1>
+      <div class="subtitle">From Kent, England to New England &nbsp;·&nbsp; 1600 to the present</div>
+    </div>
+
+    <p class="intro">
+      Compiled from the 1881 research of Horace Davis and supplemented by family documents, this chronicle traces the Davis family line from its origins in the Weald of Kent, England through its generations of New England settlement — a story of carpenters, farmers, soldiers, ministers, and governors.
+    </p>
+
+    <div class="lineage-bar">
+      The Horace Davis Line &nbsp;·&nbsp;
+      <span>Dolor Davis</span> <span class="arrow">→</span>
+      <span>Samuel</span> <span class="arrow">→</span>
+      <span>Simon II</span> <span class="arrow">→</span>
+      <span>Simon III</span> <span class="arrow">→</span>
+      <span>Isaac</span> <span class="arrow">→</span>
+      <span>John</span> <span class="arrow">→</span>
+      <span>Horace Davis</span>
+    </div>
+
+    <div class="children-label" style="margin-bottom: 16px;">Generations</div>
+    <div class="index-grid">
+
+      <a href="gen1.html" class="gen-card">
+        <div class="gen-card-num">Generation I</div>
+        <div class="gen-card-name">Dolor Davis</div>
+        <div class="gen-card-dates">c. 1600 – 1673</div>
+        <div class="gen-card-desc">The immigrant ancestor — born in Kent, England, arrived in Cambridge 1634. Carpenter, farmer, and patriarch of 34 grandchildren.</div>
+        <div class="gen-card-arrow">Read →</div>
+      </a>
+
+      <a href="gen2.html" class="gen-card">
+        <div class="gen-card-num">Generation II</div>
+        <div class="gen-card-name">The Children of Dolor</div>
+        <div class="gen-card-dates">1626 – 1713</div>
+        <div class="gen-card-desc">Five children who survived to adulthood: John, Mary, Simon, Samuel, and Ruth — spreading the Davis name from Cape Cod to Concord.</div>
+        <div class="gen-card-arrow">Read →</div>
+      </a>
+
+      <a href="gen3.html" class="gen-card">
+        <div class="gen-card-num">Generation III</div>
+        <div class="gen-card-name">Simon Davis II, Lieut.</div>
+        <div class="gen-card-dates">1683 – 1763</div>
+        <div class="gen-card-desc">Son of Samuel. Settled in Rutland, Massachusetts. Father of eight children including Simon, who carries the line forward.</div>
+        <div class="gen-card-arrow">Read →</div>
+      </a>
+
+      <a href="gen4.html" class="gen-card">
+        <div class="gen-card-num">Generation IV</div>
+        <div class="gen-card-name">Simon Davis III</div>
+        <div class="gen-card-dates">1714 – 1754</div>
+        <div class="gen-card-desc">Son of Lieut. Simon II. Lived in Rutland; married Hannah Gates of Stow. Eleven children — the line spreads toward Northborough.</div>
+        <div class="gen-card-arrow">Read →</div>
+      </a>
+
+      <a href="gen5.html" class="gen-card">
+        <div class="gen-card-num">Generation V</div>
+        <div class="gen-card-name">Isaac Davis</div>
+        <div class="gen-card-dates">1749 – 1826</div>
+        <div class="gen-card-desc">Son of Simon III. Removed to Northborough; deacon; seven-term representative in the Massachusetts Legislature. Father of a Governor.</div>
+        <div class="gen-card-arrow">Read →</div>
+      </a>
+
+      <a href="gen6.html" class="gen-card">
+        <div class="gen-card-num">Generation VI</div>
+        <div class="gen-card-name">John Davis &amp; Horace Davis</div>
+        <div class="gen-card-dates">1787 – 1916</div>
+        <div class="gen-card-desc">John Davis: Governor of Massachusetts &amp; U.S. Senator. His son Horace: Congressman, UC President, and author of this chronicle.</div>
+        <div class="gen-card-arrow">Read →</div>
+      </a>
+
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge<br>Printed for private distribution</div>
+      <div class="footer-right">The Davis Family Chronicle<br>An ongoing family history project<br><span style="color: var(--gold);">✦</span></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

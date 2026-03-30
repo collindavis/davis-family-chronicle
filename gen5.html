@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation V — Isaac Davis · The Davis Family Chronicle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+:root {
+  --parchment: #f2e8d5;
+  --parchment-dark: #e0ceaf;
+  --parchment-deep: #c9ad86;
+  --ink: #1e1208;
+  --ink-faded: #3d2b10;
+  --ink-light: #6b4c22;
+  --sepia: #8b6340;
+  --rust: #7a3b1e;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --line: #c4a46b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #2a1f0f;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 20px 80px;
+}
+
+/* ── Navigation ── */
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.nav-home {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--parchment-dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-home:hover { opacity: 1; }
+.nav-gens {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.nav-gen {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(196,164,107,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
+.nav-gen.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* ── Page Frame ── */
+.page-frame {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: var(--parchment);
+  position: relative;
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+}
+.page-inner {
+  padding: 60px 70px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Corner ornaments */
+.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 14px; left: 14px; }
+.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.header::after {
+  content: '✦ ✦ ✦';
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-top: 18px;
+}
+.series-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gen-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  background: var(--ink-faded);
+  padding: 5px 16px;
+  margin-bottom: 20px;
+}
+.main-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 42px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+/* ── Lineage Bar ── */
+.lineage-bar {
+  margin: 0 0 48px;
+  padding: 14px 20px;
+  background: var(--parchment-dark);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-light);
+  text-align: center;
+  line-height: 2;
+}
+.lineage-bar span { display: inline-block; margin: 0 4px; color: var(--sepia); }
+.lineage-bar span.arrow { color: var(--parchment-deep); margin: 0 3px; }
+.lineage-bar span.active-name {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 600;
+  border-bottom: 1px solid var(--sepia);
+  padding-bottom: 1px;
+}
+
+/* ── Intro ── */
+.intro {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--ink-faded);
+  font-style: italic;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+}
+
+/* ── Person Header ── */
+.person-section { margin-bottom: 60px; }
+.person-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.person-monogram {
+  width: 72px; height: 72px; min-width: 72px;
+  border: 1.5px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--sepia);
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-monogram::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 0.5px solid var(--parchment-deep);
+}
+.person-info { flex: 1; }
+.person-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 28px; color: var(--ink); margin-bottom: 4px;
+}
+.person-dates {
+  font-size: 14px; letter-spacing: 2px;
+  color: var(--sepia); font-style: italic;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.timeline-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.timeline-entry::before {
+  content: ''; position: absolute;
+  left: -4px; top: 9px;
+  width: 9px; height: 9px;
+  background: var(--parchment);
+  border: 1.5px solid var(--sepia);
+  transform: rotate(45deg);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; color: var(--sepia);
+  letter-spacing: 1px; padding-top: 4px;
+  text-align: right; line-height: 1.3;
+}
+.timeline-year .circa {
+  display: block; font-size: 9px; letter-spacing: 2px;
+  color: var(--ink-light); text-transform: uppercase;
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.timeline-content {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed var(--parchment-deep);
+}
+.timeline-entry:last-child .timeline-content { border-bottom: none; }
+
+/* ── Content Elements ── */
+.event-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 18px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.event-body {
+  font-size: 15.5px; line-height: 1.8;
+  color: var(--ink-faded); font-weight: 300;
+}
+.event-body em { color: var(--sepia); font-style: italic; }
+.source-note {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+}
+
+/* ── Visual Card ── */
+.visual-card {
+  margin: 16px 0 8px;
+  border: 1px solid var(--parchment-deep);
+  overflow: hidden;
+}
+.visual-card img {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  filter: sepia(40%) contrast(0.9) brightness(0.95);
+}
+.visual-caption {
+  background: var(--parchment-dark);
+  padding: 8px 14px;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+  text-align: center;
+  border-top: 1px solid var(--parchment-deep);
+}
+
+/* ── Two-col visuals ── */
+.visual-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0 8px;
+}
+.visual-pair .visual-card { margin: 0; }
+
+/* ── Spouse Block ── */
+.spouse-block {
+  background: var(--parchment-dark);
+  border-left: 2px solid var(--sepia);
+  padding: 20px 24px; margin: 28px 0;
+}
+.spouse-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.spouse-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px; color: var(--ink); margin-bottom: 6px;
+}
+.spouse-detail {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--ink-faded); font-style: italic; font-weight: 300;
+}
+
+/* ── Children Grid ── */
+.children-block { margin: 28px 0; }
+.children-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.child-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 12px 14px; background: var(--parchment-dark);
+}
+.child-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 15px; color: var(--ink); margin-bottom: 3px;
+}
+.child-detail {
+  font-size: 12px; color: var(--ink-light);
+  font-style: italic; line-height: 1.5;
+}
+
+/* ── Highlight Line ── */
+.highlight-line {
+  background: linear-gradient(90deg, rgba(184,134,11,0.12) 0%, transparent 100%);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-faded);
+}
+.highlight-line strong {
+  font-style: normal;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── Context Box ── */
+.context-box {
+  border: 1px solid var(--parchment-deep);
+  padding: 20px 24px;
+  margin: 20px 0;
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+}
+.context-box-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.context-box-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-faded);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* ── Namesake Callout ── */
+.namesake-callout {
+  border: 1px solid var(--rust);
+  background: linear-gradient(135deg, #f5e8e0 0%, var(--parchment) 60%);
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0;
+}
+.namesake-callout::before {
+  content: '⚔';
+  position: absolute;
+  top: -8px; right: 20px;
+  font-size: 64px;
+  color: rgba(122,59,30,0.05);
+  line-height: 1;
+  pointer-events: none;
+}
+.namesake-header {
+  background: var(--rust);
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.namesake-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #f5e0d5;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.namesake-rule { flex: 1; height: 1px; background: rgba(245,224,213,0.3); }
+.namesake-body { padding: 20px 24px 22px; }
+.namesake-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 19px;
+  color: var(--rust);
+  margin-bottom: 4px;
+}
+.namesake-sub {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-style: italic;
+  color: var(--ink-light);
+  margin-bottom: 12px;
+}
+.namesake-text {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--ink-faded);
+  font-weight: 300;
+}
+.namesake-text em { color: var(--rust); font-style: italic; }
+
+/* ── Wives comparison ── */
+.wives-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+.wife-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 16px 18px;
+  background: var(--parchment-dark);
+}
+.wife-num {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 2px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.wife-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.wife-detail {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-faded);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* ── Section Divider ── */
+.section-divider {
+  text-align: center; margin: 48px 0;
+  color: var(--gold); letter-spacing: 12px; font-size: 10px;
+}
+.section-subheader {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--sepia); text-transform: uppercase;
+  text-align: center; margin: 48px 0 32px;
+  position: relative;
+}
+.section-subheader::before, .section-subheader::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: 28%; height: 1px; background: var(--line);
+}
+.section-subheader::before { left: 0; }
+.section-subheader::after { right: 0; }
+
+/* ── Quote Block ── */
+.character-quote {
+  margin: 40px 0 0; padding: 28px 36px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+  text-align: center; position: relative;
+}
+.character-quote::before {
+  content: '"';
+  font-family: 'IM Fell English', serif;
+  font-size: 80px; color: var(--parchment-deep);
+  position: absolute; top: -20px; left: 24px; line-height: 1;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style: italic;
+  line-height: 1.9; color: var(--ink-faded);
+  font-weight: 300; position: relative; z-index: 1;
+}
+.quote-attribution {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
+}
+
+/* ── Footer ── */
+.doc-footer {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.footer-left {
+  font-size: 11px; color: var(--ink-light);
+  font-style: italic; line-height: 1.6;
+}
+.footer-right {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 2px; color: var(--sepia); text-align: right;
+}
+
+/* ── Next Gen ── */
+.next-gen {
+  margin-top: 28px; padding: 18px 24px;
+  border: 1px dashed var(--sepia);
+  text-align: center;
+  font-size: 14px; font-style: italic; color: var(--ink-light);
+}
+.next-gen a {
+  color: var(--sepia); text-decoration: none;
+  border-bottom: 1px dotted var(--sepia);
+}
+.next-gen a:hover { color: var(--ink-faded); }
+
+@media print {
+  body { background: white; padding: 0; }
+  .page-frame { box-shadow: none; }
+  .site-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen active">Gen V · Isaac Davis</a>
+  </div>
+</nav>
+
+<div class="page-frame">
+
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+
+  <div class="page-inner">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle</div>
+      <div class="gen-badge">Generation V</div>
+      <h1 class="main-title">Isaac Davis</h1>
+      <div class="subtitle">Of Westborough &amp; Northborough, Massachusetts &nbsp;·&nbsp; 1749–1826</div>
+    </div>
+
+    <!-- Lineage bar -->
+    <div class="lineage-bar">
+      <span>Dolor Davis</span><span class="arrow">→</span>
+      <span>Samuel Davis</span><span class="arrow">→</span>
+      <span>Simon Davis II</span><span class="arrow">→</span>
+      <span>Simon Davis III</span><span class="arrow">→</span>
+      <span class="active-name">Isaac Davis (b. 1749)</span><span class="arrow">→</span>
+      <span>John Davis</span><span class="arrow">→</span>
+      <span>Horace Davis</span>
+    </div>
+
+    <p class="intro">
+      Fifth in the Horace line, Isaac Davis was born into a Massachusetts on the eve of revolution, orphaned before he was twelve, and came of age in the new republic. He became a deacon, a farmer, a legislator, and the father of a Governor — the first member of the direct Horace line to leave a mark on American public life.
+    </p>
+
+    <!-- Namesake callout — placed prominently before the person section -->
+    <div class="namesake-callout">
+      <div class="namesake-header">
+        <span class="namesake-label">A Note on Names · Two Isaac Davises</span>
+        <span class="namesake-rule"></span>
+      </div>
+      <div class="namesake-body">
+        <div class="namesake-title">Not the Soldier — A Distant Cousin</div>
+        <div class="namesake-sub">Captain Isaac Davis (1745–1775) &nbsp;·&nbsp; Isaac Davis (1749–1826)</div>
+        <div class="namesake-text">
+          There are two Isaac Davises in this family — born just four years apart, both great-great-great-grandsons of <em>Dolor Davis</em>, living in neighboring Massachusetts towns at the same time. The first is <em>Captain Isaac Davis of Acton</em> (b. 1745), who commanded the Minutemen at the Battle of Concord on April 19, 1775, and was killed in the opening volley — the first American officer to die in the Revolutionary War. He descended through Dolor's son <em>Simon I</em>.
+          <br><br>
+          The Isaac Davis on this page (b. 1749) is a different man entirely — descended through Dolor's son <em>Samuel</em>, and the direct ancestor of Horace Davis. He was a civilian, a farmer and deacon in Northborough, and a legislator. He was <em>26 years old</em> when his cousin fell at Concord — almost certainly aware of the connection, perhaps even acquainted with him. He lived another fifty-one years after that April morning, long enough to see the nation his cousin died for become a functioning republic.
+        </div>
+      </div>
+    </div>
+
+    <!-- Person Section -->
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">ID</div>
+        <div class="person-info">
+          <div class="person-name">Isaac Davis</div>
+          <div class="person-dates">born February 27, 1749, Rutland, Massachusetts &nbsp;·&nbsp; died April 27, 1826, Northborough, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="highlight-line">
+        <strong>Horace Line · Generation V</strong>
+        Isaac is the ninth child of Simon Davis III and Hannah Gates, and the fifth-generation descendant of Dolor Davis. He is the first in the direct Horace line to hold elected public office — seven terms in the Massachusetts Legislature — and the father of Governor John Davis.
+      </div>
+
+      <div class="timeline">
+
+        <!-- Birth & orphaned -->
+        <div class="timeline-entry">
+          <div class="timeline-year">Feb. 27,<br>1749</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Rutland — Orphaned by Age Twelve</div>
+            <div class="event-body">
+              Isaac Davis was born on February 27, 1749 in <em>Rutland, Massachusetts</em> — the ninth of eleven children of Simon Davis III and Hannah Gates. He was just five years old when his father died in April 1754, and twelve when his mother Hannah died in January 1761. He came of age, then, largely without parents, in the household of older siblings in Rutland and the surrounding Worcester County towns.
+
+              <div class="context-box">
+                <div class="context-box-label">Historical Context · Isaac's Youth</div>
+                <div class="context-box-text">
+                  Isaac's childhood unfolded against the backdrop of the <em>French and Indian War</em> (1754–1763) — begun the very year his father died. By the time he was a young man of twenty, the Stamp Act crisis had come and gone, the Boston Massacre had occurred (1770), and the colonies were moving inexorably toward open conflict. Isaac Davis came of age in precisely the generation shaped by revolutionary feeling. He was <em>26 years old on April 19, 1775</em>, the day his distant cousin Captain Isaac Davis of Acton was killed at Concord.
+                </div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), pp. 44–45.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Move to Westborough -->
+        <div class="timeline-entry">
+          <div class="timeline-year"><span class="circa">circa</span>1770</div>
+          <div class="timeline-content">
+            <div class="event-title">Removal to Westborough</div>
+            <div class="event-body">
+              As a young man, Isaac removed from Rutland to <em>Westborough, Massachusetts</em> — a town in Worcester County about twenty miles to the southeast, closer to the more prosperous commercial corridor of the region. It was there that he established himself as a farmer and community member, and where he married his first wife Anna Brigham.
+              <span class="source-note">Source: Horace Davis (1881), p. 44.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- First marriage -->
+        <div class="timeline-entry">
+          <div class="timeline-year">May 21,<br>1772</div>
+          <div class="timeline-content">
+            <div class="event-title">First Marriage — Anna Brigham</div>
+            <div class="event-body">
+              Isaac married <em>Anna Brigham</em> of Westborough on May 21, 1772. She had been born on October 29, 1753, the daughter of Samuel Brigham of Westborough. They had eleven children together before Anna's death on April 24, 1803.
+            </div>
+
+            <div class="spouse-block">
+              <div class="spouse-label">First Wife</div>
+              <div class="spouse-name">Anna Brigham Davis</div>
+              <div class="spouse-detail">
+                b. October 29, 1753, Westborough, Massachusetts<br>
+                d. April 24, 1803, Northborough, Massachusetts<br><br>
+                Anna bore Isaac eleven children over more than two decades. She died in 1803, two years after the family's removal to Northborough. Their son <em>John Davis</em> — the future Governor — was born in 1787, the year the U.S. Constitution was written.
+              </div>
+            </div>
+            <span class="source-note">Source: Horace Davis (1881), p. 44.</span>
+          </div>
+        </div>
+
+        <!-- Move to Northborough -->
+        <div class="timeline-entry">
+          <div class="timeline-year">1781</div>
+          <div class="timeline-content">
+            <div class="event-title">Removal to Northborough</div>
+            <div class="event-body">
+              In 1781 — the year of Yorktown, the decisive final battle of the Revolution — Isaac Davis moved his family from Westborough to the neighboring township of <em>Northborough, Massachusetts</em>, where the family would remain. Northborough had been incorporated as a separate town from Westborough only the year before, in 1780, making Isaac one of its earliest residents. It was here that he farmed, served his church as deacon, and built the civic life that would define the rest of his years.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Northborough_MA_Town_Hall.jpg/1280px-Northborough_MA_Town_Hall.jpg"
+                     alt="Northborough Massachusetts"
+                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Hartwell_Tavern.jpg/1280px-Hartwell_Tavern.jpg'">
+                <div class="visual-caption">Northborough, Massachusetts — incorporated in 1780, it was Isaac Davis's home from 1781 until his death in 1826. He was among its founding residents.</div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), p. 44.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deacon -->
+        <div class="timeline-entry">
+          <div class="timeline-year">early<br>1800s</div>
+          <div class="timeline-content">
+            <div class="event-title">Ordained Deacon</div>
+            <div class="event-body">
+              Isaac Davis served his church in Northborough as <em>deacon</em> — a lay leadership role in the Congregational tradition that carried significant community standing. The Davis family had been active in Congregational churches since Dolor himself joined the church at Duxbury in the 1640s, and the deaconship represented a continuation of that deep religious commitment now six generations on. Isaac's brother <em>David</em> in Paxton and his brother <em>Samuel</em> in Oakham both also held the rank of deacon — a remarkable family pattern.
+              <span class="source-note">Source: Horace Davis (1881), pp. 44–45.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legislature -->
+        <div class="timeline-entry">
+          <div class="timeline-year">seven<br>terms</div>
+          <div class="timeline-content">
+            <div class="event-title">Seven Terms in the Massachusetts Legislature</div>
+            <div class="event-body">
+              Isaac Davis served <em>seven terms as a Representative in the Massachusetts Legislature</em> — the first member of the direct Horace line to hold elected office at the state level. His service spanned the early decades of the republic, when Massachusetts was actively shaping the laws and institutions of the new nation. The exact years of his service are not recorded in the Horace Davis chronicle, but given his dates and his son John's later career, his legislative terms likely fell in the 1790s–1810s.
+
+              <div class="visual-pair">
+                <div class="visual-card">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Massachusetts_State_House_-_Boston%2C_MA.jpg/1280px-Massachusetts_State_House_-_Boston%2C_MA.jpg"
+                       alt="Massachusetts State House Boston"
+                       onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Massachusetts_State_House_dome.jpg/800px-Massachusetts_State_House_dome.jpg'">
+                  <div class="visual-caption">The Massachusetts State House, Boston — completed in 1798, this is where Isaac Davis served his seven legislative terms as representative for Northborough.</div>
+                </div>
+                <div class="visual-card">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Worcester_County_Courthouse_Worcester_Massachusetts.jpg/640px-Worcester_County_Courthouse_Worcester_Massachusetts.jpg"
+                       alt="Worcester County Massachusetts"
+                       onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Hartwell_Tavern.jpg/640px-Hartwell_Tavern.jpg'">
+                  <div class="visual-caption">Worcester County, Massachusetts — the political and civic world in which Isaac Davis served as deacon, farmer, and legislator for fifty years.</div>
+                </div>
+              </div>
+              <span class="source-note">Source: Horace Davis (1881), p. 44.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Later marriages -->
+        <div class="timeline-entry">
+          <div class="timeline-year">1804<br>&amp; 1816</div>
+          <div class="timeline-content">
+            <div class="event-title">Two Further Marriages</div>
+            <div class="event-body">
+              After Anna's death in 1803, Isaac married twice more in his later years — both times to widows of the Baker family, sisters by birth.
+            </div>
+
+            <div class="wives-grid">
+              <div class="wife-card">
+                <div class="wife-num">Second Wife</div>
+                <div class="wife-name">Susanna (Baker) Harrington</div>
+                <div class="wife-detail">m. December, 1804<br>d. January 11, 1816<br>No children recorded</div>
+              </div>
+              <div class="wife-card">
+                <div class="wife-num">Third Wife</div>
+                <div class="wife-name">Elizabeth (Baker) Thurston</div>
+                <div class="wife-detail">m. October, 1816 · sister of 2nd wife<br>d. March 29, 1850<br>No children recorded</div>
+              </div>
+            </div>
+            <span class="source-note">Source: Horace Davis (1881), p. 44.</span>
+          </div>
+        </div>
+
+        <!-- Death -->
+        <div class="timeline-entry">
+          <div class="timeline-year">Apr. 27,<br>1826</div>
+          <div class="timeline-content">
+            <div class="event-title">Death at Northborough, aged 77</div>
+            <div class="event-body">
+              Isaac Davis died on April 27, 1826, in Northborough, at the age of <em>77</em>. He had outlived the Revolution, the Constitutional Convention, the War of 1812, and the beginning of the Erie Canal era. His son <em>John Davis</em> — then 39 years old and serving in Congress — would go on to become Governor of Massachusetts and a United States Senator. His grandson <em>Horace Davis</em> was not yet born.
+              <br><br>
+              Isaac had lived from the eve of the Revolution to the age of John Quincy Adams's presidency — a span that encompassed the entire founding era of the American republic. The immigrant Dolor had arrived on these shores nearly two centuries before; his fifth-generation descendant died a citizen of a nation that hadn't existed when Dolor was born.
+              <span class="source-note">Source: Horace Davis (1881), p. 44.</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+
+      <!-- Children grid -->
+      <div class="children-block">
+        <div class="children-label">Children of Isaac &amp; Anna (Brigham) Davis — Northborough, Massachusetts</div>
+        <div class="children-grid">
+          <div class="child-card">
+            <div class="child-name">Phineas Davis</div>
+            <div class="child-detail">b. September 12, 1772<br>m. Martha Eager · Northborough<br>d. November 3, 1834 · 11 children</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Joseph Davis</div>
+            <div class="child-detail">b. February 28, 1774<br>m. Lydia Ball, then Lydia Cogswell<br>d. October 23, 1843 · 11 children</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Anna Davis</div>
+            <div class="child-detail">b. June 19, 1777<br>m. William McFarland<br>Worcester · d. February 11, 1857</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Isaac Davis</div>
+            <div class="child-detail">b. September 23, 1779<br>m. Polly Rice · Northborough<br>d. March 31, 1859 · 12 children</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Sarah Breck Davis</div>
+            <div class="child-detail">b. August 6, 1782<br>m. Daniel Bellows, then Willard Snow<br>d. November 5, 1865</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Samuel Davis</div>
+            <div class="child-detail">b. January 22, 1784<br>m. Elizabeth Eleanor Godfrey<br>Mount Vernon, Me. · d. 1852</div>
+          </div>
+          <div class="child-card" style="border-color: var(--gold); background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+            <div class="child-name" style="color: var(--rust);">John Davis</div>
+            <div class="child-detail">b. January 13, 1787<br>Yale 1812 · Governor of Massachusetts<br><em style="color: var(--gold);">→ Horace Line continues</em></div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Hannah Davis</div>
+            <div class="child-detail">b. December 10, 1789<br>m. Daniel Dunton<br>d. October 18, 1816</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Eliza Davis</div>
+            <div class="child-detail">b. October 15, 1794<br>m. Cyrus Gale · Northborough<br>d. February 18, 1821</div>
+          </div>
+          <div class="child-card" style="grid-column: span 3; text-align: center;">
+            <div class="child-name">Rebecca Davis</div>
+            <div class="child-detail">b. July 8, 1796 &nbsp;·&nbsp; d. July 14, 1796 &nbsp;·&nbsp; died in infancy</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /person-section -->
+
+    <div class="section-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <div class="character-quote">
+      <p class="quote-text">
+        From Dolor Davis arriving in Cambridge in 1634 with nothing but a carpenter's tools and a land grant of twenty-five acres, to Isaac Davis serving seven terms in the legislature of a sovereign nation his ancestor never imagined — five generations, nearly a century and a half, and the arc of an entire civilization.
+      </p>
+      <div class="quote-attribution">— Editorial note, Davis Family Chronicle</div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge</div>
+      <div class="footer-right">The Davis Family Chronicle<br>Generation V of VII<br><span style="color: var(--gold);">✦</span></div>
+    </div>
+
+    <div class="next-gen">
+      Continued in <a href="gen6.html">Generation VI — John Davis &amp; Horace Davis</a>:<br>
+      Governor of Massachusetts · U.S. Senator · Author of this Chronicle &nbsp;·&nbsp; 1787–1885
+    </div>
+
+  </div><!-- /page-inner -->
+</div><!-- /page-frame -->
+
+</body>
+</html>

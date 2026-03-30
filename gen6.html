@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation VI — John Davis &amp; Horace Davis · The Davis Family Chronicle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+:root {
+  --parchment: #f2e8d5;
+  --parchment-dark: #e0ceaf;
+  --parchment-deep: #c9ad86;
+  --ink: #1e1208;
+  --ink-faded: #3d2b10;
+  --ink-light: #6b4c22;
+  --sepia: #8b6340;
+  --rust: #7a3b1e;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --line: #c4a46b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #2a1f0f;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 20px 80px;
+}
+
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.nav-home {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--parchment-dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-home:hover { opacity: 1; }
+.nav-gens {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.nav-gen {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(196,164,107,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
+.nav-gen.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+.page-frame {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: var(--parchment);
+  position: relative;
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+}
+.page-inner {
+  padding: 60px 70px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 14px; left: 14px; }
+.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.header::after {
+  content: '✦ ✦ ✦';
+  display: block;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 8px;
+  margin-top: 18px;
+}
+.series-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gen-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  background: var(--ink-faded);
+  padding: 5px 16px;
+  margin-bottom: 20px;
+}
+.main-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 38px;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+.lineage-bar {
+  margin: 0 0 48px;
+  padding: 14px 20px;
+  background: var(--parchment-dark);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-light);
+  text-align: center;
+  line-height: 2;
+}
+.lineage-bar span { display: inline-block; margin: 0 4px; color: var(--sepia); }
+.lineage-bar span.arrow { color: var(--parchment-deep); margin: 0 3px; }
+.lineage-bar span.active-name {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 600;
+  border-bottom: 1px solid var(--sepia);
+  padding-bottom: 1px;
+}
+
+.intro {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--ink-faded);
+  font-style: italic;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+}
+
+/* ── Two-person split ── */
+.persons-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 56px;
+}
+.person-half {
+  padding: 32px 32px 36px;
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-half.primary { background: var(--parchment); border: 1px solid var(--line); }
+.person-half.secondary { background: var(--parchment-dark); border: 1px solid var(--parchment-deep); }
+.half-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.half-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 26px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.half-dates {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-style: italic;
+  color: var(--sepia);
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.half-body {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--ink-faded);
+  font-weight: 300;
+}
+.half-body em { color: var(--sepia); font-style: italic; }
+
+/* ── Person Section ── */
+.person-section { margin-bottom: 64px; }
+.person-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.person-monogram {
+  width: 72px; height: 72px; min-width: 72px;
+  border: 1.5px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--sepia);
+  background: var(--parchment-dark);
+  position: relative;
+}
+.person-monogram::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 0.5px solid var(--parchment-deep);
+}
+.person-info { flex: 1; }
+.person-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 28px; color: var(--ink); margin-bottom: 4px;
+}
+.person-dates {
+  font-size: 14px; letter-spacing: 2px;
+  color: var(--sepia); font-style: italic;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 0; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.timeline-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.timeline-entry::before {
+  content: ''; position: absolute;
+  left: -4px; top: 9px;
+  width: 9px; height: 9px;
+  background: var(--parchment);
+  border: 1.5px solid var(--sepia);
+  transform: rotate(45deg);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; color: var(--sepia);
+  letter-spacing: 1px; padding-top: 4px;
+  text-align: right; line-height: 1.3;
+}
+.timeline-year .circa {
+  display: block; font-size: 9px; letter-spacing: 2px;
+  color: var(--ink-light); text-transform: uppercase;
+  margin-bottom: 2px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.timeline-content {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed var(--parchment-deep);
+}
+.timeline-entry:last-child .timeline-content { border-bottom: none; }
+
+.event-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 18px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.event-body {
+  font-size: 15.5px; line-height: 1.8;
+  color: var(--ink-faded); font-weight: 300;
+}
+.event-body em { color: var(--sepia); font-style: italic; }
+.source-note {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+}
+
+.visual-card {
+  margin: 16px 0 8px;
+  border: 1px solid var(--parchment-deep);
+  overflow: hidden;
+}
+.visual-card img {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  filter: sepia(40%) contrast(0.9) brightness(0.95);
+}
+.visual-caption {
+  background: var(--parchment-dark);
+  padding: 8px 14px;
+  font-size: 11.5px; font-style: italic;
+  color: var(--ink-light); letter-spacing: 0.3px;
+  text-align: center;
+  border-top: 1px solid var(--parchment-deep);
+}
+.visual-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0 8px;
+}
+.visual-pair .visual-card { margin: 0; }
+
+.spouse-block {
+  background: var(--parchment-dark);
+  border-left: 2px solid var(--sepia);
+  padding: 20px 24px; margin: 28px 0;
+}
+.spouse-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.spouse-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px; color: var(--ink); margin-bottom: 6px;
+}
+.spouse-detail {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--ink-faded); font-style: italic; font-weight: 300;
+}
+
+.children-block { margin: 28px 0; }
+.children-label {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--sepia);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.child-card {
+  border: 1px solid var(--parchment-deep);
+  padding: 12px 14px; background: var(--parchment-dark);
+}
+.child-name {
+  font-family: 'IM Fell English', serif;
+  font-size: 15px; color: var(--ink); margin-bottom: 3px;
+}
+.child-detail {
+  font-size: 12px; color: var(--ink-light);
+  font-style: italic; line-height: 1.5;
+}
+
+.highlight-line {
+  background: linear-gradient(90deg, rgba(184,134,11,0.12) 0%, transparent 100%);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-faded);
+}
+.highlight-line strong {
+  font-style: normal;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── Achievement badges ── */
+.achievements {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 24px 0;
+}
+.achievement {
+  border: 1px solid var(--parchment-deep);
+  padding: 14px 16px;
+  background: var(--parchment-dark);
+  text-align: center;
+}
+.achievement-icon {
+  font-size: 22px;
+  margin-bottom: 6px;
+  display: block;
+}
+.achievement-title {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--sepia);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.achievement-detail {
+  font-size: 12.5px;
+  color: var(--ink-faded);
+  font-style: italic;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* ── Final arc section ── */
+.arc-block {
+  border: 1px solid var(--line);
+  padding: 28px 32px;
+  margin: 40px 0;
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+}
+.arc-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.arc-text {
+  font-size: 15.5px;
+  line-height: 1.9;
+  color: var(--ink-faded);
+  font-weight: 300;
+}
+.arc-text em { color: var(--sepia); font-style: italic; }
+.arc-text strong { font-weight: 600; font-style: normal; color: var(--ink-faded); }
+
+.section-divider {
+  text-align: center; margin: 48px 0;
+  color: var(--gold); letter-spacing: 12px; font-size: 10px;
+}
+.section-subheader {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: var(--sepia); text-transform: uppercase;
+  text-align: center; margin: 48px 0 32px;
+  position: relative;
+}
+.section-subheader::before, .section-subheader::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: 28%; height: 1px; background: var(--line);
+}
+.section-subheader::before { left: 0; }
+.section-subheader::after { right: 0; }
+
+.character-quote {
+  margin: 40px 0 0; padding: 28px 36px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+  text-align: center; position: relative;
+}
+.character-quote::before {
+  content: '"';
+  font-family: 'IM Fell English', serif;
+  font-size: 80px; color: var(--parchment-deep);
+  position: absolute; top: -20px; left: 24px; line-height: 1;
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style: italic;
+  line-height: 1.9; color: var(--ink-faded);
+  font-weight: 300; position: relative; z-index: 1;
+}
+.quote-attribution {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
+}
+
+.doc-footer {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.footer-left {
+  font-size: 11px; color: var(--ink-light);
+  font-style: italic; line-height: 1.6;
+}
+.footer-right {
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 2px; color: var(--sepia); text-align: right;
+}
+
+/* ── Chronicle complete badge ── */
+.chronicle-complete {
+  margin-top: 32px;
+  padding: 24px 32px;
+  border: 1px solid var(--gold);
+  background: linear-gradient(135deg, rgba(184,134,11,0.08) 0%, transparent 60%);
+  text-align: center;
+}
+.chronicle-complete-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.chronicle-complete-text {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-faded);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+@media print {
+  body { background: white; padding: 0; }
+  .page-frame { box-shadow: none; }
+  .site-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen active">Gen VI · John &amp; Horace Davis</a>
+  </div>
+</nav>
+
+<div class="page-frame">
+
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
+
+  <div class="page-inner">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle</div>
+      <div class="gen-badge">Generation VI</div>
+      <h1 class="main-title">John Davis &amp; Horace Davis</h1>
+      <div class="subtitle">Worcester &amp; San Francisco &nbsp;·&nbsp; 1787–1916 &nbsp;·&nbsp; Governor, Senator &amp; Congressman</div>
+    </div>
+
+    <!-- Lineage bar -->
+    <div class="lineage-bar">
+      <span>Dolor Davis</span><span class="arrow">→</span>
+      <span>Samuel</span><span class="arrow">→</span>
+      <span>Simon II</span><span class="arrow">→</span>
+      <span>Simon III</span><span class="arrow">→</span>
+      <span>Isaac Davis</span><span class="arrow">→</span>
+      <span class="active-name">John Davis · Horace Davis</span>
+    </div>
+
+    <p class="intro">
+      The sixth and final generation of the Horace line is also its most publicly distinguished. John Davis — son of Deacon Isaac, great-great-great-great-grandson of Dolor — became Governor of Massachusetts and a United States Senator. His son Horace Davis, born in 1831, sailed to California, built a flour empire, served in Congress, presided over the University of California — and in 1881 sat down to write a chronicle of the family that made him.
+    </p>
+
+    <!-- Quick comparison panel -->
+    <div class="persons-split">
+      <div class="person-half primary">
+        <div class="half-label">Father · Generation VI</div>
+        <div class="half-name">John Davis</div>
+        <div class="half-dates">January 13, 1787 &nbsp;·&nbsp; April 19, 1854 &nbsp;·&nbsp; Worcester, Massachusetts</div>
+        <div class="half-body">
+          Lawyer, legislator, Governor. Born in Northborough to Deacon Isaac Davis. Yale Class of 1812. Known as <em>"Honest John"</em> for an impeccable record of personal integrity. Served ten years in the U.S. House, twice as Governor of Massachusetts, and two stints in the U.S. Senate — a career of 25 years in public life.
+        </div>
+      </div>
+      <div class="person-half secondary">
+        <div class="half-label">Son · Author of this Chronicle</div>
+        <div class="half-name">Horace Davis</div>
+        <div class="half-dates">March 16, 1831 &nbsp;·&nbsp; July 12, 1916 &nbsp;·&nbsp; Worcester → San Francisco</div>
+        <div class="half-body">
+          Gold miner, flour merchant, Congressman, university president, family historian. Harvard Class of 1849. Sailed for California in 1852. Built the Golden Gate Flouring Mills and the Sperry Flour Company. Served two terms in the U.S. House from California. President of the University of California, 1887–1890. In 1881 wrote <em>Dolor Davis: A Sketch of His Life</em> — the primary source for this entire chronicle.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ JOHN DAVIS ═══════════════ -->
+    <div class="section-subheader">John Davis — Governor &amp; Senator</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">JD</div>
+        <div class="person-info">
+          <div class="person-name">John Davis</div>
+          <div class="person-dates">born January 13, 1787, Northborough, Massachusetts &nbsp;·&nbsp; died April 19, 1854, Worcester, Massachusetts</div>
+        </div>
+      </div>
+
+      <div class="highlight-line">
+        <strong>Horace Line · Generation VI</strong>
+        John Davis is the seventh child of Isaac Davis and Anna Brigham, sixth-generation descendant of Dolor Davis. He is the most prominent public figure in the direct Horace line — the only member to serve as a state governor and U.S. Senator.
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Jan. 13,<br>1787</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Northborough</div>
+            <div class="event-body">
+              John Davis was born on January 13, 1787 in <em>Northborough, Massachusetts</em> — the year the United States Constitution was written. His father Deacon Isaac Davis was then 37 years old, serving in the Massachusetts Legislature. The family's journey from Dolor's 25-acre Cambridge land grant to a household that would produce a Governor had taken exactly six generations and 153 years.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1812</div>
+          <div class="timeline-content">
+            <div class="event-title">Yale College — Class of 1812</div>
+            <div class="event-body">
+              John attended <em>Leicester Academy</em> before entering <em>Yale College</em>, where he graduated in 1812 — the year the War of 1812 began. He then studied law in Worcester with attorney Francis Blake, was admitted to the bar in 1815, and established a successful law practice in Worcester, where he would remain for the rest of his life. He was elected a member of the American Antiquarian Society in 1821.
+              <span class="source-note">Sources: Horace Davis (1881), p. 45. Biographical Directory of the U.S. Congress.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Mar. 28,<br>1822</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Eliza Bancroft</div>
+            <div class="event-body">
+              John married <em>Eliza Bancroft</em> on March 28, 1822 — a match that connected the Davis family to one of the most distinguished intellectual lineages in New England.
+            </div>
+            <div class="spouse-block">
+              <div class="spouse-label">Wife</div>
+              <div class="spouse-name">Eliza Bancroft Davis</div>
+              <div class="spouse-detail">
+                b. February 17, 1791 &nbsp;·&nbsp; d. January 24, 1872<br>
+                Daughter of Rev. Aaron Bancroft, prominent Unitarian minister of Worcester and author of a celebrated life of George Washington. Her brother was <em>George Bancroft</em> — the eminent American historian and statesman, father of the modern study of American history, and later Secretary of the Navy under President Polk. Through Eliza, the Davis family became kin to one of the leading intellectual figures of 19th-century America.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1825<br>–1834</div>
+          <div class="timeline-content">
+            <div class="event-title">U.S. House of Representatives — Ten Years</div>
+            <div class="event-body">
+              John Davis entered Congress in 1825, serving five consecutive terms as a Representative from Massachusetts — first as a supporter of John Quincy Adams, then as an Anti-Jacksonian, and finally as a founding member of the <em>Whig Party</em>. He was a strong advocate for protectionist tariff legislation, supporting American manufacturing at a time when New England's industrial economy was still taking shape. He resigned from the House in January 1834 to become Governor.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/US_Capitol_Building_at_night_Jan_2006.jpg/1280px-US_Capitol_Building_at_night_Jan_2006.jpg"
+                     alt="United States Capitol Building">
+                <div class="visual-caption">The United States Capitol — where John Davis served ten years as a Representative from Massachusetts (1825–1834) and later two stints as U.S. Senator (1835–1841, 1845–1853).</div>
+              </div>
+              <span class="source-note">Source: Biographical Directory of the U.S. Congress.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1834<br>&amp; 1841</div>
+          <div class="timeline-content">
+            <div class="event-title">Governor of Massachusetts — Twice</div>
+            <div class="event-body">
+              John Davis served as <em>14th Governor of Massachusetts</em> from January 1834 to March 1835, resigning to take a U.S. Senate seat. He returned to the governorship as the <em>17th Governor</em> from January 1841 to January 1843. During his tenure, the state's road system was improved, industry was advanced, and constitutional reform was advocated. He was known throughout his career as <em>"Honest John"</em> — a reputation for personal integrity that was remarked upon by contemporaries across party lines.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Massachusetts_State_House_-_Boston%2C_MA_%285447474751%29.jpg/1280px-Massachusetts_State_House_-_Boston%2C_MA_%285447474751%29.jpg"
+                     alt="Massachusetts State House"
+                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Massachusetts_State_House_-_Boston%2C_MA.jpg/1280px-Massachusetts_State_House_-_Boston%2C_MA.jpg'">
+                <div class="visual-caption">The Massachusetts State House, Boston — where John Davis served as Governor of Massachusetts in 1834–1835 and again in 1841–1843, earning the enduring nickname "Honest John."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1835–41<br>1845–53</div>
+          <div class="timeline-content">
+            <div class="event-title">U.S. Senate — Two Terms</div>
+            <div class="event-body">
+              John Davis served two separate stints in the United States Senate, totalling nearly fourteen years. In his first term (1835–1841), he chaired the Committee on Commerce and took a notably firm line on the Maine–New Brunswick boundary dispute with Britain. In his second term (1845–1853), he opposed the Mexican–American War and worked against the extension of slavery to new territories, though he was not an abolitionist and voted for most provisions of the Compromise of 1850. He retired from public life in 1853, and died the following year at age 67 on April 19, 1854 — exactly seventy-nine years to the day after Captain Isaac Davis of Acton fell at the North Bridge.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /john timeline -->
+
+      <div class="achievements">
+        <div class="achievement">
+          <span class="achievement-icon">⚖</span>
+          <div class="achievement-title">Law</div>
+          <div class="achievement-detail">Admitted to the bar 1815 · Worcester, Massachusetts · 40-year career</div>
+        </div>
+        <div class="achievement">
+          <span class="achievement-icon">🏛</span>
+          <div class="achievement-title">Congress</div>
+          <div class="achievement-detail">U.S. House 1825–1834 · U.S. Senate 1835–1841 · 1845–1853</div>
+        </div>
+        <div class="achievement">
+          <span class="achievement-icon">★</span>
+          <div class="achievement-title">Governor</div>
+          <div class="achievement-detail">14th &amp; 17th Governor of Massachusetts · 1834–1835 · 1841–1843 · "Honest John"</div>
+        </div>
+      </div>
+
+      <div class="children-block">
+        <div class="children-label">Children of John &amp; Eliza (Bancroft) Davis — Worcester, Massachusetts</div>
+        <div class="children-grid">
+          <div class="child-card">
+            <div class="child-name">John C. Bancroft Davis</div>
+            <div class="child-detail">Diplomat &amp; jurist<br>U.S. Assistant Secretary of State<br>Reporter, U.S. Supreme Court</div>
+          </div>
+          <div class="child-card">
+            <div class="child-name">Hasbrouck Davis</div>
+            <div class="child-detail">Brigadier General<br>Union Army · Civil War<br>Military career</div>
+          </div>
+          <div class="child-card" style="border-color: var(--gold); background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+            <div class="child-name" style="color: var(--rust);">Horace Davis</div>
+            <div class="child-detail">b. March 16, 1831<br>Congressman · UC President<br><em style="color: var(--gold);">Author of this Chronicle</em></div>
+          </div>
+          <div class="child-card" style="grid-column: span 3; text-align: center;">
+            <div class="child-name">Two further children</div>
+            <div class="child-detail">Five children in total, including ancestors of diplomat Gherardi Davis and physiologist Hallowell Davis · great-great-grandfather of Senator Henry Cabot Lodge Jr.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /john section -->
+
+    <!-- ═══════════════ HORACE DAVIS ═══════════════ -->
+    <div class="section-subheader">Horace Davis — Author of the Chronicle</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">HD</div>
+        <div class="person-info">
+          <div class="person-name">Horace Davis</div>
+          <div class="person-dates">born March 16, 1831, Worcester, Massachusetts &nbsp;·&nbsp; died July 12, 1916, San Francisco, California</div>
+        </div>
+      </div>
+
+      <div class="highlight-line">
+        <strong>Horace Line · Generation VI · The Author</strong>
+        Horace Davis is the reason this chronicle exists. Born the son of a Governor, he left Massachusetts for California in 1852, built a business empire, served in Congress, presided over the University of California — and in 1881 wrote <em>Dolor Davis: A Sketch of His Life</em>, tracing the family line from its origins in Kent, England. Every page of this chronicle flows from his research.
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Mar. 16,<br>1831</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Worcester</div>
+            <div class="event-body">
+              Horace Davis was born on March 16, 1831 in <em>Worcester, Massachusetts</em> — the son of Governor John Davis and Eliza Bancroft, grandson of Deacon Isaac Davis, and sixth-generation descendant of Dolor Davis. He grew up in a household shaped by law, politics, and intellectual life, with his uncle George Bancroft — the great American historian — as a family presence.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1849</div>
+          <div class="timeline-content">
+            <div class="event-title">Harvard College — Class of 1849</div>
+            <div class="event-body">
+              Horace attended Worcester public schools and Williams College before graduating from <em>Harvard University</em> in 1849. He studied law at Harvard's Dane Law School, but failing eyesight prevented him from entering legal practice. Instead he turned his restless energy westward.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1852</div>
+          <div class="timeline-content">
+            <div class="event-title">Sails for California — Around Cape Horn</div>
+            <div class="event-body">
+              In 1852, at age 21, Horace Davis sailed for <em>San Francisco, California</em> — not by the overland trail but around Cape Horn, the long southern route. On arriving, he tried his hand as a <em>gold miner</em>, then worked as a lumber supercargo, a coastal steamer surveyor, and a purser for the Pacific Mail Steamship Company. He helped found the Mercantile Library Association of California — the state's oldest public library — before resigning in 1855.
+
+              <div class="visual-pair">
+                <div class="visual-card">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/San_Francisco_from_the_Bay_1878.jpg/1280px-San_Francisco_from_the_Bay_1878.jpg"
+                       alt="San Francisco 1870s"
+                       onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/San_Francisco_from_Rincon_Hill_1877.jpg/1280px-San_Francisco_from_Rincon_Hill_1877.jpg'">
+                  <div class="visual-caption">San Francisco in the 1870s — the boomtown Horace Davis sailed to in 1852 and made his home for the rest of his life, building a flour empire and a public career.</div>
+                </div>
+                <div class="visual-card">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/San_Francisco_ca_1852.jpg/1280px-San_Francisco_ca_1852.jpg"
+                       alt="San Francisco circa 1852"
+                       onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/San_francisco_in_1849.jpg/1280px-San_francisco_in_1849.jpg'">
+                  <div class="visual-caption">San Francisco circa 1852 — the year Horace Davis arrived, the city still raw with Gold Rush energy. He would watch it become a great American metropolis.</div>
+                </div>
+              </div>
+              <span class="source-note">Source: Biographical Directory of the U.S. Congress. Wikipedia, "Horace Davis."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1860<br>–1877</div>
+          <div class="timeline-content">
+            <div class="event-title">The Golden Gate Flouring Mills &amp; Sperry Flour</div>
+            <div class="event-body">
+              In 1860, Horace relocated to San Francisco and took control of the <em>Golden Gate Flouring Mills</em>, building it into a major commercial enterprise. He later established the <em>Sperry Flour Company</em>, which became one of the most significant flour-milling operations in the American West. From 1867 to 1877 he presided over the Produce Exchange of San Francisco. The family line that began with Dolor Davis as a house-carpenter had arrived at industrial capitalism.
+
+              <div class="timeline-entry" style="margin: 0; grid-template-columns: 1fr; padding-left: 0;">
+                <div class="timeline-content" style="border: 0; padding: 0;">
+                  <div class="highlight-line" style="margin-top: 12px;">
+                    <strong>Civil War Service</strong>
+                    During the Civil War, Horace served in San Francisco's secretive <em>Home Guard</em> — a local organization working to secure California's loyalty to the Lincoln administration. He helped elect Leland Stanford as governor and patrolled the polls on election day 1861. His loyalty to the Union was unambiguous.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1877<br>–1881</div>
+          <div class="timeline-content">
+            <div class="event-title">U.S. Congress — Representative from California</div>
+            <div class="event-body">
+              In 1877, Horace Davis was elected as a <em>Republican to the United States House of Representatives</em> for California's 1st District, serving two terms through 1881. He was an unsuccessful candidate for a third term in 1880. His congressional career made him, like his father, a member of both houses of the Massachusetts and California political establishments — a rare trans-coastal political family.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/US_Capitol_Building_at_night_Jan_2006.jpg/1280px-US_Capitol_Building_at_night_Jan_2006.jpg"
+                     alt="U.S. Capitol">
+                <div class="visual-caption">The U.S. Capitol — where Horace Davis served as Representative from California, 1877–1881. Father and son both walked these halls, representing different states and different generations.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1881</div>
+          <div class="timeline-content">
+            <div class="event-title">Dolor Davis: A Sketch of His Life</div>
+            <div class="event-body">
+              In 1881, the year he left Congress, Horace Davis sat down and wrote the book that is the primary source for this entire chronicle: <em>Dolor Davis: A Sketch of His Life, with a Record of His Earlier Descendants</em>, printed at The Riverside Press, Cambridge, for private distribution. He had spent years gathering records from town archives, church registers, probate courts, and family documents across Massachusetts, England, and beyond.
+              <br><br>
+              The book opens with a line that captures his motivation perfectly: <em>"I have taken great pleasure in collecting the scanty and scattered fragments of the history of Dolor Davis, because I owe to him my life and my name."</em> Six generations on from the immigrant carpenter, his great-great-great-great-grandson had not forgotten.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">1887<br>–1890</div>
+          <div class="timeline-content">
+            <div class="event-title">President of the University of California</div>
+            <div class="event-body">
+              In February 1888, Horace Davis was elected <em>President of the University of California</em> — a position he held until his resignation in April 1890. He also served as President of the Board of Trustees of <em>Stanford University</em> from 1885 to 1916, appointed by Leland Stanford himself. He had helped elect Stanford as governor a quarter-century earlier; now he helped steward the university that bore Stanford's name.
+
+              <div class="visual-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Doe_Memorial_Library%2C_UC_Berkeley.jpg/1280px-Doe_Memorial_Library%2C_UC_Berkeley.jpg"
+                     alt="University of California Berkeley"
+                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Sather_Tower_from_the_ground.jpg/800px-Sather_Tower_from_the_ground.jpg'">
+                <div class="visual-caption">The University of California, Berkeley — whose sixth president was Horace Davis, great-great-great-great-grandson of the Kent carpenter Dolor Davis who arrived in Cambridge, Massachusetts in 1634.</div>
+              </div>
+              <span class="source-note">Source: Biographical Directory of the U.S. Congress. Wikipedia, "Horace Davis."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-entry">
+          <div class="timeline-year">Jul. 12,<br>1916</div>
+          <div class="timeline-content">
+            <div class="event-title">Death in San Francisco, aged 85</div>
+            <div class="event-body">
+              Horace Davis died on July 12, 1916, in San Francisco, after an appendicitis operation. He was 85 years old. He was buried at <em>Cypress Lawn Cemetery</em> in Colma, California — three thousand miles and two hundred and eighty-two years from the Kent meadows where Dolor Davis was born.
+              <br><br>
+              He had outlived the Civil War, Reconstruction, the Gilded Age, the Spanish-American War, the San Francisco Earthquake of 1906, and the first two years of the First World War. His life spanned from Andrew Jackson's presidency to Woodrow Wilson's. He was, by any measure, a remarkable American life — and it all began with a carpenter from the Weald of Kent who crossed an ocean in 1634.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /horace timeline -->
+
+      <div class="achievements">
+        <div class="achievement">
+          <span class="achievement-icon">⚓</span>
+          <div class="achievement-title">California Pioneer</div>
+          <div class="achievement-detail">Sailed for San Francisco 1852 · Gold Rush era · Flour magnate · Sperry Flour Co.</div>
+        </div>
+        <div class="achievement">
+          <span class="achievement-icon">🏛</span>
+          <div class="achievement-title">Congress</div>
+          <div class="achievement-detail">U.S. Representative from California · 45th &amp; 46th Congresses · 1877–1881</div>
+        </div>
+        <div class="achievement">
+          <span class="achievement-icon">🎓</span>
+          <div class="achievement-title">Education</div>
+          <div class="achievement-detail">President, University of California 1887–1890 · Board of Trustees, Stanford 1885–1916</div>
+        </div>
+      </div>
+
+    </div><!-- /horace section -->
+
+    <div class="section-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <!-- The full arc -->
+    <div class="arc-block">
+      <div class="arc-label">The Complete Arc · Seven Generations · 1600 to 1916</div>
+      <div class="arc-text">
+        From <em>Dolor Davis</em>, born in the Weald of Kent around 1600, arriving in Cambridge, Massachusetts in 1634 with nothing but a carpenter's tools and a 25-acre land grant — to <em>Horace Davis</em>, born in 1831 in Worcester, sailing to California in 1852, serving in Congress, presiding over the University of California, and dying in San Francisco in 1916 at the age of 85.
+        <br><br>
+        Between them: <strong>seven generations</strong>, the full arc of early American history. A Civil War captain who died at the North Bridge. A lieutenant of King Philip's War. Three consecutive Simons carrying the name through the Massachusetts frontier. A deacon and legislator in Northborough. A Governor and Senator known as "Honest John." And finally the man who looked back at all of it and felt the pull to write it down.
+        <br><br>
+        <em>"I have taken great pleasure in collecting the scanty and scattered fragments of the history of Dolor Davis, because I owe to him my life and my name."</em>
+        <br><br>
+        — Horace Davis, 1881
+      </div>
+    </div>
+
+    <!-- Full descent table -->
+    <div class="section-subheader">Seven Generations — The Complete Horace Davis Line</div>
+
+    <div class="children-block">
+      <div class="children-grid">
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Dolor Davis</div>
+          <div class="child-detail"><em>Generation I</em><br>b. c. 1600, Kent, England<br>d. June 1673, Barnstable, MA</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Samuel Davis</div>
+          <div class="child-detail"><em>Generation II</em><br>b. unknown, America<br>d. after 1714, Bedford, MA</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Simon Davis II</div>
+          <div class="child-detail"><em>Generation III</em><br>b. August 9, 1683<br>d. February 16, 1763, Rutland</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Simon Davis III</div>
+          <div class="child-detail"><em>Generation IV</em><br>b. May 17, 1714, Rutland<br>d. April 9, 1754, Rutland</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">Isaac Davis</div>
+          <div class="child-detail"><em>Generation V</em><br>b. February 27, 1749<br>d. April 27, 1826, Northborough</div>
+        </div>
+        <div class="child-card" style="border-color: var(--sepia);">
+          <div class="child-name">John Davis</div>
+          <div class="child-detail"><em>Generation VI</em><br>b. January 13, 1787<br>d. April 19, 1854, Worcester</div>
+        </div>
+        <div class="child-card" style="border-color: var(--gold); grid-column: span 3; text-align: center; background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);">
+          <div class="child-name" style="color: var(--rust);">Horace Davis</div>
+          <div class="child-detail"><em>Generation VII · Author of this Chronicle</em><br>b. March 16, 1831, Worcester, Massachusetts<br>d. July 12, 1916, San Francisco, California</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="character-quote">
+      <p class="quote-text">
+        The line from Dolor Davis to Horace Davis spans nearly three centuries — from a house-carpenter in the Weald of Kent to a Congressman and university president in California. It crosses an ocean, traverses a continent, and touches nearly every chapter of American history along the way: the Puritan migration, King Philip's War, the French and Indian Wars, the Revolution, the early republic, the Civil War, and the Gilded Age. It is, in miniature, the story of America itself.
+      </p>
+      <div class="quote-attribution">— Davis Family Chronicle, 2025</div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge<br>Supplemented by Wikipedia, Congressional Biographical Directory, and family records.</div>
+      <div class="footer-right">The Davis Family Chronicle<br>Generation VII of VII &nbsp;·&nbsp; Complete<br><span style="color: var(--gold);">✦</span></div>
+    </div>
+
+    <div class="chronicle-complete">
+      <div class="chronicle-complete-label">Chronicle Complete &nbsp;·&nbsp; Seven Generations</div>
+      <div class="chronicle-complete-text">
+        The Horace Davis line is fully documented — from <em>Dolor Davis</em> arriving in Cambridge in 1634 to <em>Horace Davis</em> dying in San Francisco in 1916. Return to the <a href="index.html" style="color: var(--sepia); border-bottom: 1px dotted var(--sepia);">chronicle index</a> to explore any generation, or continue the story with your own family documents.
+      </div>
+    </div>
+
+  </div><!-- /page-inner -->
+</div><!-- /page-frame -->
+
+</body>
+</html>
