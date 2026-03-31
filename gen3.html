@@ -468,6 +468,31 @@ body {
   .page-frame { box-shadow: none; }
   .site-nav { display: none; }
 }
+
+/* ── Branch navigation ── */
+.nav-branch {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(46,90,107,0.3);
+}
+.nav-branch-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #4a8fa0;
+  opacity: 0.8;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.nav-gen-b {
+  color: #4a8fa0 !important;
+  border-color: rgba(46,90,107,0.25) !important;
+}
+.nav-gen-b:hover, .nav-gen-b.active {
+  border-color: #2e5a6b !important;
+  color: #6ab4c8 !important;
+  background: rgba(46,90,107,0.15) !important;
+}
 </style>
 </head>
 <body>
@@ -478,6 +503,13 @@ body {
     <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
     <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
     <a href="gen3.html" class="nav-gen active">Gen III · Simon Davis II</a>
+  <div class="nav-gens nav-branch">
+    <span class="nav-branch-label">Your Line &#9658;</span>
+    <a href="gen2b.html" class="nav-gen nav-gen-b">Gen II&ndash;IV &middot; Simon I &rarr; Dr. John</a>
+    <a href="gen3b.html" class="nav-gen nav-gen-b">Gen V&ndash;VI &middot; John II &rarr; John III</a>
+    <a href="gen4b.html" class="nav-gen nav-gen-b">Gen VII&ndash;IX &middot; Jonathan &rarr; Oscar</a>
+    <a href="gen5b.html" class="nav-gen nav-gen-b">Gen X&ndash;XI &middot; William Elbridge</a>
+    <a href="gen6b.html" class="nav-gen nav-gen-b">Gen XII&ndash;XV &middot; Art &rarr; Today</a>
   </div>
 </nav>
 

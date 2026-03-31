@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation XIV · Collin &amp; Rick Davis · The Davis Family Chronicle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+:root {
+  --parchment: #f2e8d5; --parchment-dark: #e0ceaf; --parchment-deep: #c9ad86;
+  --ink: #1e1208; --ink-faded: #3d2b10; --ink-light: #6b4c22; --sepia: #8b6340;
+  --line: #c4a46b; --gold: #b8860b; --gold-light: #d4a843;
+  --branch: #2e5a6b; --branch-light: #5a8fa0; --branch-mid: #3d6e80;
+  --branch-pale: #e8f2f5; --branch-dark: #1e3d4a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#1a2d35; font-family:'Cormorant Garamond',serif; color:var(--ink); min-height:100vh; padding:0 20px 80px; }
+.site-nav { max-width:900px; margin:0 auto; padding:18px 0 0; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.nav-home { font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:#b8d4dc; text-decoration:none; opacity:.7; transition:opacity .2s; white-space:nowrap; }
+.nav-home:hover { opacity:1; }
+.nav-gens { display:flex; gap:4px; flex-wrap:wrap; justify-content:center; }
+.nav-gen { font-family:'Cinzel',serif; font-size:9px; letter-spacing:1.5px; color:#8bbcc8; text-decoration:none; padding:4px 10px; border:1px solid rgba(90,143,160,0.25); transition:all .2s; white-space:nowrap; }
+.nav-gen:hover { border-color:var(--branch-light); color:#b8d4dc; }
+.nav-gen.active { background:rgba(46,90,107,0.25); border-color:var(--branch-light); color:#b8d4dc; }
+.nav-gen.horace-link { border-color:rgba(196,164,107,0.25); color:var(--parchment-deep); font-size:8.5px; }
+.nav-gen.horace-link:hover { border-color:var(--gold); color:var(--gold-light); }
+.nav-sep { color:rgba(90,143,160,0.4); font-size:10px; }
+.page-frame { max-width:900px; margin:20px auto 0; background:var(--parchment); position:relative;
+  box-shadow:0 0 0 2px #3d6e80, 0 0 0 6px #1a2d35, 0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(46,90,107,0.1); }
+.page-inner { padding:60px 70px 80px; position:relative; z-index:2; }
+.corner { position:absolute; width:60px; height:60px; z-index:3; }
+.corner svg { width:100%; height:100%; }
+.corner-tl { top:14px; left:14px; } .corner-tr { top:14px; right:14px; transform:scaleX(-1); }
+.corner-bl { bottom:14px; left:14px; transform:scaleY(-1); } .corner-br { bottom:14px; right:14px; transform:scale(-1,-1); }
+.branch-ribbon { background:var(--branch); color:var(--branch-pale); font-family:'Cinzel',serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; text-align:center; padding:6px; margin-bottom:0; }
+.header { text-align:center; margin-bottom:48px; padding-bottom:32px; border-bottom:1px solid var(--branch-light); }
+.header::after { content:'✦ ✦ ✦'; display:block; color:var(--branch-light); font-size:11px; letter-spacing:8px; margin-top:18px; }
+.series-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:5px; color:var(--branch-mid); text-transform:uppercase; margin-bottom:16px; }
+.gen-badge { display:inline-block; font-family:'Cinzel',serif; font-size:11px; letter-spacing:3px; color:var(--parchment); background:var(--branch-dark); padding:5px 16px; margin-bottom:20px; }
+.main-title { font-family:'IM Fell English',serif; font-size:42px; color:var(--ink); line-height:1.1; margin-bottom:8px; }
+.subtitle { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:var(--branch); font-weight:300; }
+.lineage-bar { margin:0 0 48px; padding:14px 20px; background:var(--parchment-dark); border:1px solid var(--branch-light); font-size:12px; font-style:italic; color:var(--ink-light); text-align:center; line-height:2; }
+.lineage-bar span { display:inline-block; margin:0 4px; color:var(--branch); }
+.lineage-bar span.arrow { color:var(--parchment-deep); margin:0 3px; }
+.lineage-bar span.active-name { color:var(--ink); font-style:normal; font-weight:600; border-bottom:1px solid var(--branch); padding-bottom:1px; }
+.intro { font-size:16.5px; line-height:1.85; color:var(--ink-faded); font-style:italic; text-align:center; max-width:640px; margin:0 auto 52px; font-weight:300; }
+.person-section { margin-bottom:60px; }
+.person-header { display:flex; align-items:center; gap:28px; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--parchment-deep); }
+.person-monogram { width:72px; height:72px; min-width:72px; border:1.5px solid var(--branch); display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:26px; color:var(--branch); background:var(--parchment-dark); position:relative; }
+.person-monogram::before { content:''; position:absolute; inset:4px; border:0.5px solid var(--branch-light); }
+.person-info { flex:1; }
+.person-name { font-family:'IM Fell English',serif; font-size:28px; color:var(--ink); margin-bottom:4px; }
+.person-dates { font-size:14px; letter-spacing:2px; color:var(--branch); font-style:italic; }
+.timeline { position:relative; padding-left:28px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:linear-gradient(to bottom, transparent, var(--branch-light) 8%, var(--branch-light) 92%, transparent); }
+.timeline-entry { position:relative; display:grid; grid-template-columns:90px 1fr; gap:24px; margin-bottom:36px; }
+.timeline-entry::before { content:''; position:absolute; left:-4px; top:9px; width:9px; height:9px; background:var(--parchment); border:1.5px solid var(--branch); transform:rotate(45deg); }
+.timeline-year { font-family:'Cinzel',serif; font-size:13px; color:var(--branch); letter-spacing:1px; padding-top:4px; text-align:right; line-height:1.3; }
+.timeline-year .circa { display:block; font-size:9px; letter-spacing:2px; color:var(--ink-light); text-transform:uppercase; margin-bottom:2px; font-family:'Cormorant Garamond',serif; font-style:italic; }
+.timeline-content { padding-bottom:28px; border-bottom:1px dashed var(--parchment-deep); }
+.timeline-entry:last-child .timeline-content { border-bottom:none; }
+.event-title { font-family:'IM Fell English',serif; font-size:18px; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+.event-body { font-size:15.5px; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.event-body em { color:var(--branch); font-style:italic; }
+.source-note { display:block; margin-top:8px; font-size:12.5px; font-style:italic; color:var(--ink-light); }
+.spouse-block { background:var(--parchment-dark); border-left:2px solid var(--branch); padding:20px 24px; margin:28px 0; }
+.spouse-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); margin-bottom:10px; text-transform:uppercase; }
+.spouse-name { font-family:'IM Fell English',serif; font-size:20px; color:var(--ink); margin-bottom:6px; }
+.spouse-detail { font-size:14.5px; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+.children-block { margin:28px 0; }
+.children-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); margin-bottom:14px; text-transform:uppercase; }
+.children-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.child-card { border:1px solid var(--parchment-deep); padding:12px 14px; background:var(--parchment-dark); }
+.child-name { font-family:'IM Fell English',serif; font-size:15px; color:var(--ink); margin-bottom:3px; }
+.child-detail { font-size:12px; color:var(--ink-light); font-style:italic; line-height:1.5; }
+.child-card.highlight { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.child-card.highlight .child-name { color:var(--branch-dark); }
+.child-card.highlight .child-detail em { color:var(--branch); }
+.highlight-line { background:linear-gradient(90deg,rgba(46,90,107,0.1) 0%,transparent 100%); border-left:3px solid var(--branch-light); padding:14px 18px; margin:16px 0; font-size:14px; font-style:italic; color:var(--ink-faded); }
+.highlight-line strong { font-style:normal; font-family:'Cinzel',serif; font-size:11px; letter-spacing:2px; color:var(--branch); display:block; margin-bottom:4px; }
+.context-box { border:1px solid var(--parchment-deep); padding:20px 24px; margin:20px 0; background:linear-gradient(135deg,var(--parchment) 0%,var(--parchment-dark) 100%); }
+.context-box-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:10px; }
+.context-box-text { font-size:14px; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+.section-divider { text-align:center; margin:48px 0; color:var(--branch-light); letter-spacing:12px; font-size:10px; }
+.section-subheader { font-family:'Cinzel',serif; font-size:11px; letter-spacing:4px; color:var(--branch); text-transform:uppercase; text-align:center; margin:48px 0 32px; position:relative; }
+.section-subheader::before, .section-subheader::after { content:''; position:absolute; top:50%; width:28%; height:1px; background:var(--branch-light); }
+.section-subheader::before { left:0; } .section-subheader::after { right:0; }
+.character-quote { margin:40px 0 0; padding:28px 36px; border:1px solid var(--branch-light); background:linear-gradient(135deg,var(--parchment-dark) 0%,var(--parchment) 100%); text-align:center; position:relative; }
+.character-quote::before { content:'"'; font-family:'IM Fell English',serif; font-size:80px; color:var(--parchment-deep); position:absolute; top:-20px; left:24px; line-height:1; }
+.quote-text { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:1.9; color:var(--ink-faded); font-weight:300; position:relative; z-index:1; }
+.quote-attribution { margin-top:14px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; color:var(--branch); }
+.visual-card { margin:16px 0 8px; border:1px solid var(--branch-light); overflow:hidden; }
+.visual-card img { width:100%; height:180px; object-fit:cover; display:block; filter:sepia(30%) contrast(0.9) brightness(0.95); }
+.visual-caption { background:var(--parchment-dark); padding:8px 14px; font-size:11.5px; font-style:italic; color:var(--ink-light); text-align:center; border-top:1px solid var(--parchment-deep); }
+.visual-pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+.visual-pair .visual-card { margin:0; }
+.doc-footer { margin-top:56px; padding-top:24px; border-top:1px solid var(--branch-light); display:flex; justify-content:space-between; align-items:flex-end; }
+.footer-left { font-size:11px; color:var(--ink-light); font-style:italic; line-height:1.6; }
+.footer-right { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--branch); text-align:right; }
+.next-gen { margin-top:28px; padding:18px 24px; border:1px dashed var(--branch); text-align:center; font-size:14px; font-style:italic; color:var(--ink-light); }
+.next-gen a { color:var(--branch); text-decoration:none; border-bottom:1px dotted var(--branch); }
+.next-gen a:hover { color:var(--branch-dark); }
+.split-panel { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:40px; }
+.split-half { padding:28px; background:var(--parchment-dark); border:1px solid var(--parchment-deep); }
+.split-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:8px; }
+.split-name { font-family:'IM Fell English',serif; font-size:22px; color:var(--ink); margin-bottom:4px; }
+.split-dates { font-size:12px; font-style:italic; color:var(--branch); margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--parchment-deep); }
+.split-body { font-size:14px; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.split-body em { color:var(--branch); font-style:italic; }
+.branch-split-callout { border:1px solid var(--branch); background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 60%); margin:20px 0; }
+.bsc-header { background:var(--branch); padding:8px 20px; display:flex; align-items:center; gap:14px; }
+.bsc-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch-pale); text-transform:uppercase; }
+.bsc-rule { flex:1; height:1px; background:rgba(232,242,245,0.3); }
+.bsc-body { padding:20px 24px 22px; }
+.bsc-title { font-family:'IM Fell English',serif; font-size:20px; color:var(--branch-dark); margin-bottom:8px; }
+.bsc-text { font-size:14.5px; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.bsc-text em { color:var(--branch); font-style:italic; }
+.modern-card { border:1px solid var(--branch-light); padding:20px 24px; margin:16px 0; background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 100%); }
+.modern-card-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:8px; }
+.modern-card-name { font-family:'IM Fell English',serif; font-size:22px; color:var(--ink); margin-bottom:4px; }
+.modern-card-sub { font-size:13px; font-style:italic; color:var(--branch); margin-bottom:10px; }
+.modern-card-body { font-size:14px; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.gen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:24px 0; }
+.gen-item { border:1px solid var(--parchment-deep); padding:14px; background:var(--parchment-dark); }
+.gen-item.terminal { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.gen-item-gen { font-family:'Cinzel',serif; font-size:8px; letter-spacing:2px; color:var(--branch); text-transform:uppercase; margin-bottom:4px; }
+.gen-item-name { font-family:'IM Fell English',serif; font-size:15px; color:var(--ink); margin-bottom:2px; }
+.gen-item-detail { font-size:11.5px; font-style:italic; color:var(--ink-light); line-height:1.5; }
+.generation-fifteen { border:1px solid var(--branch); padding:20px; margin:20px 0; background:linear-gradient(135deg,rgba(46,90,107,0.06) 0%,transparent 100%); }
+.gen-fifteen-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:14px; text-align:center; }
+.gen-fifteen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+@media print { body { background:white; padding:0; } .page-frame { box-shadow:none; } .site-nav { display:none; } }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen horace-link">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen horace-link">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen horace-link">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen horace-link">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen horace-link">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen horace-link">Gen VI · John &amp; Horace</a>
+    <span class="nav-sep">·</span>
+    <a href="gen2b.html" class="nav-gen">WE II · Lt. Simon</a>
+    <a href="gen3b.html" class="nav-gen">WE III–IV · John Davis</a>
+    <a href="gen4b.html" class="nav-gen">WE V–VI · Vermont</a>
+    <a href="gen5b.html" class="nav-gen">WE VII–VIII · Oscar &amp; William</a>
+    <a href="gen6b.html" class="nav-gen">WE IX · Elbridge</a>
+    <a href="gen7b.html" class="nav-gen">WE X · Art Davis</a>
+    <a href="gen8b.html" class="nav-gen">WE XI · Richard</a>
+    <a href="gen9b.html" class="nav-gen active">WE XII · Collin &amp; Rick</a>
+    <a href="gen10b.html" class="nav-gen">WE XIII · Next Gen</a>
+    </div>
+</nav>
+<div class="page-frame">
+  <div class="branch-ribbon">William Elbridge Davis Line &nbsp;·&nbsp; A Branch from Lt. Simon Davis I</div>
+  
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="page-inner">
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle · William Elbridge Line</div>
+      <div class="gen-badge">Generation XIV · WE Branch</div>
+      <h1 class="main-title">Collin &amp; Rick Davis</h1>
+      <div class="subtitle">born 1982–1984 · Hanover, New Hampshire · Your Generation</div>
+    </div>
+
+    <div class="lineage-bar">
+      <span>Dolor Davis · 1634</span><span class="arrow">→</span>
+      <span>Simon I</span><span class="arrow">→</span>
+      <span>...</span><span class="arrow">→</span>
+      <span>William Elbridge</span><span class="arrow">→</span>
+      <span>Elbridge Nathaniel</span><span class="arrow">→</span>
+      <span>Art</span><span class="arrow">→</span>
+      <span>Richard</span><span class="arrow">→</span>
+      <span class="active-name">Collin &amp; Rick · 1982–1984</span>
+    </div>
+
+    <p class="intro">Generation XIV — the first in this line born into a fully connected world. Collin Emery Davis and Richard Prescott Davis II grew up in Brownsville, Vermont and Hanover, New Hampshire — eleven generations removed from the Kent carpenter who crossed the Atlantic in 1634, and the first to live their adult lives across different American states.</p>
+
+    <div class="split-panel">
+      <div class="split-half">
+        <div class="split-label">First Born · Generation XIV</div>
+        <div class="split-name">Richard Prescott Davis II</div>
+        <div class="split-dates">born July 31, 1982 · Hanover, New Hampshire</div>
+        <div class="split-body">Rick is the elder son of Richard and Dawn Davis. He married <em>Jillian Romano</em> and lives in <em>Carlisle, Massachusetts</em>. Together they have two children: Richard Prescott Davis III (Tripp) and Isabelle Anne Davis.</div>
+      </div>
+      <div class="split-half">
+        <div class="split-label">Second Born · Generation XIV · Author</div>
+        <div class="split-name">Collin Emery Davis</div>
+        <div class="split-dates">born April 19, 1984 · Hanover, New Hampshire</div>
+        <div class="split-body">Collin is the younger son of Richard and Dawn Davis. He married <em>Donna Marie Bavely</em> and lives in <em>Sarasota, Florida</em> — having grown up in Brownsville, Vermont. He and Donna have one son, Haven James Davis. Collin assembled this family chronicle.</div>
+      </div>
+    </div>
+
+    <div class="section-subheader">Richard Prescott Davis II (Rick)</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">R2</div>
+        <div class="person-info">
+          <div class="person-name">Richard Prescott Davis II</div>
+          <div class="person-dates">born July 31, 1982 · Hanover, New Hampshire · Carlisle, Massachusetts</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">July 31, 1982</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Hanover, New Hampshire</div>
+            <div class="event-body">Richard Prescott Davis II was born on July 31, 1982, in Hanover, New Hampshire. He grew up in Brownsville, Vermont with his brother Collin.</div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">TBD</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Jillian Romano</div>
+            <div class="event-body">Rick married <em>Jillian Romano</em>. They live in <em>Carlisle, Massachusetts</em>. Together they have two children: Richard Prescott Davis III (Tripp), born November 15, 2021, and Isabelle Anne Davis, born June 3, 2023.</div>
+            <div class="spouse-block">
+              <div class="spouse-label">Wife</div>
+              <div class="spouse-name">Jillian Romano Davis</div>
+              <div class="spouse-detail">two children: Richard Prescott Davis III (Tripp) &amp; Isabelle Anne Davis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-subheader">Collin Emery Davis</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">CE</div>
+        <div class="person-info">
+          <div class="person-name">Collin Emery Davis</div>
+          <div class="person-dates">born April 19, 1984 · Hanover, New Hampshire · Sarasota, Florida</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">Apr. 19, 1984</div>
+          <div class="timeline-content">
+            <div class="event-title">Birth in Hanover, New Hampshire</div>
+            <div class="event-body">Collin Emery Davis was born on April 19, 1984, in Hanover, New Hampshire — the same date as the Battle of Lexington and Concord in 1775, and the date on which John Davis the Governor died in 1854. He grew up in <em>Brownsville, Vermont</em>, in Windsor County — the same county where his Davis ancestors lived for over two centuries.</div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">TBD</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Donna Marie Bavely</div>
+            <div class="event-body">Collin married <em>Donna Marie Bavely</em>. They live in <em>Sarasota, Florida</em>. Their son <em>Haven James Davis</em> was born on December 13, 2022, in Hanover, New Hampshire.</div>
+            <div class="spouse-block">
+              <div class="spouse-label">Wife</div>
+              <div class="spouse-name">Donna Marie Bavely Davis</div>
+              <div class="spouse-detail">one child: Haven James Davis · b. December 13, 2022, Hanover NH</div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-content">
+            <div class="event-title">Author of This Chronicle</div>
+            <div class="event-body">Collin assembled the Davis Family Chronicle — tracing the family line from Dolor Davis in Kent, England in 1634 to the present day. The research draws on Horace Davis's 1881 book, the 2003 family history by Dorothy Dana McEnaney, Vermont town records, and family knowledge. Fourteen generations. One immigrant carpenter. An unbroken line.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modern-card">
+      <div class="modern-card-label">April 19th — A Date That Runs Through the Family</div>
+      <div class="modern-card-name">A Coincidence of Dates</div>
+      <div class="modern-card-sub">1775 · 1854 · 1984</div>
+      <div class="modern-card-body">April 19th appears three times in the Davis family story. In 1775, the Battle of Lexington and Concord was fought — and Captain Isaac Davis of Acton (a distant Davis cousin, descended from Simon I) was the first American officer killed at the North Bridge. In 1854, John Davis — the Governor, Senator, and great-great-great-uncle of William Elbridge's line — died on April 19th, exactly 79 years after the battle. In 1984, Collin Emery Davis was born on April 19th. Whether coincidence or something more, the date runs like a thread through the family.</div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>American Ancestors and Descendants of William Elbridge Davis</em> (2003)<br>Dorothy Dana McEnaney &nbsp;·&nbsp; Windsor VT</div>
+      <div class="footer-right">The Davis Family Chronicle<br>William Elbridge Line<br><span style="color:var(--branch-light);">✦</span></div>
+    </div>
+<div class="next-gen">Continued in <a href="gen10b.html">Generation XV — Haven, Tripp &amp; Isabelle · The Next Generation</a></div>
+  </div>
+</div>
+</body>
+</html>

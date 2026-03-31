@@ -490,6 +490,31 @@ body {
   .site-nav { display: none; }
 }
 
+
+/* ── Branch navigation ── */
+.nav-branch {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(46,90,107,0.3);
+}
+.nav-branch-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #4a8fa0;
+  opacity: 0.8;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.nav-gen-b {
+  color: #4a8fa0 !important;
+  border-color: rgba(46,90,107,0.25) !important;
+}
+.nav-gen-b:hover, .nav-gen-b.active {
+  border-color: #2e5a6b !important;
+  color: #6ab4c8 !important;
+  background: rgba(46,90,107,0.15) !important;
+}
 </style>
 </head>
 <body>
@@ -503,9 +528,20 @@ body {
     <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
     <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
     <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
+    <span class="nav-sep">·</span>
+    <a href="gen2b.html" class="nav-gen nav-branch">WE Line →</a>
     <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
     <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
     <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
+    <span class="nav-sep">·</span>
+    <a href="gen2b.html" class="nav-gen nav-branch">WE Line →</a>
+  <div class="nav-gens nav-branch">
+    <span class="nav-branch-label">Your Line &#9658;</span>
+    <a href="gen2b.html" class="nav-gen nav-gen-b">Gen II&ndash;IV &middot; Simon I &rarr; Dr. John</a>
+    <a href="gen3b.html" class="nav-gen nav-gen-b">Gen V&ndash;VI &middot; John II &rarr; John III</a>
+    <a href="gen4b.html" class="nav-gen nav-gen-b">Gen VII&ndash;IX &middot; Jonathan &rarr; Oscar</a>
+    <a href="gen5b.html" class="nav-gen nav-gen-b">Gen X&ndash;XI &middot; William Elbridge</a>
+    <a href="gen6b.html" class="nav-gen nav-gen-b">Gen XII&ndash;XV &middot; Art &rarr; Today</a>
   </div>
 </nav>
 
@@ -589,6 +625,52 @@ body {
         <div class="gen-card-arrow">Read →</div>
       </a>
 
+
+    </div><!-- /horace grid -->
+
+    <div class="section-subheader" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:#2e5a6b;text-transform:uppercase;text-align:center;margin:48px 0 24px;position:relative;">
+      The William Elbridge Davis Line &nbsp;&middot;&nbsp; Your Direct Ancestry
+    </div>
+    <p style="font-size:14px;font-style:italic;color:#6b4c22;text-align:center;margin-bottom:24px;font-weight:300;">
+      Descending through Dolor&rsquo;s son Lt. Simon Davis I &rarr; Dr. Simon &rarr; Dr. John &rarr; John II &rarr; &hellip; &rarr; William Elbridge Davis &rarr; Collin &amp; Rick
+    </p>
+
+    <div class="index-grid">
+      <a href="gen2b.html" class="gen-card" style="border-color:#2e5a6b;">
+        <div class="gen-card-num" style="color:#2e5a6b;">Generations II&ndash;IV</div>
+        <div class="gen-card-name">Simon I &rarr; Dr. Simon &rarr; Dr. John</div>
+        <div class="gen-card-dates">1636 &ndash; 1762</div>
+        <div class="gen-card-desc">The shared ancestry &mdash; Lt. Simon I, distinguished physician Dr. Simon, and Dr. John Davis, at whose children the two family lines diverge.</div>
+        <div class="gen-card-arrow" style="color:#2e5a6b;">Read &rarr;</div>
+      </a>
+      <a href="gen3b.html" class="gen-card" style="border-color:#2e5a6b;">
+        <div class="gen-card-num" style="color:#2e5a6b;">Generations V&ndash;VI</div>
+        <div class="gen-card-name">John Davis II &amp; John Davis III</div>
+        <div class="gen-card-dates">1715 &ndash; 1808</div>
+        <div class="gen-card-desc">Two Johns bridge Massachusetts and Vermont &mdash; John III brings the family to Reading VT in 1788, building the first sawmill above Hammondsville.</div>
+        <div class="gen-card-arrow" style="color:#2e5a6b;">Read &rarr;</div>
+      </a>
+      <a href="gen4b.html" class="gen-card" style="border-color:#2e5a6b;">
+        <div class="gen-card-num" style="color:#2e5a6b;">Generations VII&ndash;IX</div>
+        <div class="gen-card-name">Jonathan, Jonas &amp; Oscar Davis</div>
+        <div class="gen-card-dates">1767 &ndash; 1903</div>
+        <div class="gen-card-desc">Vermont pioneers and a Civil War hospital nurse &mdash; three generations rooted in Windsor County, culminating in Oscar Davis of the 12th Vermont Volunteers.</div>
+        <div class="gen-card-arrow" style="color:#2e5a6b;">Read &rarr;</div>
+      </a>
+      <a href="gen5b.html" class="gen-card" style="border-color:#2e5a6b;">
+        <div class="gen-card-num" style="color:#2e5a6b;">Generations X&ndash;XI</div>
+        <div class="gen-card-name">William Elbridge Davis</div>
+        <div class="gen-card-dates">1848 &ndash; 1926</div>
+        <div class="gen-card-desc">A tin peddler who met his wife on his route, raised twelve children in Hartland VT, and was remembered with genuine warmth by everyone who knew him.</div>
+        <div class="gen-card-arrow" style="color:#2e5a6b;">Read &rarr;</div>
+      </a>
+      <a href="gen6b.html" class="gen-card" style="border-color:#3a7a8a;">
+        <div class="gen-card-num" style="color:#2e5a6b;">Generations XII&ndash;XV</div>
+        <div class="gen-card-name">Art, Richard, Collin &amp; Rick</div>
+        <div class="gen-card-dates">c. 1920 &ndash; Present</div>
+        <div class="gen-card-desc">From Vermont to New Hampshire to Florida and Massachusetts &mdash; the living Davis line, ending with Haven James Davis born December 13, 2022.</div>
+        <div class="gen-card-arrow" style="color:#2e5a6b;">Read &rarr;</div>
+      </a>
     </div>
 
     <div class="doc-footer">

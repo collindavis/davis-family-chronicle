@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation XV · Haven, Tripp &amp; Isabelle · The Davis Family Chronicle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+:root {
+  --parchment: #f2e8d5; --parchment-dark: #e0ceaf; --parchment-deep: #c9ad86;
+  --ink: #1e1208; --ink-faded: #3d2b10; --ink-light: #6b4c22; --sepia: #8b6340;
+  --line: #c4a46b; --gold: #b8860b; --gold-light: #d4a843;
+  --branch: #2e5a6b; --branch-light: #5a8fa0; --branch-mid: #3d6e80;
+  --branch-pale: #e8f2f5; --branch-dark: #1e3d4a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#1a2d35; font-family:'Cormorant Garamond',serif; color:var(--ink); min-height:100vh; padding:0 20px 80px; }
+.site-nav { max-width:900px; margin:0 auto; padding:18px 0 0; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.nav-home { font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:#b8d4dc; text-decoration:none; opacity:.7; transition:opacity .2s; white-space:nowrap; }
+.nav-home:hover { opacity:1; }
+.nav-gens { display:flex; gap:4px; flex-wrap:wrap; justify-content:center; }
+.nav-gen { font-family:'Cinzel',serif; font-size:9px; letter-spacing:1.5px; color:#8bbcc8; text-decoration:none; padding:4px 10px; border:1px solid rgba(90,143,160,0.25); transition:all .2s; white-space:nowrap; }
+.nav-gen:hover { border-color:var(--branch-light); color:#b8d4dc; }
+.nav-gen.active { background:rgba(46,90,107,0.25); border-color:var(--branch-light); color:#b8d4dc; }
+.nav-gen.horace-link { border-color:rgba(196,164,107,0.25); color:var(--parchment-deep); font-size:8.5px; }
+.nav-gen.horace-link:hover { border-color:var(--gold); color:var(--gold-light); }
+.nav-sep { color:rgba(90,143,160,0.4); font-size:10px; }
+.page-frame { max-width:900px; margin:20px auto 0; background:var(--parchment); position:relative;
+  box-shadow:0 0 0 2px #3d6e80, 0 0 0 6px #1a2d35, 0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(46,90,107,0.1); }
+.page-inner { padding:60px 70px 80px; position:relative; z-index:2; }
+.corner { position:absolute; width:60px; height:60px; z-index:3; }
+.corner svg { width:100%; height:100%; }
+.corner-tl { top:14px; left:14px; } .corner-tr { top:14px; right:14px; transform:scaleX(-1); }
+.corner-bl { bottom:14px; left:14px; transform:scaleY(-1); } .corner-br { bottom:14px; right:14px; transform:scale(-1,-1); }
+.branch-ribbon { background:var(--branch); color:var(--branch-pale); font-family:'Cinzel',serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; text-align:center; padding:6px; margin-bottom:0; }
+.header { text-align:center; margin-bottom:48px; padding-bottom:32px; border-bottom:1px solid var(--branch-light); }
+.header::after { content:'✦ ✦ ✦'; display:block; color:var(--branch-light); font-size:11px; letter-spacing:8px; margin-top:18px; }
+.series-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:5px; color:var(--branch-mid); text-transform:uppercase; margin-bottom:16px; }
+.gen-badge { display:inline-block; font-family:'Cinzel',serif; font-size:11px; letter-spacing:3px; color:var(--parchment); background:var(--branch-dark); padding:5px 16px; margin-bottom:20px; }
+.main-title { font-family:'IM Fell English',serif; font-size:42px; color:var(--ink); line-height:1.1; margin-bottom:8px; }
+.subtitle { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:var(--branch); font-weight:300; }
+.lineage-bar { margin:0 0 48px; padding:14px 20px; background:var(--parchment-dark); border:1px solid var(--branch-light); font-size:12px; font-style:italic; color:var(--ink-light); text-align:center; line-height:2; }
+.lineage-bar span { display:inline-block; margin:0 4px; color:var(--branch); }
+.lineage-bar span.arrow { color:var(--parchment-deep); margin:0 3px; }
+.lineage-bar span.active-name { color:var(--ink); font-style:normal; font-weight:600; border-bottom:1px solid var(--branch); padding-bottom:1px; }
+.intro { font-size:16.5px; line-height:1.85; color:var(--ink-faded); font-style:italic; text-align:center; max-width:640px; margin:0 auto 52px; font-weight:300; }
+.person-section { margin-bottom:60px; }
+.person-header { display:flex; align-items:center; gap:28px; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--parchment-deep); }
+.person-monogram { width:72px; height:72px; min-width:72px; border:1.5px solid var(--branch); display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:26px; color:var(--branch); background:var(--parchment-dark); position:relative; }
+.person-monogram::before { content:''; position:absolute; inset:4px; border:0.5px solid var(--branch-light); }
+.person-info { flex:1; }
+.person-name { font-family:'IM Fell English',serif; font-size:28px; color:var(--ink); margin-bottom:4px; }
+.person-dates { font-size:14px; letter-spacing:2px; color:var(--branch); font-style:italic; }
+.timeline { position:relative; padding-left:28px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:linear-gradient(to bottom, transparent, var(--branch-light) 8%, var(--branch-light) 92%, transparent); }
+.timeline-entry { position:relative; display:grid; grid-template-columns:90px 1fr; gap:24px; margin-bottom:36px; }
+.timeline-entry::before { content:''; position:absolute; left:-4px; top:9px; width:9px; height:9px; background:var(--parchment); border:1.5px solid var(--branch); transform:rotate(45deg); }
+.timeline-year { font-family:'Cinzel',serif; font-size:13px; color:var(--branch); letter-spacing:1px; padding-top:4px; text-align:right; line-height:1.3; }
+.timeline-year .circa { display:block; font-size:9px; letter-spacing:2px; color:var(--ink-light); text-transform:uppercase; margin-bottom:2px; font-family:'Cormorant Garamond',serif; font-style:italic; }
+.timeline-content { padding-bottom:28px; border-bottom:1px dashed var(--parchment-deep); }
+.timeline-entry:last-child .timeline-content { border-bottom:none; }
+.event-title { font-family:'IM Fell English',serif; font-size:18px; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+.event-body { font-size:15.5px; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.event-body em { color:var(--branch); font-style:italic; }
+.source-note { display:block; margin-top:8px; font-size:12.5px; font-style:italic; color:var(--ink-light); }
+.spouse-block { background:var(--parchment-dark); border-left:2px solid var(--branch); padding:20px 24px; margin:28px 0; }
+.spouse-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); margin-bottom:10px; text-transform:uppercase; }
+.spouse-name { font-family:'IM Fell English',serif; font-size:20px; color:var(--ink); margin-bottom:6px; }
+.spouse-detail { font-size:14.5px; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+.children-block { margin:28px 0; }
+.children-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); margin-bottom:14px; text-transform:uppercase; }
+.children-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.child-card { border:1px solid var(--parchment-deep); padding:12px 14px; background:var(--parchment-dark); }
+.child-name { font-family:'IM Fell English',serif; font-size:15px; color:var(--ink); margin-bottom:3px; }
+.child-detail { font-size:12px; color:var(--ink-light); font-style:italic; line-height:1.5; }
+.child-card.highlight { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.child-card.highlight .child-name { color:var(--branch-dark); }
+.child-card.highlight .child-detail em { color:var(--branch); }
+.highlight-line { background:linear-gradient(90deg,rgba(46,90,107,0.1) 0%,transparent 100%); border-left:3px solid var(--branch-light); padding:14px 18px; margin:16px 0; font-size:14px; font-style:italic; color:var(--ink-faded); }
+.highlight-line strong { font-style:normal; font-family:'Cinzel',serif; font-size:11px; letter-spacing:2px; color:var(--branch); display:block; margin-bottom:4px; }
+.context-box { border:1px solid var(--parchment-deep); padding:20px 24px; margin:20px 0; background:linear-gradient(135deg,var(--parchment) 0%,var(--parchment-dark) 100%); }
+.context-box-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:10px; }
+.context-box-text { font-size:14px; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+.section-divider { text-align:center; margin:48px 0; color:var(--branch-light); letter-spacing:12px; font-size:10px; }
+.section-subheader { font-family:'Cinzel',serif; font-size:11px; letter-spacing:4px; color:var(--branch); text-transform:uppercase; text-align:center; margin:48px 0 32px; position:relative; }
+.section-subheader::before, .section-subheader::after { content:''; position:absolute; top:50%; width:28%; height:1px; background:var(--branch-light); }
+.section-subheader::before { left:0; } .section-subheader::after { right:0; }
+.character-quote { margin:40px 0 0; padding:28px 36px; border:1px solid var(--branch-light); background:linear-gradient(135deg,var(--parchment-dark) 0%,var(--parchment) 100%); text-align:center; position:relative; }
+.character-quote::before { content:'"'; font-family:'IM Fell English',serif; font-size:80px; color:var(--parchment-deep); position:absolute; top:-20px; left:24px; line-height:1; }
+.quote-text { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:1.9; color:var(--ink-faded); font-weight:300; position:relative; z-index:1; }
+.quote-attribution { margin-top:14px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; color:var(--branch); }
+.visual-card { margin:16px 0 8px; border:1px solid var(--branch-light); overflow:hidden; }
+.visual-card img { width:100%; height:180px; object-fit:cover; display:block; filter:sepia(30%) contrast(0.9) brightness(0.95); }
+.visual-caption { background:var(--parchment-dark); padding:8px 14px; font-size:11.5px; font-style:italic; color:var(--ink-light); text-align:center; border-top:1px solid var(--parchment-deep); }
+.visual-pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+.visual-pair .visual-card { margin:0; }
+.doc-footer { margin-top:56px; padding-top:24px; border-top:1px solid var(--branch-light); display:flex; justify-content:space-between; align-items:flex-end; }
+.footer-left { font-size:11px; color:var(--ink-light); font-style:italic; line-height:1.6; }
+.footer-right { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--branch); text-align:right; }
+.next-gen { margin-top:28px; padding:18px 24px; border:1px dashed var(--branch); text-align:center; font-size:14px; font-style:italic; color:var(--ink-light); }
+.next-gen a { color:var(--branch); text-decoration:none; border-bottom:1px dotted var(--branch); }
+.next-gen a:hover { color:var(--branch-dark); }
+.split-panel { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:40px; }
+.split-half { padding:28px; background:var(--parchment-dark); border:1px solid var(--parchment-deep); }
+.split-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:8px; }
+.split-name { font-family:'IM Fell English',serif; font-size:22px; color:var(--ink); margin-bottom:4px; }
+.split-dates { font-size:12px; font-style:italic; color:var(--branch); margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--parchment-deep); }
+.split-body { font-size:14px; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.split-body em { color:var(--branch); font-style:italic; }
+.branch-split-callout { border:1px solid var(--branch); background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 60%); margin:20px 0; }
+.bsc-header { background:var(--branch); padding:8px 20px; display:flex; align-items:center; gap:14px; }
+.bsc-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch-pale); text-transform:uppercase; }
+.bsc-rule { flex:1; height:1px; background:rgba(232,242,245,0.3); }
+.bsc-body { padding:20px 24px 22px; }
+.bsc-title { font-family:'IM Fell English',serif; font-size:20px; color:var(--branch-dark); margin-bottom:8px; }
+.bsc-text { font-size:14.5px; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.bsc-text em { color:var(--branch); font-style:italic; }
+.modern-card { border:1px solid var(--branch-light); padding:20px 24px; margin:16px 0; background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 100%); }
+.modern-card-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:8px; }
+.modern-card-name { font-family:'IM Fell English',serif; font-size:22px; color:var(--ink); margin-bottom:4px; }
+.modern-card-sub { font-size:13px; font-style:italic; color:var(--branch); margin-bottom:10px; }
+.modern-card-body { font-size:14px; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.gen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:24px 0; }
+.gen-item { border:1px solid var(--parchment-deep); padding:14px; background:var(--parchment-dark); }
+.gen-item.terminal { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.gen-item-gen { font-family:'Cinzel',serif; font-size:8px; letter-spacing:2px; color:var(--branch); text-transform:uppercase; margin-bottom:4px; }
+.gen-item-name { font-family:'IM Fell English',serif; font-size:15px; color:var(--ink); margin-bottom:2px; }
+.gen-item-detail { font-size:11.5px; font-style:italic; color:var(--ink-light); line-height:1.5; }
+.generation-fifteen { border:1px solid var(--branch); padding:20px; margin:20px 0; background:linear-gradient(135deg,rgba(46,90,107,0.06) 0%,transparent 100%); }
+.gen-fifteen-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:14px; text-align:center; }
+.gen-fifteen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+@media print { body { background:white; padding:0; } .page-frame { box-shadow:none; } .site-nav { display:none; } }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen horace-link">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen horace-link">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen horace-link">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen horace-link">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen horace-link">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen horace-link">Gen VI · John &amp; Horace</a>
+    <span class="nav-sep">·</span>
+    <a href="gen2b.html" class="nav-gen">WE II · Lt. Simon</a>
+    <a href="gen3b.html" class="nav-gen">WE III–IV · John Davis</a>
+    <a href="gen4b.html" class="nav-gen">WE V–VI · Vermont</a>
+    <a href="gen5b.html" class="nav-gen">WE VII–VIII · Oscar &amp; William</a>
+    <a href="gen6b.html" class="nav-gen">WE IX · Elbridge</a>
+    <a href="gen7b.html" class="nav-gen">WE X · Art Davis</a>
+    <a href="gen8b.html" class="nav-gen">WE XI · Richard</a>
+    <a href="gen9b.html" class="nav-gen">WE XII · Collin &amp; Rick</a>
+    <a href="gen10b.html" class="nav-gen active">WE XIII · Next Gen</a>
+    </div>
+</nav>
+<div class="page-frame">
+  <div class="branch-ribbon">William Elbridge Davis Line &nbsp;·&nbsp; A Branch from Lt. Simon Davis I</div>
+  
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="page-inner">
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle · William Elbridge Line</div>
+      <div class="gen-badge">Generation XV · WE Branch · The Next Generation</div>
+      <h1 class="main-title">Haven, Tripp &amp; Isabelle</h1>
+      <div class="subtitle">born 2021–2023 &nbsp;·&nbsp; Fifteen Generations from Dolor Davis</div>
+    </div>
+
+    <div class="lineage-bar">
+      <span>Dolor Davis · 1634</span><span class="arrow">→</span>
+      <span>Simon I</span><span class="arrow">→</span>
+      <span>...</span><span class="arrow">→</span>
+      <span>William Elbridge</span><span class="arrow">→</span>
+      <span>...</span><span class="arrow">→</span>
+      <span>Collin &amp; Rick</span><span class="arrow">→</span>
+      <span class="active-name">Haven · Tripp · Isabelle · 2021–2023</span>
+    </div>
+
+    <p class="intro">The fifteenth generation from Dolor Davis. Three children — Haven James Davis, Richard Prescott Davis III (Tripp), and Isabelle Anne Davis — born between 2021 and 2023, nearly 400 years after their ancestor Dolor left the Weald of Kent for the New World. The line continues.</p>
+
+    <div class="generation-fifteen">
+      <div class="gen-fifteen-label">Generation XV · Three Children · 2021–2023</div>
+      <div class="gen-fifteen-grid">
+        <div class="child-card highlight">
+          <div class="child-name">Richard Prescott Davis III</div>
+          <div class="child-detail"><em>"Tripp"</em><br>b. November 15, 2021<br>son of Rick &amp; Jillian Davis<br>Carlisle, Massachusetts</div>
+        </div>
+        <div class="child-card highlight">
+          <div class="child-name">Haven James Davis</div>
+          <div class="child-detail">b. December 13, 2022<br>Hanover, New Hampshire<br>son of Collin &amp; Donna Davis<br>Sarasota, Florida</div>
+        </div>
+        <div class="child-card highlight">
+          <div class="child-name">Isabelle Anne Davis</div>
+          <div class="child-detail">b. June 3, 2023<br>daughter of Rick &amp; Jillian Davis<br>Carlisle, Massachusetts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-subheader">Richard Prescott Davis III — "Tripp"</div>
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">R3</div>
+        <div class="person-info">
+          <div class="person-name">Richard Prescott Davis III</div>
+          <div class="person-dates">born November 15, 2021 &nbsp;·&nbsp; son of Rick &amp; Jillian Davis &nbsp;·&nbsp; Carlisle, Massachusetts</div>
+        </div>
+      </div>
+      <div class="event-body" style="font-size:15px;line-height:1.85;">
+        Richard Prescott Davis III — known as <em>Tripp</em> — is the first child of Richard Prescott Davis II and Jillian Romano Davis, born November 15, 2021. He is the fourth consecutive Richard Prescott Davis in the family. The name carries from grandfather (Richard Prescott Davis), through father (Richard Prescott Davis II), to this newest generation. He lives in Carlisle, Massachusetts, with his parents and younger sister Isabelle.
+      </div>
+    </div>
+
+    <div class="section-subheader">Haven James Davis</div>
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">HJ</div>
+        <div class="person-info">
+          <div class="person-name">Haven James Davis</div>
+          <div class="person-dates">born December 13, 2022, Hanover, New Hampshire &nbsp;·&nbsp; son of Collin &amp; Donna Davis</div>
+        </div>
+      </div>
+      <div class="event-body" style="font-size:15px;line-height:1.85;">
+        Haven James Davis was born on December 13, 2022, in <em>Hanover, New Hampshire</em> — the same city where his father Collin and uncle Rick were born. He lives with his parents Collin and Donna in Sarasota, Florida. Haven is the fifteenth generation in a line that began when Dolor Davis arrived in Cambridge, Massachusetts in 1634 — nearly four centuries of American history compressed into one unbroken family thread.
+      </div>
+    </div>
+
+    <div class="section-subheader">Isabelle Anne Davis</div>
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">IA</div>
+        <div class="person-info">
+          <div class="person-name">Isabelle Anne Davis</div>
+          <div class="person-dates">born June 3, 2023 &nbsp;·&nbsp; daughter of Rick &amp; Jillian Davis &nbsp;·&nbsp; Carlisle, Massachusetts</div>
+        </div>
+      </div>
+      <div class="event-body" style="font-size:15px;line-height:1.85;">
+        Isabelle Anne Davis was born on June 3, 2023, the second child of Richard Prescott Davis II and Jillian Romano Davis. She lives in Carlisle, Massachusetts with her parents and older brother Tripp.
+      </div>
+    </div>
+
+    <div class="character-quote">
+      <p class="quote-text">
+        From Dolor Davis — a house-carpenter from the Weald of Kent, arriving in Cambridge, Massachusetts in 1634 with nothing but a trade and a family — to Haven James Davis, Tripp Davis, and Isabelle Anne Davis, born in Hanover, Carlisle, and beyond in 2021–2023. Fifteen generations. Nearly four centuries. One unbroken line.
+      </p>
+      <div class="quote-attribution">— The Davis Family Chronicle, 2025</div>
+    </div>
+
+    <div class="gen-grid" style="margin-top:40px;">
+      <div class="gen-item"><div class="gen-item-gen">Gen I · 1634</div><div class="gen-item-name">Dolor Davis</div><div class="gen-item-detail">Cambridge, Massachusetts</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen II</div><div class="gen-item-name">Lt. Simon Davis I</div><div class="gen-item-detail">Concord, Massachusetts</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen III</div><div class="gen-item-name">Dr. Simon Davis</div><div class="gen-item-detail">Concord, Massachusetts</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen IV</div><div class="gen-item-name">Dr. John Davis</div><div class="gen-item-detail">Concord → Acton, MA</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen V</div><div class="gen-item-name">John Davis II</div><div class="gen-item-detail">Concord → Littleton, MA</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen VI</div><div class="gen-item-name">John Davis III</div><div class="gen-item-detail">Groton, MA → Reading, VT</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen VII</div><div class="gen-item-name">Jonathan Davis</div><div class="gen-item-detail">West Windsor, Vermont</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen VIII</div><div class="gen-item-name">Jonas Davis</div><div class="gen-item-detail">Vermont</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen IX</div><div class="gen-item-name">Oscar Davis</div><div class="gen-item-detail">Hartland, Vermont</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen X</div><div class="gen-item-name">William Elbridge Davis</div><div class="gen-item-detail">Hartland, Vermont</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen XI</div><div class="gen-item-name">Elbridge Nathaniel Davis</div><div class="gen-item-detail">Hartland, Vermont</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen XII</div><div class="gen-item-name">Arthur "Art" Davis</div><div class="gen-item-detail">details TBD</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen XIII</div><div class="gen-item-name">Richard Prescott Davis</div><div class="gen-item-detail">Ascutney, Vermont</div></div>
+      <div class="gen-item"><div class="gen-item-gen">Gen XIV</div><div class="gen-item-name">Collin &amp; Rick Davis</div><div class="gen-item-detail">Sarasota, FL · Carlisle, MA</div></div>
+      <div class="gen-item terminal"><div class="gen-item-gen">Gen XV · 2021–2023</div><div class="gen-item-name">Haven · Tripp · Isabelle</div><div class="gen-item-detail">The next generation</div></div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>American Ancestors and Descendants of William Elbridge Davis</em> (2003)<br>Dorothy Dana McEnaney &nbsp;·&nbsp; Windsor VT</div>
+      <div class="footer-right">The Davis Family Chronicle<br>William Elbridge Line<br><span style="color:var(--branch-light);">✦</span></div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

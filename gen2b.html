@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation II–IV · Lt. Simon Davis I, Dr. Simon, Dr. John Davis · The Davis Family Chronicle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+:root {
+  --parchment: #f2e8d5; --parchment-dark: #e0ceaf; --parchment-deep: #c9ad86;
+  --ink: #1e1208; --ink-faded: #3d2b10; --ink-light: #6b4c22; --sepia: #8b6340;
+  --line: #c4a46b; --gold: #b8860b; --gold-light: #d4a843;
+  --branch: #2e5a6b; --branch-light: #5a8fa0; --branch-mid: #3d6e80;
+  --branch-pale: #e8f2f5; --branch-dark: #1e3d4a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#1a2d35; font-family:'Cormorant Garamond',serif; color:var(--ink); min-height:100vh; padding:0 20px 80px; }
+.site-nav { max-width:900px; margin:0 auto; padding:18px 0 0; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.nav-home { font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:#b8d4dc; text-decoration:none; opacity:.7; transition:opacity .2s; white-space:nowrap; }
+.nav-home:hover { opacity:1; }
+.nav-gens { display:flex; gap:4px; flex-wrap:wrap; justify-content:center; }
+.nav-gen { font-family:'Cinzel',serif; font-size:9px; letter-spacing:1.5px; color:#8bbcc8; text-decoration:none; padding:4px 10px; border:1px solid rgba(90,143,160,0.25); transition:all .2s; white-space:nowrap; }
+.nav-gen:hover { border-color:var(--branch-light); color:#b8d4dc; }
+.nav-gen.active { background:rgba(46,90,107,0.25); border-color:var(--branch-light); color:#b8d4dc; }
+.nav-gen.horace-link { border-color:rgba(196,164,107,0.25); color:var(--parchment-deep); font-size:8.5px; }
+.nav-gen.horace-link:hover { border-color:var(--gold); color:var(--gold-light); }
+.nav-sep { color:rgba(90,143,160,0.4); font-size:10px; }
+.page-frame { max-width:900px; margin:20px auto 0; background:var(--parchment); position:relative;
+  box-shadow:0 0 0 2px #3d6e80, 0 0 0 6px #1a2d35, 0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(46,90,107,0.1); }
+.page-inner { padding:60px 70px 80px; position:relative; z-index:2; }
+.corner { position:absolute; width:60px; height:60px; z-index:3; }
+.corner svg { width:100%; height:100%; }
+.corner-tl { top:14px; left:14px; } .corner-tr { top:14px; right:14px; transform:scaleX(-1); }
+.corner-bl { bottom:14px; left:14px; transform:scaleY(-1); } .corner-br { bottom:14px; right:14px; transform:scale(-1,-1); }
+.branch-ribbon { background:var(--branch); color:var(--branch-pale); font-family:'Cinzel',serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; text-align:center; padding:6px; margin-bottom:0; }
+.header { text-align:center; margin-bottom:48px; padding-bottom:32px; border-bottom:1px solid var(--branch-light); }
+.header::after { content:'✦ ✦ ✦'; display:block; color:var(--branch-light); font-size:11px; letter-spacing:8px; margin-top:18px; }
+.series-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:5px; color:var(--branch-mid); text-transform:uppercase; margin-bottom:16px; }
+.gen-badge { display:inline-block; font-family:'Cinzel',serif; font-size:11px; letter-spacing:3px; color:var(--parchment); background:var(--branch-dark); padding:5px 16px; margin-bottom:20px; }
+.main-title { font-family:'IM Fell English',serif; font-size:42px; color:var(--ink); line-height:1.1; margin-bottom:8px; }
+.subtitle { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:var(--branch); font-weight:300; }
+.lineage-bar { margin:0 0 48px; padding:14px 20px; background:var(--parchment-dark); border:1px solid var(--branch-light); font-size:12px; font-style:italic; color:var(--ink-light); text-align:center; line-height:2; }
+.lineage-bar span { display:inline-block; margin:0 4px; color:var(--branch); }
+.lineage-bar span.arrow { color:var(--parchment-deep); margin:0 3px; }
+.lineage-bar span.active-name { color:var(--ink); font-style:normal; font-weight:600; border-bottom:1px solid var(--branch); padding-bottom:1px; }
+.intro { font-size:16.5px; line-height:1.85; color:var(--ink-faded); font-style:italic; text-align:center; max-width:640px; margin:0 auto 52px; font-weight:300; }
+.person-section { margin-bottom:60px; }
+.person-header { display:flex; align-items:center; gap:28px; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--parchment-deep); }
+.person-monogram { width:72px; height:72px; min-width:72px; border:1.5px solid var(--branch); display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:26px; color:var(--branch); background:var(--parchment-dark); position:relative; }
+.person-monogram::before { content:''; position:absolute; inset:4px; border:0.5px solid var(--branch-light); }
+.person-info { flex:1; }
+.person-name { font-family:'IM Fell English',serif; font-size:28px; color:var(--ink); margin-bottom:4px; }
+.person-dates { font-size:14px; letter-spacing:2px; color:var(--branch); font-style:italic; }
+.timeline { position:relative; padding-left:28px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:linear-gradient(to bottom, transparent, var(--branch-light) 8%, var(--branch-light) 92%, transparent); }
+.timeline-entry { position:relative; display:grid; grid-template-columns:90px 1fr; gap:24px; margin-bottom:36px; }
+.timeline-entry::before { content:''; position:absolute; left:-4px; top:9px; width:9px; height:9px; background:var(--parchment); border:1.5px solid var(--branch); transform:rotate(45deg); }
+.timeline-year { font-family:'Cinzel',serif; font-size:13px; color:var(--branch); letter-spacing:1px; padding-top:4px; text-align:right; line-height:1.3; }
+.timeline-year .circa { display:block; font-size:9px; letter-spacing:2px; color:var(--ink-light); text-transform:uppercase; margin-bottom:2px; font-family:'Cormorant Garamond',serif; font-style:italic; }
+.timeline-content { padding-bottom:28px; border-bottom:1px dashed var(--parchment-deep); }
+.timeline-entry:last-child .timeline-content { border-bottom:none; }
+.event-title { font-family:'IM Fell English',serif; font-size:18px; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+.event-body { font-size:15.5px; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.event-body em { color:var(--branch); font-style:italic; }
+.source-note { display:block; margin-top:8px; font-size:12.5px; font-style:italic; color:var(--ink-light); }
+.spouse-block { background:var(--parchment-dark); border-left:2px solid var(--branch); padding:20px 24px; margin:28px 0; }
+.spouse-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); margin-bottom:10px; text-transform:uppercase; }
+.spouse-name { font-family:'IM Fell English',serif; font-size:20px; color:var(--ink); margin-bottom:6px; }
+.spouse-detail { font-size:14.5px; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+.children-block { margin:28px 0; }
+.children-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); margin-bottom:14px; text-transform:uppercase; }
+.children-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.child-card { border:1px solid var(--parchment-deep); padding:12px 14px; background:var(--parchment-dark); }
+.child-name { font-family:'IM Fell English',serif; font-size:15px; color:var(--ink); margin-bottom:3px; }
+.child-detail { font-size:12px; color:var(--ink-light); font-style:italic; line-height:1.5; }
+.child-card.highlight { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.child-card.highlight .child-name { color:var(--branch-dark); }
+.child-card.highlight .child-detail em { color:var(--branch); }
+.highlight-line { background:linear-gradient(90deg,rgba(46,90,107,0.1) 0%,transparent 100%); border-left:3px solid var(--branch-light); padding:14px 18px; margin:16px 0; font-size:14px; font-style:italic; color:var(--ink-faded); }
+.highlight-line strong { font-style:normal; font-family:'Cinzel',serif; font-size:11px; letter-spacing:2px; color:var(--branch); display:block; margin-bottom:4px; }
+.context-box { border:1px solid var(--parchment-deep); padding:20px 24px; margin:20px 0; background:linear-gradient(135deg,var(--parchment) 0%,var(--parchment-dark) 100%); }
+.context-box-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:10px; }
+.context-box-text { font-size:14px; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+.section-divider { text-align:center; margin:48px 0; color:var(--branch-light); letter-spacing:12px; font-size:10px; }
+.section-subheader { font-family:'Cinzel',serif; font-size:11px; letter-spacing:4px; color:var(--branch); text-transform:uppercase; text-align:center; margin:48px 0 32px; position:relative; }
+.section-subheader::before, .section-subheader::after { content:''; position:absolute; top:50%; width:28%; height:1px; background:var(--branch-light); }
+.section-subheader::before { left:0; } .section-subheader::after { right:0; }
+.character-quote { margin:40px 0 0; padding:28px 36px; border:1px solid var(--branch-light); background:linear-gradient(135deg,var(--parchment-dark) 0%,var(--parchment) 100%); text-align:center; position:relative; }
+.character-quote::before { content:'"'; font-family:'IM Fell English',serif; font-size:80px; color:var(--parchment-deep); position:absolute; top:-20px; left:24px; line-height:1; }
+.quote-text { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:1.9; color:var(--ink-faded); font-weight:300; position:relative; z-index:1; }
+.quote-attribution { margin-top:14px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; color:var(--branch); }
+.visual-card { margin:16px 0 8px; border:1px solid var(--branch-light); overflow:hidden; }
+.visual-card img { width:100%; height:180px; object-fit:cover; display:block; filter:sepia(30%) contrast(0.9) brightness(0.95); }
+.visual-caption { background:var(--parchment-dark); padding:8px 14px; font-size:11.5px; font-style:italic; color:var(--ink-light); text-align:center; border-top:1px solid var(--parchment-deep); }
+.visual-pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+.visual-pair .visual-card { margin:0; }
+.doc-footer { margin-top:56px; padding-top:24px; border-top:1px solid var(--branch-light); display:flex; justify-content:space-between; align-items:flex-end; }
+.footer-left { font-size:11px; color:var(--ink-light); font-style:italic; line-height:1.6; }
+.footer-right { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--branch); text-align:right; }
+.next-gen { margin-top:28px; padding:18px 24px; border:1px dashed var(--branch); text-align:center; font-size:14px; font-style:italic; color:var(--ink-light); }
+.next-gen a { color:var(--branch); text-decoration:none; border-bottom:1px dotted var(--branch); }
+.next-gen a:hover { color:var(--branch-dark); }
+.split-panel { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:40px; }
+.split-half { padding:28px; background:var(--parchment-dark); border:1px solid var(--parchment-deep); }
+.split-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:8px; }
+.split-name { font-family:'IM Fell English',serif; font-size:22px; color:var(--ink); margin-bottom:4px; }
+.split-dates { font-size:12px; font-style:italic; color:var(--branch); margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--parchment-deep); }
+.split-body { font-size:14px; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.split-body em { color:var(--branch); font-style:italic; }
+.branch-split-callout { border:1px solid var(--branch); background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 60%); margin:20px 0; }
+.bsc-header { background:var(--branch); padding:8px 20px; display:flex; align-items:center; gap:14px; }
+.bsc-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch-pale); text-transform:uppercase; }
+.bsc-rule { flex:1; height:1px; background:rgba(232,242,245,0.3); }
+.bsc-body { padding:20px 24px 22px; }
+.bsc-title { font-family:'IM Fell English',serif; font-size:20px; color:var(--branch-dark); margin-bottom:8px; }
+.bsc-text { font-size:14.5px; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.bsc-text em { color:var(--branch); font-style:italic; }
+.modern-card { border:1px solid var(--branch-light); padding:20px 24px; margin:16px 0; background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 100%); }
+.modern-card-label { font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:8px; }
+.modern-card-name { font-family:'IM Fell English',serif; font-size:22px; color:var(--ink); margin-bottom:4px; }
+.modern-card-sub { font-size:13px; font-style:italic; color:var(--branch); margin-bottom:10px; }
+.modern-card-body { font-size:14px; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.gen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:24px 0; }
+.gen-item { border:1px solid var(--parchment-deep); padding:14px; background:var(--parchment-dark); }
+.gen-item.terminal { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.gen-item-gen { font-family:'Cinzel',serif; font-size:8px; letter-spacing:2px; color:var(--branch); text-transform:uppercase; margin-bottom:4px; }
+.gen-item-name { font-family:'IM Fell English',serif; font-size:15px; color:var(--ink); margin-bottom:2px; }
+.gen-item-detail { font-size:11.5px; font-style:italic; color:var(--ink-light); line-height:1.5; }
+.generation-fifteen { border:1px solid var(--branch); padding:20px; margin:20px 0; background:linear-gradient(135deg,rgba(46,90,107,0.06) 0%,transparent 100%); }
+.gen-fifteen-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:14px; text-align:center; }
+.gen-fifteen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+@media print { body { background:white; padding:0; } .page-frame { box-shadow:none; } .site-nav { display:none; } }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
+  <div class="nav-gens">
+    <a href="gen1.html" class="nav-gen horace-link">Gen I · Dolor Davis</a>
+    <a href="gen2.html" class="nav-gen horace-link">Gen II · The Children</a>
+    <a href="gen3.html" class="nav-gen horace-link">Gen III · Simon Davis II</a>
+    <a href="gen4.html" class="nav-gen horace-link">Gen IV · Simon Davis III</a>
+    <a href="gen5.html" class="nav-gen horace-link">Gen V · Isaac Davis</a>
+    <a href="gen6.html" class="nav-gen horace-link">Gen VI · John &amp; Horace</a>
+    <span class="nav-sep">·</span>
+    <a href="gen2b.html" class="nav-gen active">WE II · Lt. Simon</a>
+    <a href="gen3b.html" class="nav-gen">WE III–IV · John Davis</a>
+    <a href="gen4b.html" class="nav-gen">WE V–VI · Vermont</a>
+    <a href="gen5b.html" class="nav-gen">WE VII–VIII · Oscar &amp; William</a>
+    <a href="gen6b.html" class="nav-gen">WE IX · Elbridge</a>
+    <a href="gen7b.html" class="nav-gen">WE X · Art Davis</a>
+    <a href="gen8b.html" class="nav-gen">WE XI · Richard</a>
+    <a href="gen9b.html" class="nav-gen">WE XII · Collin &amp; Rick</a>
+    <a href="gen10b.html" class="nav-gen">WE XIII · Next Gen</a>
+    </div>
+</nav>
+<div class="page-frame">
+  <div class="branch-ribbon">William Elbridge Davis Line &nbsp;·&nbsp; A Branch from Lt. Simon Davis I</div>
+  
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#2e5a6b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#5a8fa0" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#2e5a6b"/><path d="M15 5 Q20 12 5 15" stroke="#2e5a6b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#5a8fa0" stroke-width="0.5" fill="none"/></svg></div>
+  <div class="page-inner">
+    <div class="header">
+      <div class="series-label">The Davis Family Chronicle · William Elbridge Line</div>
+      <div class="gen-badge">Generations II – IV · WE Branch</div>
+      <h1 class="main-title">Lt. Simon I · Dr. Simon · Dr. John</h1>
+      <div class="subtitle">Concord, Massachusetts &nbsp;·&nbsp; 1636–1762 &nbsp;·&nbsp; The Branch from Dolor</div>
+    </div>
+
+    <div class="lineage-bar">
+      <span>Dolor Davis</span><span class="arrow">→</span>
+      <span class="active-name">Lt. Simon Davis I</span><span class="arrow">→</span>
+      <span>Dr. Simon Davis</span><span class="arrow">→</span>
+      <span>Dr. John Davis</span><span class="arrow">→</span>
+      <span>John Davis II</span><span class="arrow">→</span>
+      <span>...</span><span class="arrow">→</span>
+      <span>William Elbridge Davis</span>
+    </div>
+
+    <p class="intro">This branch begins where the Horace Davis line and the William Elbridge Davis line diverge — at Dolor's two sons. The Horace line descends through Samuel; this line descends through Lt. Simon I. Both are Dolor's grandchildren of the same generation, but the paths they took led one family to a Governor's mansion and the other to a Vermont farm — and, eventually, to you.</p>
+
+    <div class="branch-split-callout">
+      <div class="bsc-header"><span class="bsc-label">The Branch Point · Generation II</span><span class="bsc-rule"></span></div>
+      <div class="bsc-body">
+        <div class="bsc-title">Two Sons of Dolor Davis</div>
+        <div class="bsc-text">
+          Dolor Davis and Margery Willard had two sons who survived to adulthood and founded lines: <em>Simon I</em> (b. c. 1636) and <em>Samuel</em> (b. unknown). Samuel's line leads to Horace Davis — the Governor, Senator, and author of the 1881 chronicle. Simon I's line leads to William Elbridge Davis of Hartland, Vermont — and through him, to the family documented here. The two lines run in parallel from 1636 to the present day, both tracing back to a carpenter from the Weald of Kent.
+        </div>
+      </div>
+    </div>
+
+    <div class="section-subheader">Lt. Simon Davis I · Generation II</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">SI</div>
+        <div class="person-info">
+          <div class="person-name">Simon Davis I, Lieutenant</div>
+          <div class="person-dates">born c. 1636, America &nbsp;·&nbsp; died June 14, 1718, Concord, Massachusetts</div>
+        </div>
+      </div>
+      <div class="highlight-line"><strong>WE Line · Generation II · Branch Root</strong>Simon I is the second child of Dolor Davis and Margery Willard — born in America, settled in Concord, and the patriarch of the William Elbridge Davis line. His brother Samuel's descendants became the Horace Davis line.</div>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">c. 1636</div>
+          <div class="timeline-content">
+            <div class="event-title">Born in America</div>
+            <div class="event-body">Simon I was born in America — likely in Duxbury or Barnstable — during his father Dolor's years in Plymouth Colony. He was the second surviving son, growing up as the family moved repeatedly before settling in Concord, Massachusetts.</div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">Dec. 12, 1660</div>
+          <div class="timeline-content">
+            <div class="event-title">Marriage to Mary Blood</div>
+            <div class="event-body">Simon I married <em>Mary Blood</em>, daughter of James Blood of Concord, born July 12, 1640. They settled in Concord, where Simon became one of the town's most prominent figures.</div>
+            <div class="spouse-block">
+              <div class="spouse-label">Wife</div>
+              <div class="spouse-name">Mary Blood Davis</div>
+              <div class="spouse-detail">b. July 12, 1640, Concord, Massachusetts · daughter of James Blood of Concord<br>Seven children mentioned in Simon's will as still living at the time of his death.</div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">1675</div>
+          <div class="timeline-content">
+            <div class="event-title">King Philip's War — Command at Brookfield</div>
+            <div class="event-body">Simon I commanded Massachusetts troops after Captain Wheeler was wounded at Brookfield in 1675 — one of the most brutal engagements of King Philip's War. His military service earned him the rank of <em>Lieutenant</em>, which attached to his name in all subsequent records.</div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">1689–1705</div>
+          <div class="timeline-content">
+            <div class="event-title">Deputy to the General Court</div>
+            <div class="event-body">Simon I served as Deputy to the Massachusetts General Court in 1689, 1690, 1692, and 1705 — one of the most significant civic roles available in colonial Massachusetts. His original will survives at East Cambridge, made June 24, 1710, in his own hand.</div>
+          </div>
+        </div>
+        <div class="timeline-entry">
+          <div class="timeline-year">June 14, 1718</div>
+          <div class="timeline-content">
+            <div class="event-title">Death at Concord, aged 77</div>
+            <div class="event-body">Simon I died June 14, 1718 at approximately 77 years of age. His gravestone still stands in the Concord burying-ground. Like his father Dolor, he had divided most of his real estate among his sons before death. His wife Mary and seven children survived him.</div>
+          </div>
+        </div>
+      </div>
+      <div class="children-block">
+        <div class="children-label">Children of Lt. Simon I &amp; Mary (Blood) Davis — Concord, Massachusetts</div>
+        <div class="children-grid">
+          <div class="child-card highlight">
+            <div class="child-name">Simon Davis (Dr.)</div>
+            <div class="child-detail">b. Oct 12, 1661 · m. Elizabeth Woodhouse<br><em>→ WE Line continues</em></div>
+          </div>
+          <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. Oct 8, 1663 · m. Deliverance Wheeler of Stow</div></div>
+          <div class="child-card"><div class="child-name">Sarah Davis</div><div class="child-detail">b. Mar 11, 1663 · m. Thomas Wheeler of Concord</div></div>
+          <div class="child-card"><div class="child-name">James Davis</div><div class="child-detail">b. June 19, 1668 · m. Ann Smedley · 8 children</div></div>
+          <div class="child-card"><div class="child-name">Elener Davis</div><div class="child-detail">b. Oct 22, 1672 · m. Samuel Hunt</div></div>
+          <div class="child-card"><div class="child-name">Ebenezer Davis</div><div class="child-detail">b. June 1, 1676 · m. Dinah — · 7 children</div></div>
+          <div class="child-card" style="grid-column:span 3;text-align:center;"><div class="child-name">Hannah Davis</div><div class="child-detail">b. April 1, 1679 · m. Samuel Blood · Concord</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-subheader">Dr. Simon Davis · Generation III</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">DS</div>
+        <div class="person-info">
+          <div class="person-name">Dr. Simon Davis</div>
+          <div class="person-dates">born October 12, 1661, Concord &nbsp;·&nbsp; died after 1714, Concord, Massachusetts</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">Feb. 14, 1689</div>
+          <div class="timeline-content">
+            <div class="event-title">Physician of Concord · Marriage to Elizabeth Woodhouse</div>
+            <div class="event-body">Dr. Simon Davis was <em>one of the most distinguished physicians of his day</em> in Concord, Massachusetts. He married Elizabeth Woodhouse, daughter of Henry Woodhouse of Concord, on February 14, 1689. Elizabeth died November 12, 1711; Simon remarried Mary Wood on October 19, 1714. He had eight children by his first wife.</div>
+            <div class="spouse-block">
+              <div class="spouse-label">First Wife</div>
+              <div class="spouse-name">Elizabeth Woodhouse Davis</div>
+              <div class="spouse-detail">daughter of Henry Woodhouse of Concord · d. November 12, 1711 · 8 children</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="children-block">
+        <div class="children-label">Children of Dr. Simon &amp; Elizabeth (Woodhouse) Davis</div>
+        <div class="children-grid">
+          <div class="child-card highlight">
+            <div class="child-name">John Davis (Dr.)</div>
+            <div class="child-detail">b. Nov 19, 1689 · m. Abigail Dudley<br>Physician, Concord → Acton<br><em>→ WE Line continues</em></div>
+          </div>
+          <div class="child-card"><div class="child-name">Simon Davis</div><div class="child-detail">b. Sept 7, 1692 · m. Hannah Brown · 5 children</div></div>
+          <div class="child-card"><div class="child-name">Henry Davis</div><div class="child-detail">b. Feb 23, 1694</div></div>
+          <div class="child-card"><div class="child-name">Elizabeth Davis</div><div class="child-detail">b. Mar 28, 1695 · d. Nov 15, 1706</div></div>
+          <div class="child-card"><div class="child-name">Mary Davis</div><div class="child-detail">b. Nov 8, 1701</div></div>
+          <div class="child-card"><div class="child-name">Samuel Davis</div><div class="child-detail">b. Mar 6, 1703</div></div>
+          <div class="child-card"><div class="child-name">Eleanor Davis</div><div class="child-detail">b. Mar 4, 1705–6</div></div>
+          <div class="child-card"><div class="child-name">Peter Davis</div><div class="child-detail">b. Sept 25, 1707 · rem. Rutland, MA</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-subheader">Dr. John Davis · Generation IV</div>
+
+    <div class="person-section">
+      <div class="person-header">
+        <div class="person-monogram">JD</div>
+        <div class="person-info">
+          <div class="person-name">Dr. John Davis</div>
+          <div class="person-dates">born November 19, 1689, Concord, Massachusetts &nbsp;·&nbsp; died November 16, 1762, Acton, Massachusetts</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <div class="timeline-year">Dec. 1713</div>
+          <div class="timeline-content">
+            <div class="event-title">Physician at Concord · Marriage to Abigail Dudley</div>
+            <div class="event-body">Dr. John Davis was a physician, born in Concord on November 19, 1689, and died in Acton on November 16, 1762, at age 72. His will was dated September 3, 1762. He married Abigail Dudley in December 1713 — born June 11, 1672, daughter of Joseph and Abigail Dudley.</div>
+          </div>
+        </div>
+      </div>
+      <div class="children-block">
+        <div class="children-label">Children of Dr. John &amp; Abigail (Dudley) Davis — Concord, Massachusetts</div>
+        <div class="children-grid">
+          <div class="child-card highlight">
+            <div class="child-name">John Davis II</div>
+            <div class="child-detail">b. July 15, 1715 · m. Hannah Johnson<br>Concord → Littleton, MA<br><em>→ WE Line continues</em></div>
+          </div>
+          <div class="child-card"><div class="child-name">Ezeiel Davis</div><div class="child-detail">b. June 8, 1717</div></div>
+          <div class="child-card"><div class="child-name">Micah Davis</div><div class="child-detail">b. Feb 15, 1720</div></div>
+          <div class="child-card"><div class="child-name">Isaac Davis</div><div class="child-detail">b. Oct 24, 1723</div></div>
+          <div class="child-card"><div class="child-name">Abigail Davis</div><div class="child-detail">b. Mar 22, 1726–7</div></div>
+          <div class="child-card"><div class="child-name">Samuel Davis</div><div class="child-detail">b. April 1730 · m. Ann Cole</div></div>
+          <div class="child-card"><div class="child-name">Sarah Davis</div><div class="child-detail">b. ? · m. May 1, 1757, John Robbins</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <div class="footer-left">Primary source: <em>American Ancestors and Descendants of William Elbridge Davis</em> (2003)<br>Dorothy Dana McEnaney &nbsp;·&nbsp; Windsor VT</div>
+      <div class="footer-right">The Davis Family Chronicle<br>William Elbridge Line<br><span style="color:var(--branch-light);">✦</span></div>
+    </div>
+<div class="next-gen">Continued in <a href="gen3b.html">Generations V–VI — John Davis II &amp; John Davis III · From Massachusetts to Vermont</a></div>
+  </div>
+</div>
+</body>
+</html>
