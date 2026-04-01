@@ -381,6 +381,27 @@ body {
 }
 
 body { background-color: #2a1f0f; }
+
+.banner-home {
+  margin-top: 10px;
+}
+.banner-home a {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  color: var(--parchment-deep);
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  padding: 4px 14px;
+  border: 1px solid rgba(196,164,107,0.3);
+}
+.banner-home a:hover {
+  opacity: 1;
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
 </style>
 </head>
 <body>
@@ -389,11 +410,12 @@ body { background-color: #2a1f0f; }
   <h1>The Davis Family Chronicle</h1>
   <div class="banner-sub">15 Generations from Kent, England to Vermont &nbsp;·&nbsp; 1634 to present</div>
   <div class="banner-rule"></div>
+  <div class="banner-home"><a href="index.html">&#8962; Home &amp; Index</a></div>
 </div>
 
 <div class="layout-wrapper">
 
-      <nav class="side-nav side-left">
+        <nav class="side-nav side-left">
     <div class="snav-header" style="border-bottom-color:#5a8fa0;">Lt. Simon Davis I Line</div>
       <a href="gen1.html" class="snav-item snav-active">Dolor Davis · Gen I</a>
       <a href="gen2b.html" class="snav-item">Gen II–IV · Lt. Simon to Dr. John</a>
@@ -691,9 +713,8 @@ body { background-color: #2a1f0f; }
   </div>
   </div>
 
-      <nav class="side-nav side-right">
+        <nav class="side-nav side-right">
     <div class="snav-header" style="border-bottom-color:#b8860b;">Samuel Davis Line</div>
-      <a href="index.html" class="snav-item">Home · Index</a>
       <a href="gen1.html" class="snav-item snav-active">Gen I · Dolor Davis</a>
       <a href="gen2.html" class="snav-item">Gen II · The Children</a>
       <a href="gen3.html" class="snav-item">Gen III · Simon Davis II</a>
