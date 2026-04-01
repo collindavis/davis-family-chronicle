@@ -3,558 +3,421 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Davis Family Chronicle</title><style>
-  .index-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 40px 0;
-  }
-  .gen-card {
-    border: 1px solid var(--parchment-deep);
-    padding: 28px 24px;
-    background: var(--parchment-dark);
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-  }
-  .gen-card:hover {
-    border-color: var(--gold);
-    background: linear-gradient(135deg, #ede0c4 0%, var(--parchment-dark) 100%);
-  }
-  .gen-card.unavailable {
-    opacity: 0.45;
-    pointer-events: none;
-  }
-  .gen-card-num {
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: var(--sepia);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .gen-card-name {
-    font-family: 'IM Fell English', serif;
-    font-size: 22px;
-    color: var(--ink);
-    margin-bottom: 6px;
-    line-height: 1.2;
-  }
-  .gen-card-dates {
-    font-size: 13px;
-    font-style: italic;
-    color: var(--ink-light);
-    margin-bottom: 10px;
-  }
-  .gen-card-desc {
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--ink-faded);
-    font-weight: 300;
-  }
-  .gen-card-arrow {
-    position: absolute;
-    bottom: 16px;
-    right: 18px;
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    color: var(--gold);
-    letter-spacing: 1px;
-  }
-  .gen-card.unavailable .gen-card-arrow { display: none; }
-  .coming-soon {
-    font-family: 'Cinzel', serif;
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: var(--sepia);
-    opacity: 0.6;
-    position: absolute;
-    bottom: 16px;
-    right: 18px;
-  }
-  .lineage-bar {
-    margin: 0 0 40px;
-    padding: 18px 24px;
-    background: var(--parchment-dark);
-    border: 1px solid var(--line);
-    font-size: 13px;
-    font-style: italic;
-    color: var(--ink-light);
-    text-align: center;
-    line-height: 2;
-  }
-  .lineage-bar span {
-    display: inline-block;
-    margin: 0 6px;
-    color: var(--sepia);
-  }
-  .lineage-bar span.arrow { color: var(--parchment-deep); margin: 0 4px; }
-</style>
+<title>The Davis Family Chronicle · Index</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
 
+/* ── Base font scale +10% ── */
+html { font-size: 110%; }
+
 :root {
-  --parchment: #f2e8d5;
-  --parchment-dark: #e0ceaf;
-  --parchment-deep: #c9ad86;
-  --ink: #1e1208;
-  --ink-faded: #3d2b10;
-  --ink-light: #6b4c22;
-  --sepia: #8b6340;
-  --rust: #7a3b1e;
-  --gold: #b8860b;
-  --gold-light: #d4a843;
-  --line: #c4a46b;
+  --parchment: #f2e8d5; --parchment-dark: #e0ceaf; --parchment-deep: #c9ad86;
+  --ink: #1e1208; --ink-faded: #3d2b10; --ink-light: #6b4c22; --sepia: #8b6340;
+  --rust: #7a3b1e; --gold: #b8860b; --gold-light: #d4a843; --line: #c4a46b;
+  --branch: #2e5a6b; --branch-light: #5a8fa0; --branch-mid: #3d6e80;
+  --branch-pale: #e8f2f5; --branch-dark: #1e3d4a;
+  --bg: #2a1f0f;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  background-color: #2a1f0f;
+  background-color: var(--bg);
   font-family: 'Cormorant Garamond', serif;
   color: var(--ink);
   min-height: 100vh;
-  padding: 0 20px 80px;
 }
 
-/* ── Navigation ── */
-.site-nav {
-  max-width: 900px;
-  margin: 0 auto 0;
-  padding: 18px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+/* ── Chronicle title banner ── */
+.chronicle-banner {
+  text-align: center;
+  padding: 28px 20px 20px;
+  background: var(--bg);
 }
-
-.nav-home {
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--parchment-dark);
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-}
-.nav-home:hover { opacity: 1; }
-
-.nav-gens {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.nav-gen {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  color: var(--parchment-deep);
-  text-decoration: none;
-  padding: 4px 10px;
-  border: 1px solid rgba(196,164,107,0.25);
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.nav-gen:hover { border-color: var(--gold); color: var(--gold-light); }
-.nav-gen.active {
-  background: rgba(184,134,11,0.15);
-  border-color: var(--gold);
+.chronicle-banner h1 {
+  font-family: 'IM Fell English', serif;
+  font-size: 2.6rem;
   color: var(--gold-light);
+  letter-spacing: 3px;
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+.chronicle-banner .banner-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 5px;
+  color: var(--parchment-deep);
+  text-transform: uppercase;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+.banner-rule {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 14px auto 0;
 }
 
-/* ── Page Frame ── */
+/* ── 3-column layout wrapper ── */
+.layout-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 0 80px;
+}
+
+/* ── Sidebar navigation ── */
+.side-nav {
+  width: 168px;
+  min-width: 168px;
+  padding: 20px 0;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+.side-left { padding-right: 12px; padding-left: 16px; }
+.side-right { padding-left: 12px; padding-right: 16px; }
+
+.snav-header {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--parchment-deep);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--gold);
+  line-height: 1.5;
+}
+.snav-item {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 1px;
+  color: rgba(196,164,107,0.6);
+  text-decoration: none;
+  padding: 5px 8px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+.side-right .snav-item { border-left: none; border-right: 2px solid transparent; }
+.snav-item:hover { color: var(--parchment-dark); background: rgba(255,255,255,0.04); }
+.side-left .snav-item:hover { border-left-color: var(--gold); }
+.side-right .snav-item:hover { border-right-color: var(--branch-light); }
+.side-left .snav-active {
+  color: var(--gold-light) !important;
+  background: rgba(184,134,11,0.12);
+  border-left-color: var(--gold) !important;
+}
+.side-right .snav-active {
+  color: var(--branch-light) !important;
+  background: rgba(46,90,107,0.15);
+  border-right-color: var(--branch-light) !important;
+}
+
+/* ── Page frame (center column) ── */
 .page-frame {
-  max-width: 900px;
-  margin: 20px auto 0;
+  flex: 1;
+  min-width: 0;
   background: var(--parchment);
   position: relative;
-  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 6px #2a1f0f,
-              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.15);
+  box-shadow: 0 0 0 2px var(--parchment-deep), 0 0 0 5px var(--bg),
+              0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(139,99,64,0.12);
+  margin-top: 20px;
+}
+.page-inner { padding: 56px 64px 72px; position: relative; z-index: 2; }
+
+/* ── Corner ornaments ── */
+.corner { position:absolute; width:60px; height:60px; z-index:3; }
+.corner svg { width:100%; height:100%; }
+.corner-tl { top:14px; left:14px; }
+.corner-tr { top:14px; right:14px; transform:scaleX(-1); }
+.corner-bl { bottom:14px; left:14px; transform:scaleY(-1); }
+.corner-br { bottom:14px; right:14px; transform:scale(-1,-1); }
+
+/* ── Branch ribbon (WE pages only) ── */
+.branch-ribbon {
+  background:var(--branch); color:var(--branch-pale);
+  font-family:'Cinzel',serif; font-size:0.5rem;
+  letter-spacing:4px; text-transform:uppercase;
+  text-align:center; padding:6px;
 }
 
-.page-inner {
-  padding: 60px 70px 80px;
-  position: relative;
-  z-index: 2;
-}
-
-/* Corner ornaments */
-.corner { position: absolute; width: 60px; height: 60px; z-index: 3; }
-.corner svg { width: 100%; height: 100%; }
-.corner-tl { top: 14px; left: 14px; }
-.corner-tr { top: 14px; right: 14px; transform: scaleX(-1); }
-.corner-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
-.corner-br { bottom: 14px; right: 14px; transform: scale(-1,-1); }
-
-/* ── Header ── */
+/* ── Page header ── */
 .header {
-  text-align: center;
-  margin-bottom: 48px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--line);
+  text-align:center; margin-bottom:44px;
+  padding-bottom:28px; border-bottom:1px solid var(--line);
 }
-.header::after {
-  content: '✦ ✦ ✦';
-  display: block;
-  color: var(--gold);
-  font-size: 11px;
-  letter-spacing: 8px;
-  margin-top: 18px;
-}
-.series-label {
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: 5px;
-  color: var(--sepia);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.gen-badge {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: var(--parchment);
-  background: var(--ink-faded);
-  padding: 5px 16px;
-  margin-bottom: 20px;
-}
-.main-title {
-  font-family: 'IM Fell English', serif;
-  font-size: 42px;
-  color: var(--ink);
-  line-height: 1.1;
-  margin-bottom: 8px;
-}
-.subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 18px;
-  color: var(--ink-light);
-  font-weight: 300;
-}
+.header::after { content:'✦ ✦ ✦'; display:block; color:var(--gold); font-size:0.7rem; letter-spacing:8px; margin-top:16px; }
+.series-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:5px; color:var(--sepia); text-transform:uppercase; margin-bottom:14px; }
+.gen-badge { display:inline-block; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:3px; color:var(--parchment); background:var(--ink-faded); padding:4px 14px; margin-bottom:18px; }
+.main-title { font-family:'IM Fell English',serif; font-size:2.4rem; color:var(--ink); line-height:1.1; margin-bottom:8px; }
+.subtitle { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.1rem; color:var(--ink-light); font-weight:300; }
+
+/* WE branch header overrides */
+.branch-header .header { border-bottom-color:var(--branch-light); }
+.branch-header .header::after { color:var(--branch-light); }
+.branch-header .series-label { color:var(--branch-mid); }
+.branch-header .gen-badge { background:var(--branch-dark); }
+.branch-header .subtitle { color:var(--branch); }
+
+/* ── Lineage bar ── */
+.lineage-bar { margin:0 0 44px; padding:12px 18px; background:var(--parchment-dark); border:1px solid var(--line); font-size:0.77rem; font-style:italic; color:var(--ink-light); text-align:center; line-height:2; }
+.lineage-bar span { display:inline-block; margin:0 4px; color:var(--sepia); }
+.lineage-bar span.arrow { color:var(--parchment-deep); margin:0 3px; }
+.lineage-bar span.active-name { color:var(--ink); font-style:normal; font-weight:600; border-bottom:1px solid var(--sepia); padding-bottom:1px; }
 
 /* ── Intro ── */
-.intro {
-  font-size: 16.5px;
-  line-height: 1.85;
-  color: var(--ink-faded);
-  font-style: italic;
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto 52px;
-  font-weight: 300;
-}
+.intro { font-size:1.02rem; line-height:1.85; color:var(--ink-faded); font-style:italic; text-align:center; max-width:600px; margin:0 auto 48px; font-weight:300; }
 
-/* ── Person Header ── */
-.person-section { margin-bottom: 60px; }
-
-.person-header {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  margin-bottom: 36px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--parchment-deep);
-}
-.person-monogram {
-  width: 72px; height: 72px; min-width: 72px;
-  border: 1.5px solid var(--sepia);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cinzel', serif;
-  font-size: 26px;
-  color: var(--sepia);
-  background: var(--parchment-dark);
-  position: relative;
-}
-.person-monogram::before {
-  content: ''; position: absolute; inset: 4px;
-  border: 0.5px solid var(--parchment-deep);
-}
-.person-info { flex: 1; }
-.person-name {
-  font-family: 'IM Fell English', serif;
-  font-size: 28px; color: var(--ink); margin-bottom: 4px;
-}
-.person-dates {
-  font-size: 14px; letter-spacing: 2px;
-  color: var(--sepia); font-style: italic;
-}
+/* ── Person section ── */
+.person-section { margin-bottom:56px; }
+.person-header { display:flex; align-items:center; gap:24px; margin-bottom:32px; padding-bottom:18px; border-bottom:1px solid var(--parchment-deep); }
+.person-monogram { width:68px; height:68px; min-width:68px; border:1.5px solid var(--sepia); display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:1.5rem; color:var(--sepia); background:var(--parchment-dark); position:relative; }
+.person-monogram::before { content:''; position:absolute; inset:4px; border:0.5px solid var(--parchment-deep); }
+.person-info { flex:1; }
+.person-name { font-family:'IM Fell English',serif; font-size:1.65rem; color:var(--ink); margin-bottom:4px; }
+.person-dates { font-size:0.85rem; letter-spacing:2px; color:var(--sepia); font-style:italic; }
 
 /* ── Timeline ── */
-.timeline { position: relative; padding-left: 28px; }
-.timeline::before {
-  content: ''; position: absolute;
-  left: 0; top: 8px; bottom: 8px; width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
-}
-.timeline-entry {
-  position: relative;
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 24px;
-  margin-bottom: 36px;
-}
-.timeline-entry::before {
-  content: ''; position: absolute;
-  left: -4px; top: 9px;
-  width: 9px; height: 9px;
-  background: var(--parchment);
-  border: 1.5px solid var(--sepia);
-  transform: rotate(45deg);
-}
-.timeline-year {
-  font-family: 'Cinzel', serif;
-  font-size: 13px; color: var(--sepia);
-  letter-spacing: 1px; padding-top: 4px;
-  text-align: right; line-height: 1.3;
-}
-.timeline-year .circa {
-  display: block; font-size: 9px; letter-spacing: 2px;
-  color: var(--ink-light); text-transform: uppercase;
-  margin-bottom: 2px;
-  font-family: 'Cormorant Garamond', serif; font-style: italic;
-}
-.timeline-content {
-  padding-bottom: 28px;
-  border-bottom: 1px dashed var(--parchment-deep);
-}
-.timeline-entry:last-child .timeline-content { border-bottom: none; }
+.timeline { position:relative; padding-left:26px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent); }
+.timeline-entry { position:relative; display:grid; grid-template-columns:84px 1fr; gap:22px; margin-bottom:33px; }
+.timeline-entry::before { content:''; position:absolute; left:-4px; top:9px; width:9px; height:9px; background:var(--parchment); border:1.5px solid var(--sepia); transform:rotate(45deg); }
+.timeline-year { font-family:'Cinzel',serif; font-size:0.8rem; color:var(--sepia); letter-spacing:1px; padding-top:4px; text-align:right; line-height:1.3; }
+.timeline-year .circa { display:block; font-size:0.56rem; letter-spacing:2px; color:var(--ink-light); text-transform:uppercase; margin-bottom:2px; font-family:'Cormorant Garamond',serif; font-style:italic; }
+.timeline-content { padding-bottom:26px; border-bottom:1px dashed var(--parchment-deep); }
+.timeline-entry:last-child .timeline-content { border-bottom:none; }
+.event-title { font-family:'IM Fell English',serif; font-size:1.1rem; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+.event-body { font-size:0.96rem; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.event-body em { color:var(--sepia); font-style:italic; }
+.source-note { display:block; margin-top:8px; font-size:0.77rem; font-style:italic; color:var(--ink-light); }
 
-/* ── Content Elements ── */
-.event-title {
-  font-family: 'IM Fell English', serif;
-  font-size: 18px; color: var(--ink);
-  margin-bottom: 8px; line-height: 1.3;
-}
-.event-body {
-  font-size: 15.5px; line-height: 1.8;
-  color: var(--ink-faded); font-weight: 300;
-}
-.event-body em { color: var(--sepia); font-style: italic; }
-.source-note {
-  display: block; margin-top: 8px;
-  font-size: 12.5px; font-style: italic;
-  color: var(--ink-light); letter-spacing: 0.3px;
-}
+/* ── Visual card ── */
+.visual-card { margin:14px 0 8px; border:1px solid var(--parchment-deep); overflow:hidden; }
+.visual-card img { width:100%; height:175px; object-fit:cover; display:block; filter:sepia(40%) contrast(0.9) brightness(0.95); }
+.visual-caption { background:var(--parchment-dark); padding:7px 12px; font-size:0.71rem; font-style:italic; color:var(--ink-light); text-align:center; border-top:1px solid var(--parchment-deep); }
+.visual-pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+.visual-pair .visual-card { margin:0; }
 
-/* ── Visual Card ── */
-.visual-card {
-  margin: 16px 0 8px;
-  border: 1px solid var(--parchment-deep);
-  overflow: hidden;
-}
-.visual-card img {
-  width: 100%; height: 180px;
-  object-fit: cover; display: block;
-  filter: sepia(40%) contrast(0.9) brightness(0.95);
-}
-.visual-caption {
-  background: var(--parchment-dark);
-  padding: 8px 14px;
-  font-size: 11.5px; font-style: italic;
-  color: var(--ink-light); letter-spacing: 0.3px;
-  text-align: center;
-  border-top: 1px solid var(--parchment-deep);
-}
+/* ── Spouse block ── */
+.spouse-block { background:var(--parchment-dark); border-left:2px solid var(--sepia); padding:18px 22px; margin:24px 0; }
+.spouse-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:3px; color:var(--sepia); margin-bottom:9px; text-transform:uppercase; }
+.spouse-name { font-family:'IM Fell English',serif; font-size:1.2rem; color:var(--ink); margin-bottom:6px; }
+.spouse-detail { font-size:0.88rem; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
 
-/* ── Spouse / Info Block ── */
-.spouse-block {
-  background: var(--parchment-dark);
-  border-left: 2px solid var(--sepia);
-  padding: 20px 24px; margin: 28px 0;
-}
-.spouse-label {
-  font-family: 'Cinzel', serif; font-size: 9px;
-  letter-spacing: 3px; color: var(--sepia);
-  margin-bottom: 10px; text-transform: uppercase;
-}
-.spouse-name {
-  font-family: 'IM Fell English', serif;
-  font-size: 20px; color: var(--ink); margin-bottom: 6px;
-}
-.spouse-detail {
-  font-size: 14.5px; line-height: 1.75;
-  color: var(--ink-faded); font-style: italic; font-weight: 300;
-}
+/* ── Children grid ── */
+.children-block { margin:24px 0; }
+.children-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:3px; color:var(--sepia); margin-bottom:12px; text-transform:uppercase; }
+.children-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.child-card { border:1px solid var(--parchment-deep); padding:11px 13px; background:var(--parchment-dark); }
+.child-name { font-family:'IM Fell English',serif; font-size:0.93rem; color:var(--ink); margin-bottom:3px; }
+.child-detail { font-size:0.74rem; color:var(--ink-light); font-style:italic; line-height:1.5; }
+.child-card.highlight { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.child-card.highlight .child-name { color:var(--branch-dark); }
 
-/* ── Children Grid ── */
-.children-block { margin: 28px 0; }
-.children-label {
-  font-family: 'Cinzel', serif; font-size: 9px;
-  letter-spacing: 3px; color: var(--sepia);
-  margin-bottom: 14px; text-transform: uppercase;
-}
-.children-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.child-card {
-  border: 1px solid var(--parchment-deep);
-  padding: 12px 14px; background: var(--parchment-dark);
-}
-.child-name {
-  font-family: 'IM Fell English', serif;
-  font-size: 15px; color: var(--ink); margin-bottom: 3px;
-}
-.child-detail {
-  font-size: 12px; color: var(--ink-light);
-  font-style: italic; line-height: 1.5;
-}
+/* ── Highlight line ── */
+.highlight-line { background:linear-gradient(90deg,rgba(184,134,11,0.1) 0%,transparent 100%); border-left:3px solid var(--gold-light); padding:13px 16px; margin:14px 0; font-size:0.88rem; font-style:italic; color:var(--ink-faded); }
+.highlight-line strong { font-style:normal; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:2px; color:var(--gold); display:block; margin-bottom:4px; }
 
-/* ── Quote Block ── */
-.character-quote {
-  margin: 40px 0 0; padding: 28px 36px;
-  border: 1px solid var(--line);
-  background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
-  text-align: center; position: relative;
-}
-.character-quote::before {
-  content: '"';
-  font-family: 'IM Fell English', serif;
-  font-size: 80px; color: var(--parchment-deep);
-  position: absolute; top: -20px; left: 24px; line-height: 1;
-}
-.quote-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 17px; font-style: italic;
-  line-height: 1.9; color: var(--ink-faded);
-  font-weight: 300; position: relative; z-index: 1;
-}
-.quote-attribution {
-  margin-top: 14px;
-  font-family: 'Cinzel', serif;
-  font-size: 10px; letter-spacing: 2px; color: var(--sepia);
-}
+/* ── Context box ── */
+.context-box { border:1px solid var(--parchment-deep); padding:18px 22px; margin:18px 0; background:linear-gradient(135deg,var(--parchment) 0%,var(--parchment-dark) 100%); }
+.context-box-label { font-family:'Cinzel',serif; font-size:0.53rem; letter-spacing:3px; color:var(--sepia); text-transform:uppercase; margin-bottom:9px; }
+.context-box-text { font-size:0.88rem; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
 
-/* ── Section Sub-header ── */
-.section-subheader {
-  font-family: 'Cinzel', serif;
-  font-size: 11px; letter-spacing: 4px;
-  color: var(--sepia); text-transform: uppercase;
-  text-align: center; margin: 48px 0 32px;
-  position: relative;
-}
-.section-subheader::before, .section-subheader::after {
-  content: '';
-  position: absolute; top: 50%;
-  width: 28%; height: 1px; background: var(--line);
-}
-.section-subheader::before { left: 0; }
-.section-subheader::after { right: 0; }
+/* ── Section dividers ── */
+.section-divider { text-align:center; margin:44px 0; color:var(--gold); letter-spacing:12px; font-size:0.65rem; }
+.section-subheader { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:4px; color:var(--sepia); text-transform:uppercase; text-align:center; margin:44px 0 28px; position:relative; }
+.section-subheader::before, .section-subheader::after { content:''; position:absolute; top:50%; width:26%; height:1px; background:var(--line); }
+.section-subheader::before { left:0; } .section-subheader::after { right:0; }
 
-/* ── Divider ── */
-.section-divider {
-  text-align: center; margin: 48px 0;
-  color: var(--gold); letter-spacing: 12px; font-size: 10px;
-}
+/* ── Quote block ── */
+.character-quote { margin:36px 0 0; padding:26px 32px; border:1px solid var(--line); background:linear-gradient(135deg,var(--parchment-dark) 0%,var(--parchment) 100%); text-align:center; position:relative; }
+.character-quote::before { content:'"'; font-family:'IM Fell English',serif; font-size:4.4rem; color:var(--parchment-deep); position:absolute; top:-18px; left:22px; line-height:1; }
+.quote-text { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic; line-height:1.9; color:var(--ink-faded); font-weight:300; position:relative; z-index:1; }
+.quote-attribution { margin-top:13px; font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:2px; color:var(--sepia); }
+
+/* ── Special callout blocks ── */
+.branch-split-callout { border:1px solid var(--branch); background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 60%); margin:18px 0; }
+.bsc-header { background:var(--branch); padding:7px 18px; display:flex; align-items:center; gap:12px; }
+.bsc-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:3px; color:var(--branch-pale); text-transform:uppercase; }
+.bsc-rule { flex:1; height:1px; background:rgba(232,242,245,0.3); }
+.bsc-body { padding:18px 22px 20px; }
+.bsc-title { font-family:'IM Fell English',serif; font-size:1.18rem; color:var(--branch-dark); margin-bottom:8px; }
+.bsc-text { font-size:0.9rem; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.bsc-text em { color:var(--branch); font-style:italic; }
+
+/* Isaac callout (gen2) */
+.isaac-callout { margin:28px 0 0; border:1px solid var(--rust); background:linear-gradient(135deg,#f5e8e0 0%,var(--parchment) 60%); position:relative; overflow:hidden; }
+.isaac-callout::before { content:'★'; position:absolute; top:-10px; right:20px; font-size:4rem; color:rgba(122,59,30,0.06); line-height:1; pointer-events:none; }
+.isaac-callout-header { background:var(--rust); padding:7px 18px; display:flex; align-items:center; gap:12px; }
+.isaac-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:3px; color:#f5e0d5; text-transform:uppercase; white-space:nowrap; }
+.isaac-rule { flex:1; height:1px; background:rgba(245,224,213,0.3); }
+.isaac-body { padding:20px 22px 22px; }
+.isaac-name { font-family:'IM Fell English',serif; font-size:1.4rem; color:var(--rust); margin-bottom:4px; }
+.isaac-dates { font-family:'Cormorant Garamond',serif; font-size:0.8rem; letter-spacing:1.5px; color:var(--ink-light); font-style:italic; margin-bottom:12px; }
+.isaac-text { font-size:0.93rem; line-height:1.8; color:var(--ink-faded); font-weight:300; margin-bottom:16px; }
+.isaac-text em { color:var(--rust); font-style:italic; }
+.isaac-text strong { font-weight:600; font-style:normal; color:var(--rust); }
+.isaac-lineage { font-family:'Cinzel',serif; font-size:0.59rem; letter-spacing:1px; color:var(--rust); opacity:.8; padding-top:12px; border-top:1px dashed rgba(122,59,30,0.25); line-height:1.6; }
+.isaac-images { margin:14px 0; }
+.isaac-images .visual-card img { height:210px; }
+
+/* ── Gen card grid (index) ── */
+.index-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:24px 0; }
+.gen-card { border:1px solid var(--parchment-deep); padding:20px 22px; background:var(--parchment-dark); text-decoration:none; display:block; transition:all 0.2s; }
+.gen-card:hover { border-color:var(--gold); background:var(--parchment); }
+.gen-card.unavailable { opacity:.6; cursor:default; }
+.gen-card-num { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:3px; color:var(--sepia); margin-bottom:7px; }
+.gen-card-name { font-family:'IM Fell English',serif; font-size:1.3rem; color:var(--ink); margin-bottom:4px; }
+.gen-card-dates { font-size:0.77rem; font-style:italic; color:var(--sepia); margin-bottom:9px; }
+.gen-card-desc { font-size:0.84rem; color:var(--ink-faded); line-height:1.6; font-weight:300; }
+.gen-card-arrow { margin-top:11px; font-family:'Cinzel',serif; font-size:0.59rem; letter-spacing:2px; color:var(--gold); }
+.coming-soon { margin-top:11px; font-family:'Cinzel',serif; font-size:0.59rem; letter-spacing:2px; color:var(--ink-light); }
+
+/* ── Modern card (WE pages) ── */
+.modern-card { border:1px solid var(--branch-light); padding:18px 22px; margin:14px 0; background:linear-gradient(135deg,#deeef3 0%,var(--parchment) 100%); }
+.modern-card-label { font-family:'Cinzel',serif; font-size:0.53rem; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:7px; }
+.modern-card-name { font-family:'IM Fell English',serif; font-size:1.3rem; color:var(--ink); margin-bottom:4px; }
+.modern-card-sub { font-size:0.8rem; font-style:italic; color:var(--branch); margin-bottom:9px; }
+.modern-card-body { font-size:0.88rem; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+
+/* ── Gen grid (WE pages) ── */
+.gen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0; }
+.gen-item { border:1px solid var(--parchment-deep); padding:13px; background:var(--parchment-dark); }
+.gen-item.terminal { border-color:var(--branch-light); background:linear-gradient(135deg,#deeef3 0%,var(--parchment-dark) 100%); }
+.gen-item-gen { font-family:'Cinzel',serif; font-size:0.5rem; letter-spacing:2px; color:var(--branch); text-transform:uppercase; margin-bottom:4px; }
+.gen-item-name { font-family:'IM Fell English',serif; font-size:0.93rem; color:var(--ink); margin-bottom:2px; }
+.gen-item-detail { font-size:0.71rem; font-style:italic; color:var(--ink-light); line-height:1.5; }
 
 /* ── Footer ── */
-.doc-footer {
-  margin-top: 56px; padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: flex; justify-content: space-between; align-items: flex-end;
-}
-.footer-left {
-  font-size: 11px; color: var(--ink-light);
-  font-style: italic; line-height: 1.6;
-}
-.footer-right {
-  font-family: 'Cinzel', serif; font-size: 9px;
-  letter-spacing: 2px; color: var(--sepia); text-align: right;
-}
+.doc-footer { margin-top:52px; padding-top:22px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-end; }
+.footer-left { font-size:0.68rem; color:var(--ink-light); font-style:italic; line-height:1.6; }
+.footer-right { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:2px; color:var(--sepia); text-align:right; }
+.next-gen { margin-top:24px; padding:16px 22px; border:1px dashed var(--sepia); text-align:center; font-size:0.88rem; font-style:italic; color:var(--ink-light); }
+.next-gen a { color:var(--sepia); text-decoration:none; border-bottom:1px dotted var(--sepia); }
+.next-gen a:hover { color:var(--ink-faded); }
+.chronicle-complete { margin-top:28px; padding:22px 28px; border:1px solid var(--gold); background:linear-gradient(135deg,rgba(184,134,11,0.07) 0%,transparent 60%); text-align:center; }
+.chronicle-complete-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:9px; }
+.chronicle-complete-text { font-size:0.88rem; font-style:italic; color:var(--ink-faded); line-height:1.7; font-weight:300; }
 
-/* ── Next Gen Teaser ── */
-.next-gen {
-  margin-top: 28px; padding: 18px 24px;
-  border: 1px dashed var(--sepia);
-  text-align: center;
-  font-size: 14px; font-style: italic; color: var(--ink-light);
-}
-.next-gen a {
-  color: var(--sepia); text-decoration: none;
-  border-bottom: 1px dotted var(--sepia);
-}
-.next-gen a:hover { color: var(--ink-faded); }
+/* ── Early death callout ── */
+.early-death { border:1px solid var(--rust); background:linear-gradient(135deg,#f5e8e0 0%,var(--parchment) 100%); padding:16px 20px; margin:18px 0; }
+.early-death-label { font-family:'Cinzel',serif; font-size:0.53rem; letter-spacing:3px; color:var(--rust); text-transform:uppercase; margin-bottom:7px; }
+.early-death-text { font-size:0.9rem; line-height:1.75; color:var(--ink-faded); font-style:italic; font-weight:300; }
+
+/* ── Achievement badges ── */
+.achievements { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0; }
+.achievement { border:1px solid var(--parchment-deep); padding:13px 14px; background:var(--parchment-dark); text-align:center; }
+.achievement-icon { font-size:1.3rem; margin-bottom:6px; display:block; }
+.achievement-title { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:2px; color:var(--sepia); text-transform:uppercase; margin-bottom:4px; }
+.achievement-detail { font-size:0.77rem; color:var(--ink-faded); font-style:italic; line-height:1.5; font-weight:300; }
+
+/* ── Split panels ── */
+.split-panel { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:36px; }
+.split-half { padding:26px; background:var(--parchment-dark); border:1px solid var(--parchment-deep); }
+.split-label { font-family:'Cinzel',serif; font-size:0.53rem; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:7px; }
+.split-name { font-family:'IM Fell English',serif; font-size:1.3rem; color:var(--ink); margin-bottom:4px; }
+.split-dates { font-size:0.74rem; font-style:italic; color:var(--branch); margin-bottom:11px; padding-bottom:11px; border-bottom:1px solid var(--parchment-deep); }
+.split-body { font-size:0.88rem; line-height:1.75; color:var(--ink-faded); font-weight:300; }
+.split-body em { color:var(--branch); font-style:italic; }
+
+/* ── Wives grid ── */
+.wives-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:18px 0; }
+.wife-card { border:1px solid var(--parchment-deep); padding:14px 16px; background:var(--parchment-dark); }
+.wife-num { font-family:'Cinzel',serif; font-size:0.53rem; letter-spacing:2px; color:var(--sepia); text-transform:uppercase; margin-bottom:5px; }
+.wife-name { font-family:'IM Fell English',serif; font-size:1rem; color:var(--ink); margin-bottom:4px; }
+.wife-detail { font-size:0.8rem; line-height:1.65; color:var(--ink-faded); font-style:italic; font-weight:300; }
+
+/* ── Namesake callout ── */
+.namesake-callout { border:1px solid var(--rust); background:linear-gradient(135deg,#f5e8e0 0%,var(--parchment) 60%); position:relative; overflow:hidden; margin:18px 0; }
+.namesake-header { background:var(--rust); padding:7px 18px; display:flex; align-items:center; gap:12px; }
+.namesake-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:3px; color:#f5e0d5; text-transform:uppercase; white-space:nowrap; }
+.namesake-rule { flex:1; height:1px; background:rgba(245,224,213,0.3); }
+.namesake-body { padding:18px 22px 20px; }
+.namesake-title { font-family:'IM Fell English',serif; font-size:1.18rem; color:var(--rust); margin-bottom:4px; }
+.namesake-sub { font-size:0.74rem; letter-spacing:1.5px; font-style:italic; color:var(--ink-light); margin-bottom:11px; }
+.namesake-text { font-size:0.9rem; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.namesake-text em { color:var(--rust); font-style:italic; }
+
+/* ── Generation 15 ── */
+.generation-fifteen { border:1px solid var(--branch); padding:18px; margin:18px 0; background:linear-gradient(135deg,rgba(46,90,107,0.06) 0%,transparent 100%); }
+.gen-fifteen-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:3px; color:var(--branch); text-transform:uppercase; margin-bottom:12px; text-align:center; }
+.gen-fifteen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+
+/* ── Persons split (gen6) ── */
+.persons-split { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:52px; }
+.person-half { padding:28px; }
+.person-half.primary { background:var(--parchment); border:1px solid var(--line); }
+.person-half.secondary { background:var(--parchment-dark); border:1px solid var(--parchment-deep); }
+.half-label { font-family:'Cinzel',serif; font-size:0.53rem; letter-spacing:3px; color:var(--sepia); text-transform:uppercase; margin-bottom:9px; }
+.half-name { font-family:'IM Fell English',serif; font-size:1.55rem; color:var(--ink); line-height:1.1; margin-bottom:4px; }
+.half-dates { font-size:0.74rem; letter-spacing:1.5px; font-style:italic; color:var(--sepia); margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--parchment-deep); }
+.half-body { font-size:0.9rem; line-height:1.8; color:var(--ink-faded); font-weight:300; }
+.half-body em { color:var(--sepia); font-style:italic; }
+
+/* ── Arc block (gen10b) ── */
+.arc-block { border:1px solid var(--line); padding:26px 28px; margin:36px 0; background:linear-gradient(135deg,var(--parchment-dark) 0%,var(--parchment) 100%); }
+.arc-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:14px; text-align:center; }
+.arc-text { font-size:0.96rem; line-height:1.9; color:var(--ink-faded); font-weight:300; }
+.arc-text em { color:var(--sepia); font-style:italic; }
+.arc-text strong { font-weight:600; font-style:normal; color:var(--ink-faded); }
+
+/* ── Lineage bar (WE pages override) ── */
+.branch-lineage .lineage-bar { border-color:var(--branch-light); }
+.branch-lineage .lineage-bar span { color:var(--branch); }
+.branch-lineage .lineage-bar span.active-name { border-bottom-color:var(--branch); }
 
 @media print {
-  body { background: white; padding: 0; }
-  .page-frame { box-shadow: none; }
-  .site-nav { display: none; }
+  .side-nav { display:none; }
+  .chronicle-banner { display:none; }
+  body { background:white; }
+  .page-frame { box-shadow:none; }
+  .layout-wrapper { display:block; }
 }
 
-
-/* ── Branch navigation ── */
-.nav-branch {
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid rgba(46,90,107,0.3);
-}
-.nav-branch-label {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: #4a8fa0;
-  opacity: 0.8;
-  white-space: nowrap;
-  text-transform: uppercase;
-}
-.nav-gen-b {
-  color: #4a8fa0 !important;
-  border-color: rgba(46,90,107,0.25) !important;
-}
-.nav-gen-b:hover, .nav-gen-b.active {
-  border-color: #2e5a6b !important;
-  color: #6ab4c8 !important;
-  background: rgba(46,90,107,0.15) !important;
-}
+body { background-color: #2a1f0f; }
 </style>
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="index.html" class="nav-home">The Davis Family Chronicle</a>
-  <div class="nav-gens">
-    <a href="gen1.html" class="nav-gen">Gen I · Dolor Davis</a>
-    <a href="gen2.html" class="nav-gen">Gen II · The Children</a>
-    <a href="gen3.html" class="nav-gen">Gen III · Simon Davis II</a>
-    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
-    <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
-    <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
-    <span class="nav-sep">·</span>
-    <a href="gen2b.html" class="nav-gen nav-branch">WE Line →</a>
-    <a href="gen4.html" class="nav-gen">Gen IV · Simon Davis III</a>
-    <a href="gen5.html" class="nav-gen">Gen V · Isaac Davis</a>
-    <a href="gen6.html" class="nav-gen">Gen VI · John &amp; Horace Davis</a>
-    <span class="nav-sep">·</span>
-    <a href="gen2b.html" class="nav-gen nav-branch">WE Line →</a>
-  <div class="nav-gens nav-branch">
-    <span class="nav-branch-label">Your Line &#9658;</span>
-    <a href="gen2b.html" class="nav-gen nav-gen-b">Gen II&ndash;IV &middot; Simon I &rarr; Dr. John</a>
-    <a href="gen3b.html" class="nav-gen nav-gen-b">Gen V&ndash;VI &middot; John II &rarr; John III</a>
-    <a href="gen4b.html" class="nav-gen nav-gen-b">Gen VII&ndash;IX &middot; Jonathan &rarr; Oscar</a>
-    <a href="gen5b.html" class="nav-gen nav-gen-b">Gen X&ndash;XI &middot; William Elbridge</a>
-    <a href="gen6b.html" class="nav-gen nav-gen-b">Gen XII&ndash;XV &middot; Art &rarr; Today</a>
-  </div>
-</nav>
+<div class="chronicle-banner">
+  <h1>The Davis Family Chronicle</h1>
+  <div class="banner-sub">15 Generations from Kent, England to Vermont &nbsp;·&nbsp; 1634 to present</div>
+  <div class="banner-rule"></div>
+</div>
 
-<div class="page-frame">
+<div class="layout-wrapper">
+
+      <nav class="side-nav side-left">
+    <div class="snav-header" style="border-bottom-color:#5a8fa0;">Lt. Simon Davis I Line</div>
+      <a href="gen1.html" class="snav-item">Dolor Davis · Gen I</a>
+      <a href="gen2b.html" class="snav-item">Gen II–IV · Lt. Simon to Dr. John</a>
+      <a href="gen3b.html" class="snav-item">Gen V · John Davis II</a>
+      <a href="gen3c.html" class="snav-item">Gen VI · John Davis III</a>
+      <a href="gen4b.html" class="snav-item">Gen VII · Jonathan Davis</a>
+      <a href="gen4c.html" class="snav-item">Gen VIII · Jonas Davis</a>
+      <a href="gen5b.html" class="snav-item">Gen IX · Oscar Davis</a>
+      <a href="gen5c.html" class="snav-item">Gen X · William Elbridge Davis</a>
+      <a href="gen6b.html" class="snav-item">Gen XI · Elbridge Nathaniel</a>
+      <a href="gen7b.html" class="snav-item">Gen XII · Arthur Davis</a>
+      <a href="gen8b.html" class="snav-item">Gen XIII · Richard Davis</a>
+      <a href="gen9b.html" class="snav-item">Gen XIV · Collin &amp; Rick</a>
+      <a href="gen10b.html" class="snav-item">Gen XV · Next Generation</a>
+  </nav>
+
+  <div class="page-frame">
   <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
   <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
   <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
   <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M5 5 L5 30 M5 5 L30 5" stroke="#b8860b" stroke-width="1"/><path d="M10 10 L10 26 M10 10 L26 10" stroke="#c4a46b" stroke-width="0.5"/><circle cx="5" cy="5" r="2" fill="#b8860b"/><path d="M15 5 Q20 12 5 15" stroke="#b8860b" stroke-width="0.75" fill="none"/><path d="M5 15 Q12 20 15 5" stroke="#c4a46b" stroke-width="0.5" fill="none"/></svg></div>
-
   <div class="page-inner">
 
     <div class="header">
-      <div class="series-label">A Family History</div>
       <h1 class="main-title">The Davis Family Chronicle</h1>
       <div class="subtitle">From Kent, England to New England &nbsp;·&nbsp; 1600 to the present</div>
     </div>
@@ -564,7 +427,7 @@ body {
     </p>
 
     <div class="lineage-bar">
-      The Horace Davis Line &nbsp;·&nbsp;
+      The Samuel Davis Line &nbsp;·&nbsp;
       <span>Dolor Davis</span> <span class="arrow">→</span>
       <span>Samuel</span> <span class="arrow">→</span>
       <span>Simon II</span> <span class="arrow">→</span>
@@ -629,7 +492,7 @@ body {
     </div><!-- /horace grid -->
 
     <div class="section-subheader" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:#2e5a6b;text-transform:uppercase;text-align:center;margin:48px 0 24px;position:relative;">
-      The William Elbridge Davis Line &nbsp;&middot;&nbsp; Your Direct Ancestry
+      The Lt. Simon Davis I Line &nbsp;&middot;&nbsp; Your Direct Ancestry
     </div>
     <p style="font-size:14px;font-style:italic;color:#6b4c22;text-align:center;margin-bottom:24px;font-weight:300;">
       Descending through Dolor&rsquo;s son Lt. Simon Davis I &rarr; Dr. Simon &rarr; Dr. John &rarr; John II &rarr; &hellip; &rarr; William Elbridge Davis &rarr; Collin &amp; Rick
@@ -677,9 +540,20 @@ body {
       <div class="footer-left">Primary source: <em>Dolor Davis: A Sketch of His Life</em> (1881)<br>by Horace Davis · The Riverside Press, Cambridge<br>Printed for private distribution</div>
       <div class="footer-right">The Davis Family Chronicle<br>An ongoing family history project<br><span style="color: var(--gold);">✦</span></div>
     </div>
-
   </div>
-</div>
+  </div>
 
+      <nav class="side-nav side-right">
+    <div class="snav-header" style="border-bottom-color:#b8860b;">Samuel Davis Line</div>
+      <a href="index.html" class="snav-item snav-active">Home · Index</a>
+      <a href="gen1.html" class="snav-item">Gen I · Dolor Davis</a>
+      <a href="gen2.html" class="snav-item">Gen II · The Children</a>
+      <a href="gen3.html" class="snav-item">Gen III · Simon Davis II</a>
+      <a href="gen4.html" class="snav-item">Gen IV · Simon Davis III</a>
+      <a href="gen5.html" class="snav-item">Gen V · Isaac Davis</a>
+      <a href="gen6.html" class="snav-item">Gen VI · John &amp; Horace</a>
+  </nav>
+
+</div>
 </body>
 </html>
